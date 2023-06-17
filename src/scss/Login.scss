@@ -1,0 +1,61 @@
+main.login-main{
+    padding-top: 30px;
+}
+
+.form-wrapper{
+    width: 90%;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #454545;
+
+    header{
+        margin-bottom: 20px;
+        img{
+            display: block;
+            width: 60px;
+        }
+
+        h2{
+            font-weight: 300;
+            color: var(--text-white);
+            font-size: 1.4rem;
+        }
+    }
+
+    form{
+        // width: 600px;
+        max-width: 45ch;
+        a.forgetPwd{
+            // color: var(--text-white);
+            color: dodgerblue;
+            width: fit-content;
+            margin-top: 5px;
+            align-self: flex-end;
+        }
+    }
+
+    section.needAccount{
+        p{
+            color: var(--text-white);
+        }
+
+        a{
+            color: dodgerblue;
+        }
+    }
+
+    div.rememberMe{
+        width: 100%;
+
+        input{
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+        label{
+            color: var(--text-white);
+            margin-left: 8px;
+            cursor: pointer;
+        }
+    }
+}

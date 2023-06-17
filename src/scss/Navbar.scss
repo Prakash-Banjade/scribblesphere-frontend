@@ -1,0 +1,117 @@
+nav {
+  height: 60px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  padding: 35px 30px;
+
+  .left-section {
+    .logo-container {
+      img {
+        display: block;
+        width: 50px;
+      }
+    }
+
+    .links {
+      ul {
+        gap: 30px;
+      }
+      a {
+        // color: #232323;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 400;
+        font-family: var(--secondary-text-font) !important;
+
+        &:is(:hover, :active) {
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  .right-section {
+    a {
+      font-size: 1rem;
+      padding: 10px 15px;
+      border-radius: 10px;
+      // color: #232323;
+      color: #fff;
+      transition: 150ms ease;
+      font-weight: 500;
+    }
+
+    a.signin {
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+
+    a.signup {
+      border: 2.5px solid #fff;
+
+      &:hover {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+      }
+    }
+
+    &.loggedIn {
+      .profile {
+        cursor: pointer;
+      }
+      position: relative;
+      p {
+        color: var(--text-white);
+        font-family: var(--primary-text-font);
+      }
+
+      .features {
+        position: absolute;
+        top: 115%;
+        background: #202123;
+        border-radius: 8px;
+        border: #676776;
+        padding: 5px;
+        transform: translateY(-10px);
+        visibility: hidden;
+        pointer-events: none;
+
+        &.open {
+          transition: 150ms ease-out;
+          transform: translateY(0);
+          visibility: visible;
+          pointer-events: all;
+        }
+
+        ul {
+          // gap: 30px !important;
+          li {
+            white-space: nowrap;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+
+            a {
+              // white-space: nowrap;
+              font-weight: 400;
+              padding: 0;
+              color: var(--text-white);
+              font-size: 0.9rem;
+            }
+
+            &.logout {
+              color: var(--text-white);
+              font-weight: 400;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}
