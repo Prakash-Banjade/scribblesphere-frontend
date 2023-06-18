@@ -3,7 +3,7 @@ import "../scss/Home.scss";
 import Logo from "../assets/logo-watermark.svg";
 import { Link } from "react-router-dom";
 
-const Home = () => {
+const PublicHome = () => {
 
   return (
     <main className="grid-center">
@@ -27,4 +27,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default PublicHome;

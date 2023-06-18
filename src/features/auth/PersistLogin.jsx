@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "./authSlice";
+import Loader from "../../components/Loader";
 
-import HashLoader from "react-spinners/HashLoader";
 
 const PersistLogin = () => {
   const { persist } = useAuth();
@@ -32,19 +32,13 @@ const PersistLogin = () => {
     return () => (isMounted = false);
   }, []);
 
-  const override = {
-    position: 'absolute',
-    transform: 'translate(-50%, -50%)',
-    top: '50%',
-    left: '50%',
-  };
 
   return (
     <>
       {!persist ? (
         <Outlet />
       ) : isLoading ? (
-        <HashLoader color="#36d7b7" cssOverride={override} />
+        <Loader />
       ) : (
         <Outlet />
       )}

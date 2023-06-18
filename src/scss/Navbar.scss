@@ -71,6 +71,8 @@ nav {
       .features {
         position: absolute;
         top: 115%;
+        right: 0;
+
         background: #202123;
         border-radius: 8px;
         border: #676776;
@@ -95,19 +97,31 @@ nav {
             align-items: center;
             gap: 10px;
             font-size: 0.9rem;
+            color: var(--text-white);
 
             a {
               // white-space: nowrap;
               font-weight: 400;
               padding: 0;
-              color: var(--text-white);
               font-size: 0.9rem;
+              color: var(--text-white);
             }
 
             &.logout {
-              color: var(--text-white);
               font-weight: 400;
               cursor: pointer;
+            }
+
+            &.accountName{
+                pointer-events: none;
+            }
+
+            &:hover{
+                color: var(--primary-color);
+
+                a{
+                    color: var(--primary-color);
+                }
             }
           }
         }
