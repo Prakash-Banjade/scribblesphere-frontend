@@ -1,12 +1,28 @@
 main.articlesList-main {
   max-width: 800px;
-
-  display: block;
   margin: 100px auto 20px auto;
 
-  article {
-    margin-bottom: 3rem;
+  .articlesList {
+    gap: 4rem;
+    flex-direction: column-reverse;
+  }
 
+  
+  header{
+      margin-bottom: 40px;
+      h2 {
+        font-size: clamp(1.4rem, 3vw, 3rem);
+        color: var(--primary-color);
+      }
+
+      p{
+        color: var(--text-white);
+        font-family: var(--primary-font);
+      }
+
+  }
+
+  article {
     header {
       h3 {
         a {
@@ -14,12 +30,12 @@ main.articlesList-main {
         }
       }
 
-      .article-info{
-        time{
-            color: #aaa;
+      .article-info {
+        time {
+          color: #aaa;
         }
-        span{
-            color: var(--text-white);
+        span {
+          color: var(--text-white);
         }
       }
     }

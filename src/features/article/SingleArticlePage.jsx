@@ -27,9 +27,9 @@ const SingleArticlePage = () => {
       <header>
         <h3>{data.title}</h3>
         <time
-          datetime={data.updatedAt}
+          dateTime={data.updatedAt}
           title={`Published on ${formattedDate}`}
-          pubdate
+          pubdate="true"
         >
           {formattedDate}
         </time>

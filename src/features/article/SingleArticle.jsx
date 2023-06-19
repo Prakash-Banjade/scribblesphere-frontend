@@ -2,15 +2,18 @@ import React from "react";
 import "../../scss/SingleArticle.scss";
 import ArticleDate from "./ArticleDateAgo";
 import { Link } from "react-router-dom";
+import CreateIcon from "@mui/icons-material/Create";
 
-const SingleArticle = ({ article, author }) => {
-  const { title, content, tags, updatedAt } = article;
+const SingleArticle = ({ article, isAuthor }) => {
+  const { title, content, tags, updatedAt, author } = article;
 
   const tagsComponent = tags.map((tag) => (
     <span className="tag" key={tag}>
       {tag}
     </span>
   ));
+
+  // console.log(article)
 
   return (
     <article className="singleArticle">
@@ -22,7 +25,9 @@ const SingleArticle = ({ article, author }) => {
         </h3>
         <div className="article-info flex g-20 align-center">
           <ArticleDate updatedAt={updatedAt} />
-          {author && <span>Prakash Banjade</span>}
+          {isAuthor && <span className="flex">
+          <CreateIcon />
+          {author?.fullname || Unknown}</span>}
         </div>
         <h4 className="tags">{tagsComponent}</h4>
       </header>

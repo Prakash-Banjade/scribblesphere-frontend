@@ -9,7 +9,7 @@ const ArticleDate = ({ updatedAt }) => {
 
   return (
     <div className="article-timeline">
-      <time timeDate={updatedAt} title={`Published ${articleTime} ago`}>
+      <time dateTime={updatedAt} title={`Published ${articleTime} ago`} pubdate="true">
         {articleTime} ago
       </time>
     </div>
