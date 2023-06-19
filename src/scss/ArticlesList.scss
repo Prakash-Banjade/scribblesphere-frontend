@@ -1,0 +1,27 @@
+main.articlesList-main {
+  max-width: 800px;
+
+  display: block;
+  margin: 100px auto 20px auto;
+
+  article {
+    margin-bottom: 3rem;
+
+    header {
+      h3 {
+        a {
+          font-size: clamp(1.4rem, 3vw, 3rem);
+        }
+      }
+
+      .article-info{
+        time{
+            color: #aaa;
+        }
+        span{
+            color: var(--text-white);
+        }
+      }
+    }
+  }
+}

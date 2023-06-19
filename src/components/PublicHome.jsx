@@ -20,7 +20,6 @@ const PublicHome = () => {
           </p>
 
           <Link to="/login">Start Writing</Link>
-          {/* <button onClick={getRefresh}></button> */}
         </header>
       </div>
     </main>

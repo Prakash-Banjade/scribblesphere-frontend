@@ -11,14 +11,16 @@ const SignUp = lazy(() => import("./components/SignUp"));
 const Login = lazy(() => import("./features/auth/Login"));
 
 import Loader from "./components/Loader";
+import SingleArticlePage from "./features/article/SingleArticlePage";
+import ArticlesList from "./features/article/ArticlesList";
+import MyArticles from "./features/article/MyArticles";
+import CreateArticle from "./features/article/CreateArticle";
 
 const App = () => {
   return (
     <>
       <Navbar />
-      <Suspense
-        fallback={<Loader />}
-      >
+      <Suspense fallback={<Loader />}>
         <Routes>
           {/* public routes */}
           <Route path="/login" element={<Login />} />
@@ -31,6 +33,12 @@ const App = () => {
             </Route>
             <Route element={<RequireAuth authorizedRoles={[2059]} />}>
               <Route path="/dash" element={<Dash />} />
+              <Route path="/articles">
+                <Route index element={<ArticlesList />} />
+                <Route path="myarticles" element={<MyArticles />} />
+                <Route path="create" element={<CreateArticle />} />
+                <Route path=":id" element={<SingleArticlePage />} />
+              </Route>
             </Route>
           </Route>
         </Routes>

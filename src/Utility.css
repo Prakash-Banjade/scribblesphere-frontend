@@ -35,6 +35,10 @@ p{
     justify-content: space-between;
 }
 
+.align-center{
+    align-items: center;
+}
+
 .g-10{
     gap: 10px;
 }

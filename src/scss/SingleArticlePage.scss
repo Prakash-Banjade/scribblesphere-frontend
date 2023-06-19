@@ -1,0 +1,44 @@
+main.singleArtilePage-main {
+  margin: 100px auto 0 auto;
+  max-width: 850px;
+  padding: 40px;
+  display: block;
+
+  article {
+    header {
+      h3 {
+        font-size: clamp(2rem, 3vw, 4rem);
+        line-height: 1.4;
+        font-family: var(--blog-font);
+        color: var(--text-white);
+        margin-bottom: 10px;
+      }
+
+      time {
+        color: #ccc;
+      }
+
+      h4 {
+        margin-top: 10px;
+        span {
+          border: 2px solid var(--text-white);
+          border-radius: 5px;
+          padding: 4px 9px;
+          font-size: 1rem;
+          color: var(--text-white);
+          font-family: var(--blog-font);
+        }
+      }
+    }
+
+    .article-body {
+        margin-top: 40px;
+      p.content {
+        font-family: var(--blog-font) !important;
+        color: var(--text-white);
+        font-size: 1.1rem;
+        line-height: 1.9rem;
+      }
+    }
+  }
+}

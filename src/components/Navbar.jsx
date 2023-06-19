@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import logo from "../assets/logo.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../scss/Navbar.scss";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -68,16 +68,13 @@ const Navbar = () => {
         <div className="links">
           <ul className="flex-center g-20">
             <li>
-              <Link to="/">Latest Articles</Link>
+              <Link to="/articles">Latest Articles</Link>
             </li>
             <li>
               <Link to="/">About</Link>
             </li>
             <li>
               <Link to="/">Open Source</Link>
-            </li>
-            <li>
-              <Link to="/dash">Dashboard</Link>
             </li>
           </ul>
         </div>
@@ -106,13 +103,16 @@ const Navbar = () => {
         <div className="links">
           <ul className="flex-center g-20">
             <li>
-              <Link to="/">Latest Articles</Link>
+              <NavLink className={navLinkClass} end to="/dash">Dashboard</NavLink>
             </li>
             <li>
-              <Link to="/">My Articles</Link>
+              <NavLink className={navLinkClass} end to="/articles">Latest Articles</NavLink>
             </li>
             <li>
-              <Link to="/">Create</Link>
+              <NavLink className={navLinkClass} to="/articles/myarticles">My Articles</NavLink>
+            </li>
+            <li>
+              <NavLink className={navLinkClass} to="/articles/create">Create</NavLink>
             </li>
           </ul>
         </div>
@@ -142,7 +142,7 @@ const Navbar = () => {
               <CreateIcon
                 sx={{ fontSize: "1.4rem" }}
               />
-              <Link to="/">Write article</Link>
+              <Link to="/articles/create">Write article</Link>
             </li>
             <li className="logout" onClick={handleLogout}>
 
