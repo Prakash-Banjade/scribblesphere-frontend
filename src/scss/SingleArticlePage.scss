@@ -107,12 +107,16 @@ main.singleArtilePage-main {
         }
       }
     }
+    .comments-list{
+      flex-direction: column-reverse;
+    }
 
     .comments{
+      margin-bottom: 20px;
+
       .comment-details{
         .comment-author{
           font-size: 1.2rem;
-          margin-bottom: 10px;
           font-weight: 600;
           color: var(--text-white);
         }

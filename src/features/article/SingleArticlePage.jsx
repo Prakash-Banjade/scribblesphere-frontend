@@ -39,10 +39,10 @@ const SingleArticlePage = () => {
     const cleanContent = content.replace(/<\/?[^>]+(>|$)/g, "").trim();
     const words = cleanContent.split(/\s+/);
     const readingTime = Math.ceil(words.length / averageReadingSpeed);
-  
-    const noun = readingTime <= 1? 'minute' : 'minutes';
+
+    const noun = readingTime <= 1 ? "minute" : "minutes";
     return `${readingTime} ${noun}`;
-  }
+  };
 
   const article = isLoading ? (
     <Loader />
@@ -51,8 +51,11 @@ const SingleArticlePage = () => {
       <article className="flex flex-column">
         <div className="article-author">
           <span className="flex">
-            <AccountCircleIcon sx={{fontSize: '4rem'}} />
-            <p>{data?.author?.fullname || Unknown} <br />Author</p>
+            <AccountCircleIcon sx={{ fontSize: "4rem" }} />
+            <p>
+              {data?.author?.fullname || Unknown} <br />
+              Author
+            </p>
           </span>
         </div>
         <header>
@@ -67,7 +70,7 @@ const SingleArticlePage = () => {
             </time>
 
             <p className="min-read color-ccc fw-500 font-blog-text">
-                {calculateReadingTime(data.content)} read
+              {calculateReadingTime(data.content)} read
             </p>
           </div>
           <h4 className="tags flex g-10">{tagsComponent}</h4>
@@ -80,9 +83,11 @@ const SingleArticlePage = () => {
     </>
   );
 
-  const handleCommentPost = async () => {
+  const handleCommentPost = async (e) => {
+    e.preventDefault();
     try {
       const message = await postComment({ id, comment }).unwrap();
+      setComment('')
     } catch (e) {
       console.log(e);
     }
@@ -125,29 +130,32 @@ const SingleArticlePage = () => {
     <main className="singleArtilePage-main">
       {article}
 
-      <hr />
+      {!isLoading && <hr />}
 
-      <section className="comment-section">
-        <h2>Comments</h2>
-        <div className="add-comment-form">
-          <form onSubmit={handleCommentPost}>
-            <div className="form-field flex flex-column g-10">
-              <label htmlFor="comment">Add a comment</label>
-              <textarea
-                rows="2"
-                id="comment"
-                value={comment}
-                onChange={handleCommentChange}
-              />
-            </div>
+      {!isLoading && (
+        <section className="comment-section">
+          <h2>Comments</h2>
+          <div className="add-comment-form">
+            <form onSubmit={handleCommentPost}>
+              <div className="form-field flex flex-column g-10">
+                <label htmlFor="comment">Add a comment</label>
+                <textarea
+                  rows="2"
+                  id="comment"
+                  value={comment}
+                  onChange={handleCommentChange}
+                />
+              </div>
 
-            <button type="submit" title="Add comment">
-              Add
-            </button>
-          </form>
-        </div>
-        {comments}
-      </section>
+              <button type="submit" title="Add comment">
+                Add
+              </button>
+            </form>
+          </div>
+
+          <div className="comments-list flex flex-column g-10">{comments}</div>
+        </section>
+      )}
     </main>
   );
 };
