@@ -6,8 +6,6 @@ const SetHomePage = () => {
   const token = useSelector(selectCurrentToken);
   const location = useLocation();
 
-  console.log('setting homepage');
-
   return !token ? (
     <Outlet />
   ) : (

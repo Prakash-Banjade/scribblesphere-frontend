@@ -3,7 +3,7 @@ section.dash-section-main {
   padding: 20px;
 
   .section {
-    border: 1px solid #aaa;
+    // border: 1px solid #aaa;
     border-radius: 5px;
     padding: 20px;
     margin-bottom: 30px;
@@ -57,38 +57,39 @@ section.dash-section-main {
     h2 {
       color: whitesmoke;
       margin-bottom: 20px;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      color: var(--primary-color);
     }
 
-    .articles {
+    .dashArticles {
+      //   flex-direction: row-reverse;
       & > * {
         flex: 1 1 400px;
       }
 
-      article.dashArticles {
-        h3,
-        p.content {
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          -webkit-line-clamp: 3;
-          line-height: 1.5rem;
+      article.singleArticle {
+        header {
+          h3 {
+            a {
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              -webkit-line-clamp: 3;
+            }
+          }
         }
-      }
-
-      p.content {
-        -webkit-line-clamp: 2 !important;
       }
     }
 
-    .viewAll{
-        margin-top: 20px;
-        justify-content: flex-end;
-        a{
-            color: var(--primary-color);
-            text-decoration: underline;
-            text-transform: uppercase;
-        }
+    .viewAll {
+      margin-top: 10px;
+      justify-content: flex-end;
+      a {
+        color: var(--primary-color);
+        text-decoration: underline;
+        text-transform: uppercase;
+      }
     }
   }
 }

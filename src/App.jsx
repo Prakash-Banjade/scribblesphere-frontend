@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { lazy, Suspense, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import RequireAuth from "./features/auth/RequireAuth";
 import PersistLogin from "./features/auth/PersistLogin";
 import SetHomePage from "./features/auth/SetHomePage";
@@ -7,7 +7,7 @@ import SetHomePage from "./features/auth/SetHomePage";
 import Navbar from "./components/Navbar";
 const Dash = lazy(() => import("./features/auth/Dash"));
 const PublicHome = lazy(() => import("./components/PublicHome"));
-const SignUp = lazy(() => import("./components/SignUp"));
+const SignUp = lazy(() => import("./features/auth/SignUp"));
 const Login = lazy(() => import("./features/auth/Login"));
 
 import Loader from "./components/Loader";
@@ -17,6 +17,13 @@ import MyArticles from "./features/article/MyArticles";
 import CreateArticle from "./features/article/CreateArticle";
 
 const App = () => {
+
+  const location = useLocation();
+
+  useEffect(()=> {
+    document.documentElement.scrollTop = 0
+  }, [location])
+
   return (
     <>
       <Navbar />

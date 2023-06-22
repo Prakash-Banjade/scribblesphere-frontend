@@ -4,20 +4,43 @@ main.singleArtilePage-main {
   padding: 40px;
   display: block;
 
+  hr{
+    height: 1px;
+    background-color: #888;
+    margin: clamp(3rem, 4vw, 4rem) 0;
+    border: none;
+  }
+
   article {
+    .article-author{
+      span {
+        gap: 3rem;
+        margin-bottom: 30px;
+        color: #eef;
+        align-items: center;
+        p{
+          font-size: clamp(1rem, 2vw, 2rem);;
+          font-weight: 400;
+          line-height: 1.8rem;
+          font-family: var(--blog-font);
+
+        }
+      }
+    }
     header {
       h3 {
         font-size: clamp(2rem, 3vw, 4rem);
         line-height: 1.4;
         font-family: var(--blog-font);
-        color: var(--text-white);
+        color: var(--primary-color);
         margin-bottom: 10px;
       }
 
-      time {
-        color: #ccc;
+      .article-info-summary {
+        time {
+          color: #ccc;
+        }
       }
-
       h4 {
         margin-top: 10px;
         span {
@@ -32,12 +55,72 @@ main.singleArtilePage-main {
     }
 
     .article-body {
-        margin-top: 40px;
+      margin-top: 40px;
       p.content {
         font-family: var(--blog-font) !important;
         color: var(--text-white);
         font-size: 1.1rem;
         line-height: 1.9rem;
+      }
+    }
+  }
+
+  .comment-section{
+
+    h2{
+      font-size: clamp(1.3rem, 3vw, 3rem);
+      color: var(--text-white);
+      margin-bottom: 22px;
+    }
+
+    .add-comment-form{
+      form{
+        margin-bottom: 2rem;
+        label{
+          color: var(--text-white);
+        }
+        textarea{
+          resize: none;
+          background: #444;
+          color: var(--text-white);
+          padding: 10px;
+          font-size: 1rem;
+          font-family: var(--primary-font);
+          border: 1px solid transparent;
+          border-radius: 10px;
+
+          &:is(:active, :focus){
+            outline: none;
+            border-color: var(--primary-color);
+          }
+        }
+
+        button[type=submit]{
+          margin-top: 1rem;
+          padding: 7px 14px;
+          border-radius: 8px;
+          background-color: dodgerblue;
+          border: none;
+          cursor: pointer;
+          color: white;
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    .comments{
+      .comment-details{
+        .comment-author{
+          font-size: 1.2rem;
+          margin-bottom: 10px;
+          font-weight: 600;
+          color: var(--text-white);
+        }
+
+        p{
+          color: #bbb;
+          font-family: var(--blog-font);
+        }
       }
     }
   }

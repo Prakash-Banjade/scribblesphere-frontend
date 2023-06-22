@@ -3,26 +3,34 @@ import { apiSlice } from "../app/api/apiSlice";
 export const articlesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getArticles: builder.query({
-      query: () => ({
-        url: "/articles",
-        method: "GET",
-      }),
+      query: () => "/articles",
+      providesTags: ["Articles"],
     }),
     getMyArticles: builder.query({
       query: () => "/articles/myarticles",
-      method: "GET",
+      providesTags: ["Articles"],
     }),
     getLimitedMyArticles: builder.query({
       query: (limit) => ({
-        url: `/articles/myarticles?limit=${limit}`,
-        method: "GET",
+        url: `/articles/myarticles?limit=${limit}&timestamp=${Date.now()}`,
+        method: 'GET',
       }),
+      providesTags: ["Articles"],
     }),
     getArticleById: builder.query({
       query: (id) => ({
         url: `/articles/${id}`,
         method: "GET",
       }),
+      providesTags: ["Articles"],
+    }),
+    postComment: builder.mutation({
+      query: (commentDetails) => ({
+        url: `/articles/${commentDetails.id}/comment`,
+        method: "POST",
+        body: JSON.stringify({ comment: commentDetails.comment }),
+      }),
+      invalidatesTags: ['Articles']
     }),
   }),
 });
@@ -32,4 +40,5 @@ export const {
   useGetMyArticlesQuery,
   useGetLimitedMyArticlesQuery,
   useGetArticleByIdQuery,
+  usePostCommentMutation,
 } = articlesApiSlice;

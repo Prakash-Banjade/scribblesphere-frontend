@@ -4,7 +4,7 @@ import ArticleDate from "./ArticleDateAgo";
 import { Link } from "react-router-dom";
 import CreateIcon from "@mui/icons-material/Create";
 
-const SingleArticle = ({ article, isAuthor }) => {
+const SingleArticle = ({ article, isAuthor, showContent }) => {
   const { title, content, tags, updatedAt, author } = article;
 
   const tagsComponent = tags.map((tag) => (
@@ -32,7 +32,7 @@ const SingleArticle = ({ article, isAuthor }) => {
         <h4 className="tags">{tagsComponent}</h4>
       </header>
 
-      <p className="content">{content}</p>
+      {showContent && <p className="content">{content}</p>}
 
       <Link to={`/articles/${article._id}`} className="readmore">Read more</Link>
     </article>

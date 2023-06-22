@@ -59,3 +59,31 @@ a{
 li{
     list-style: none;
 }
+
+.font-blog-text{
+    font-family: var(--blog-text);
+}
+
+.color-text-white{
+    color: var(--text-white);
+}
+
+.color-ccc{
+    color: #ccc;
+}
+
+.fw-500{
+    font-weight: 500;
+}
+
+.fw-400{
+    font-weight: 400;
+}
+
+.fw-600{
+    font-weight: 600;
+}
+
+.fw-700{
+    font-weight: 700;
+}

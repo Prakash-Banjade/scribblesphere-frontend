@@ -23,6 +23,7 @@ const Navbar = () => {
 
   const token = useSelector(selectCurrentToken);
   const email = useSelector(selectCurrentEmail);
+  console.log(email)
   const [logout] = useLogoutMutation();
   const dispatch = useDispatch();
 
@@ -85,7 +86,7 @@ const Navbar = () => {
         <Link to="/login" className="signin">
           Sign In
         </Link>
-        <Link to="/" className="signup">
+        <Link to="/signup" className="signup">
           Sign Up
         </Link>
       </div>

@@ -8,7 +8,7 @@ const ArticlesList = () => {
   const { data, isLoading } = useGetArticlesQuery();
 
   const articles = data?.map((data) => {
-    return <SingleArticle article={data} isAuthor key={data._id} />;
+    return <SingleArticle article={data} isAuthor key={data._id} showContent />;
   });
   return (
     <main className="articlesList-main flex flex-column">

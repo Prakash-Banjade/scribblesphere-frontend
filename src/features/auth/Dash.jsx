@@ -1,28 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "../../scss/Dash.scss";
-import {
-  selectCurrentEmail,
-  selectCurrentToken,
-  selectCurrentRoles,
-} from "./authSlice";
+import { selectCurrentEmail, selectCurrentUser } from "./authSlice";
 import { useSelector } from "react-redux";
 import {
-  useGetArticlesQuery,
-  useGetMyArticlesQuery,
-  useGetLimitedMyArticlesQuery
+  useGetLimitedMyArticlesQuery,
 } from "../articlesApiSlice";
 import { Link } from "react-router-dom";
 import SpinnerLoader from "../../components/SpinnerLoader";
 import SingleArticle from "../article/SingleArticle";
 
 const Dash = () => {
-  const currentUser = useSelector(selectCurrentEmail);
-
-  const token = useSelector(selectCurrentToken);
-
-  const roles = useSelector(selectCurrentRoles);
-
   const [greeting, setGreeting] = useState("Good morning!");
+  const user = useSelector(selectCurrentUser);
+  const email = useSelector(selectCurrentEmail);
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -35,24 +25,40 @@ const Dash = () => {
     );
   }, []);
 
-  // const {data, isLoading} = useGetArticlesQuery()
   const { data, isLoading } = useGetLimitedMyArticlesQuery(5);
 
   const myArticlesContent = isLoading ? (
     <SpinnerLoader />
-  ) : data.length ? (
-    data.map((article) => {
-      return <SingleArticle article={article} key={article._id} articleID={article._id} />;
+  ) : data?.length ? (
+    [...data].reverse().map((article) => {
+      return (
+        <SingleArticle
+          article={article}
+          key={article._id}
+          articleID={article._id}
+          showContent={false}
+        />
+      );
     })
   ) : (
-    <p>You haven't posted any articles yet! Try creating one.</p>
+    <p
+      style={{
+        fontWeight: "500",
+        color: "white",
+        fontFamily: "var(--blog-font)",
+      }}
+    >
+      You haven't posted any articles yet! Try creating one.
+    </p>
   );
 
   return (
     <section className="dash-section-main">
       <div className="greeting-section section flex flex-column">
         <header>
-          <h3>{greeting} Prakash,</h3>
+          <h3>
+            {greeting} {user},
+          </h3>
         </header>
         <p className="message">
           <span className="highlight">Unleash your creativity</span> and
@@ -69,13 +75,15 @@ const Dash = () => {
       </div>
 
       <div className="section myArticles-section">
-        <h2>My articles</h2>
-        <div className="articles flex flex-wrap g-10"> {myArticlesContent}</div>
-        {/* <SpinnerLoader /> */}
-
-        <div className="viewAll flex">
-          <Link to="/articles/myarticles">Show all</Link>
+        <h2>Recent Artiles Posted</h2>
+        <div className="dashArticles flex flex-wrap g-10">
+          {" "}
+          {myArticlesContent}
         </div>
+
+       {data?.length && <div className="viewAll flex">
+          <Link to="/articles/myarticles">Show all</Link>
+        </div>}
       </div>
     </section>
   );

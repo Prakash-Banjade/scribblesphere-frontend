@@ -1,9 +1,6 @@
 main {
   min-height: 100%;
   width: 100%;
-  position: absolute;
-  top: 0;
-  // border: 1px solid red;
   .background {
     position: absolute;
     z-index: -1;
@@ -52,10 +49,10 @@ main {
         font-size: 1.2rem;
         font-weight: 600;
         transition: 150ms ease-in;
-        
-        &:hover{
-            background-color: var(--primary-color);
-            color: white;
+
+        &:hover {
+          background-color: var(--primary-color);
+          color: white;
         }
       }
     }

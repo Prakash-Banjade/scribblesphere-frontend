@@ -8,6 +8,8 @@ export const baseQuery = fetchBaseQuery({
         const token = getState().auth.token;
 
         if (token) headers.set("authorization", `Bearer ${token}`)
+        headers.set('Content-Type', 'application/json');
+        headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
 
         return headers;
     }
@@ -22,15 +24,19 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
         const refreshResult = await baseQuery('/refresh', api, extraOptions);
         console.log(refreshResult)
+
+        const fullname = api.getState().auth.fullname
+        const email = api.getState().auth.email
+
+        console.log(fullname, email)
         // check if refreshResult comes up with data (accessToken)
         if (refreshResult?.data){
-            const email = api.getState().auth.email;
-
-            api.dispatch(setCredentials({...refreshResult.data, email}))
+            api.dispatch(setCredentials({...refreshResult.data, fullname, email}))
             // retry the original query with new access token
             result = await baseQuery(args, api, extraOptions);
         }else{
             api.dispatch(userLogout())
+            console.log('logging out user')
         }
     }
 
@@ -39,5 +45,6 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReAuth,
+    tagTypes: ['Articles'],
     endpoints: builder => ({})
 })

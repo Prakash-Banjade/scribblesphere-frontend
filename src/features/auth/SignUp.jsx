@@ -5,7 +5,7 @@ import logo from "../../assets/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
-import { useLoginMutation } from "../loginApiSlice";
+import { useRegisterMutation } from "../registerApiSlice";
 
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -15,6 +15,9 @@ import Button from "@mui/material/Button";
 import { FormHelperText } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { setCredentials } from "./authSlice";
 
@@ -25,21 +28,23 @@ import useAuth from "../../hooks/useAuth";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
+  const [fullname, setFullname] = useState("");
   const [emailErrMsg, setEmailErrMsg] = useState("");
   const [pwdErrMsg, setPwdErrMsg] = useState("");
+  const [fullnameErrMsg, setFullNameErrMsg] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   const emailRef = useRef();
   const pwdRef = useRef();
+  const fullnameRef = useRef();
 
   const dispatch = useDispatch();
-  const [login, { isLoading }] = useLoginMutation();
-
+  const [register, { isLoading }] = useRegisterMutation();
 
   const navigate = useNavigate();
 
   const isOnline = useInternetConnection();
-  const {persist, setPersist} = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,28 +55,38 @@ const Login = () => {
       );
 
     try {
-      const userData = await login({ email, pwd }).unwrap();
-      dispatch(setCredentials({ ...userData, email }));
-      console.log({userData, email})
+      const userData = await register({ email, pwd, fullname }).unwrap();
+      console.log(userData);
       setEmail("");
       setPwd("");
+      setFullname("");
 
-
-      navigate("/dash");
+      setSuccessMsg("User registered successfully!");
     } catch (e) {
+        console.log(e)
       if (e?.data) {
         setErrMsg(e.data.message);
 
-        if (e.data.message === "Incorrect password") {
-          setPwdErrMsg("The password you entered is incorrect");
+        if (e.data.type === 'Invalid fullname'){
+            setFullNameErrMsg(e.data.message);
+            fullnameRef.current.focus()
+            return;
+        }
+
+        if (e.data.type === "Invalid email") {
+            setEmailErrMsg(e.data.message);
+            emailRef.current.focus();
+            return;
+          }
+
+        if (e.data.type === "Invalid password") {
+          setPwdErrMsg(e.data.pwdCorrectionMsg);
           pwdRef.current.focus();
+          return;
         }
-        if (e.data.message === "Invalid Email") {
-          setEmailErrMsg("No account with this email");
-          emailRef.current.focus();
-        }
+
       } else {
-        setErrMsg("Login failed. No server response");
+        setErrMsg("Registration failed. No server response");
       }
     }
   };
@@ -80,14 +95,12 @@ const Login = () => {
     setErrMsg("");
     setEmailErrMsg(false);
     setPwdErrMsg(false);
-  }, [email, pwd]);
-
-  useEffect(()=>{
-    localStorage.setItem('persist', persist)
-  }, [persist])
+    setFullNameErrMsg("")
+  }, [email, pwd, fullname]);
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePwdChange = (e) => setPwd(e.target.value);
+  const handleFullnameChange = (e) => setFullname(e.target.value);
 
   const emailInputTheme = createTheme({
     components: {
@@ -163,17 +176,78 @@ const Login = () => {
     },
   });
 
+  const fullnameInputTheme = createTheme({
+    components: {
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            color: fullnameErrMsg
+              ? "var(--error-text-color)"
+              : "var(--text-white)",
+            "&.Mui-focused": {
+              color: fullnameErrMsg
+                ? "var(--error-text-color)"
+                : "var(--primary-color)",
+            },
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: fullnameErrMsg
+                ? "var(--error-text-color)"
+                : "var(--text-white)",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: fullnameErrMsg ? "var(--error-text-color)" : "white",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: fullnameErrMsg
+                ? "var(--error-text-color)"
+                : "var(--primary-color)",
+            },
+          },
+        },
+      },
+    },
+  });
+
   const override = {
     marginTop: "-20px",
     marginBottom: "20px",
   };
 
+  const [open, setOpen] = useState(true);
+  const successAlert = (
+    <Collapse in={open}>
+    <Alert
+      action={
+        <IconButton
+          aria-label="close"
+          color="inherit"
+          size="small"
+          onClick={() => {
+            setOpen(false);
+          }}
+        >
+          <CloseIcon fontSize="inherit" />
+        </IconButton>
+      }
+      sx={{ mb: 2 }}
+    >
+      {successMsg}
+    </Alert>
+  </Collapse>
+  )
+
   return (
-    <main className="grid-center login-main">
+    <main className="grid-center signup-main">
       <div className="form-wrapper flex-center-column g-20">
         <header className="flex-center-column g-20">
           <img src={logo} alt="ScribbleSphere Logo" />
-          <h2>Sign in to ScribbleSphere</h2>
+          <h2>Sign Up to ScribbleSphere</h2>
         </header>
         <PropagateLoader
           color="#0bbe64"
@@ -186,6 +260,42 @@ const Login = () => {
               {errMsg}
             </Alert>
           )}
+          {successMsg && successAlert}
+          <ThemeProvider theme={fullnameInputTheme}>
+            <FormControl sx={{ mb: 1, width: "45ch" }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-fullname" error={Boolean(fullnameErrMsg)}>
+                Full name
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-fullname"
+                inputRef={fullnameRef}
+                type="text"
+                autoFocus
+                value={fullname}
+                onChange={handleFullnameChange}
+                required
+                error={Boolean(fullnameErrMsg)}
+                autoComplete="false"
+                autoCorrect="false"
+                sx={{
+                  color: "var(--text-white)",
+                }}
+                label="Full name"
+              />
+              {fullnameErrMsg && (
+                <FormHelperText
+                  sx={{
+                    marginLeft: 0,
+                    marginTop: "5px",
+                    color: "var(--error-text-color)",
+                    fontFamily: "var(--primary-text-font)",
+                  }}
+                >
+                  {fullnameErrMsg}
+                </FormHelperText>
+              )}
+            </FormControl>
+          </ThemeProvider>
           <ThemeProvider theme={emailInputTheme}>
             <FormControl sx={{ mb: 1, width: "45ch" }} variant="outlined">
               <InputLabel
@@ -198,7 +308,6 @@ const Login = () => {
                 id="outlined-adornment-email"
                 inputRef={emailRef}
                 type="email"
-                autoFocus
                 error={Boolean(emailErrMsg)}
                 value={email}
                 onChange={handleEmailChange}
@@ -260,23 +369,8 @@ const Login = () => {
                   {pwdErrMsg}
                 </FormHelperText>
               )}
-              <Link to="/" className="forgetPwd">
-                <small>Forget password?</small>
-              </Link>
             </FormControl>
           </ThemeProvider>
-
-          <div className="rememberMe">
-            <input
-              type="checkbox"
-              id="persistInput"
-              checked={persist}
-              onChange={() => setPersist(prev => !prev)}
-            />
-            <label htmlFor="persistInput" title="Remember this device?">
-              Remember Me?
-            </label>
-          </div>
 
           <Button
             variant="contained"
@@ -287,17 +381,18 @@ const Login = () => {
               color: "white",
               fontWeight: "600",
               width: "100%",
+              mt: 1,
               "&:hover": { backgroundColor: "#00a954" },
             }}
             size="large"
           >
-            Sign in
+            Sign Up
           </Button>
         </form>
 
         <section className="needAccount flex-center">
-          <p>Need an account? &nbsp;</p>
-          <Link to="/signup">Sign Up</Link>
+          <p>Already have an account? &nbsp;</p>
+          <Link to="/login">Sign In</Link>
         </section>
       </div>
     </main>
