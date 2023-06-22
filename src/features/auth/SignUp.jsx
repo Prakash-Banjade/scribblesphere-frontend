@@ -19,8 +19,6 @@ import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { setCredentials } from "./authSlice";
-
 import PropagateLoader from "react-spinners/PropagateLoader";
 import useInternetConnection from "../../hooks/useInternetConnection";
 import useAuth from "../../hooks/useAuth";
@@ -38,8 +36,6 @@ const Login = () => {
   const emailRef = useRef();
   const pwdRef = useRef();
   const fullnameRef = useRef();
-
-  const dispatch = useDispatch();
   const [register, { isLoading }] = useRegisterMutation();
 
   const navigate = useNavigate();
@@ -56,7 +52,6 @@ const Login = () => {
 
     try {
       const userData = await register({ email, pwd, fullname }).unwrap();
-      console.log(userData);
       setEmail("");
       setPwd("");
       setFullname("");

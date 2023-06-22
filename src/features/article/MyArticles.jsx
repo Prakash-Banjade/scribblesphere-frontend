@@ -16,7 +16,6 @@ const MyArticles = () => {
   });
 
   const user = useSelector(selectCurrentUser);
-  console.log(user)
 
   return (
     <main className="articlesList-main flex flex-column g-20">

@@ -13,8 +13,6 @@ const SingleArticle = ({ article, isAuthor, showContent }) => {
     </span>
   ));
 
-  // console.log(article)
-
   return (
     <article className="singleArticle">
       <header>

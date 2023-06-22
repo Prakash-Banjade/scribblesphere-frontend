@@ -7,8 +7,6 @@ import Loader from "../../components/Loader";
 const RequireAuth = ({ authorizedRoles }) => {
   const roles = useSelector(selectCurrentRoles);
 
-  console.log(roles)
-
   const location = useLocation();
 
   return authorizedRoles.some((item) => roles?.includes(item)) ? (

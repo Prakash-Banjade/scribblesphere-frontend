@@ -23,7 +23,6 @@ const Navbar = () => {
 
   const token = useSelector(selectCurrentToken);
   const email = useSelector(selectCurrentEmail);
-  console.log(email)
   const [logout] = useLogoutMutation();
   const dispatch = useDispatch();
 

@@ -15,8 +15,19 @@ import SingleArticlePage from "./features/article/SingleArticlePage";
 import ArticlesList from "./features/article/ArticlesList";
 import MyArticles from "./features/article/MyArticles";
 import CreateArticle from "./features/article/CreateArticle";
+import { useSelector } from "react-redux";
+import { selectCurrentRoles, selectCurrentEmail, selectCurrentToken, selectCurrentUser } from "./features/auth/authSlice";
 
 const App = () => {
+
+  const email = useSelector(selectCurrentEmail)
+  const user = useSelector(selectCurrentUser)
+  const roles = useSelector(selectCurrentRoles)
+  const token = useSelector(selectCurrentToken)
+
+  console.log({
+    email, roles, user, token
+  })
 
   const location = useLocation();
 

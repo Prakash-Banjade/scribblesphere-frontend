@@ -1,5 +1,5 @@
 import axios from "../app/api/axios";
-import { setNewAccessToken, setCredentials } from "../features/auth/authSlice";
+import { setCredentials } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 
 const useRefreshToken = () => {
@@ -10,7 +10,14 @@ const useRefreshToken = () => {
       const response = await axios.get("/refresh", {
         withCredentials: true,
       });
-      dispatch(setCredentials({accessToken: response.data.accessToken, roles: response.data.roles, email: response.data.email}));
+      dispatch(
+        setCredentials({
+          accessToken: response.data.accessToken,
+          roles: response.data.roles,
+          fullname: response.data.fullname,
+          email: response.data.email,
+        })
+      );
       return response.data.accessToken;
     } catch (e) {
       console.log(e);

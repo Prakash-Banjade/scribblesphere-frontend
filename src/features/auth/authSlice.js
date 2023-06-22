@@ -13,7 +13,6 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       const { accessToken, roles, fullname, email } = action.payload;
-    //   console.log({ accessToken, roles, fullname, email });
 
       state.token = accessToken;
       state.roles = roles;
