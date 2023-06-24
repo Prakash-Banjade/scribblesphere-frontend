@@ -1,21 +1,25 @@
 import React, { useRef, useEffect } from "react";
-import logo from "../assets/logo.svg";
+import logo from "../../assets/logo.svg";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import "../scss/Navbar.scss";
+import "../../scss/Navbar.scss";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCurrentEmail,
   selectCurrentToken,
+  selectCurrentUser,
   userLogout,
-} from "../features/auth/authSlice";
-import { useLogoutMutation } from "../features/logoutApiSlice";
+} from "../../features/auth/authSlice";
+
+import { useLogoutMutation } from "../../features/logoutApiSlice";
+import useInternetConnection from "../../hooks/useInternetConnection";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Tooltip from "@mui/material/Tooltip";
 import CreateIcon from "@mui/icons-material/Create";
-
+import Avatar from "@mui/material/Avatar";
+import { deepOrange, deepPurple } from "@mui/material/colors";
 
 const Navbar = () => {
   const navLinkClass = ({ isActive, isPending }) =>
@@ -23,6 +27,7 @@ const Navbar = () => {
 
   const token = useSelector(selectCurrentToken);
   const email = useSelector(selectCurrentEmail);
+  const user = useSelector(selectCurrentUser)
   const [logout] = useLogoutMutation();
   const dispatch = useDispatch();
 
@@ -39,7 +44,6 @@ const Navbar = () => {
     dispatch(userLogout());
     navigate("/");
   };
-
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (
@@ -92,6 +96,8 @@ const Navbar = () => {
     </nav>
   );
 
+  const isOnline = useInternetConnection();
+
   const LoggedInNav = (
     <nav className="flex-center justify-between">
       <div className="left-section flex-center g-20">
@@ -104,27 +110,44 @@ const Navbar = () => {
         <div className="links">
           <ul className="flex-center g-20">
             <li>
-              <NavLink className={navLinkClass} end to="/dash">Dashboard</NavLink>
+              <NavLink className={navLinkClass} end to="/dash">
+                Dashboard
+              </NavLink>
             </li>
             <li>
-              <NavLink className={navLinkClass} end to="/articles">Latest Articles</NavLink>
+              <NavLink className={navLinkClass} end to="/articles">
+                Latest Articles
+              </NavLink>
             </li>
             <li>
-              <NavLink className={navLinkClass} to="/articles/myarticles">My Articles</NavLink>
+              <NavLink className={navLinkClass} to="/articles/myarticles">
+                My Articles
+              </NavLink>
             </li>
             <li>
-              <NavLink className={navLinkClass} to="/articles/create">Create</NavLink>
+              <NavLink className={navLinkClass} to="/articles/create">
+                Create
+              </NavLink>
             </li>
           </ul>
         </div>
       </div>
 
       <div className="right-section flex-center g-10 loggedIn">
-        <div className="profile flex-center g-10" onClick={handleProfileClick}>
+        <div
+          className={`profile ${isOnline ? "online" : ""} flex-center g-10`}
+          onClick={handleProfileClick}
+        >
           <Tooltip title={`${email?.slice(0, 9)}...`} arrow>
-            <AccountCircleIcon
-              sx={{ color: "var(--text-white)", fontSize: "2.5rem" }}
-            />
+            <Avatar
+              sx={{
+                bgcolor: deepOrange[500],
+                width: "2.2rem",
+                height: "2.2rem",
+              }}
+            >
+              {user?.slice(0,1)}
+            </Avatar>
           </Tooltip>
         </div>
 
@@ -134,19 +157,14 @@ const Navbar = () => {
               <em>{email}</em>
             </li>
             <li>
-              <AccountCircleIcon
-                sx={{ fontSize: "1.4rem" }}
-              />
+              <AccountCircleIcon sx={{ fontSize: "1.4rem" }} />
               <Link to="/">Change profile picture</Link>
             </li>
             <li>
-              <CreateIcon
-                sx={{ fontSize: "1.4rem" }}
-              />
+              <CreateIcon sx={{ fontSize: "1.4rem" }} />
               <Link to="/articles/create">Write article</Link>
             </li>
             <li className="logout" onClick={handleLogout}>
-
               <LogoutIcon sx={{ fontSize: "1.4rem" }} />
               Log out
             </li>

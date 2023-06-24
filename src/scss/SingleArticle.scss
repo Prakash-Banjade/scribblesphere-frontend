@@ -4,6 +4,10 @@ article.singleArticle {
   padding: 10px;
   position: relative;
 
+   &.background{
+          background-color: #122121;
+        }
+
   header {
     margin-bottom: 10px;
     h3 {
@@ -14,6 +18,11 @@ article.singleArticle {
         font-weight: 700;
         font-family: var(--blog-font);
         color: white;
+
+        &.small{
+          font-weight: 600 !important;
+          font-size: clamp(1.1rem, 2vw, 1.8rem) !important;
+        }
 
         &:is(:hover, :active, :focus) {
           text-decoration: underline;
@@ -48,6 +57,7 @@ article.singleArticle {
     font-family: var(--blog-font) !important;
     margin-top: 20px;
     color: var(--text-white);
+    line-height: 1.7rem;
   }
 
   a.readmore{

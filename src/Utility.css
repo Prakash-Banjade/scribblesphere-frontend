@@ -60,8 +60,8 @@ li{
     list-style: none;
 }
 
-.font-blog-text{
-    font-family: var(--blog-text);
+.font-blog{
+    font-family: var(--blog-font);
 }
 
 .color-text-white{

@@ -3,9 +3,12 @@ import "../../scss/SingleArticle.scss";
 import ArticleDate from "./ArticleDateAgo";
 import { Link } from "react-router-dom";
 import CreateIcon from "@mui/icons-material/Create";
+import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
 
-const SingleArticle = ({ article, isAuthor, showContent }) => {
-  const { title, content, tags, updatedAt, author } = article;
+const SingleArticle = ({ article, isAuthor, showContent, smallHeading, background }) => {
+  const { title, content, tags, createdAt, author } = article;
+
+  const readingTime = useCalculateReadingTime(content);
 
   const tagsComponent = tags.map((tag) => (
     <span className="tag" key={tag}>
@@ -14,25 +17,31 @@ const SingleArticle = ({ article, isAuthor, showContent }) => {
   ));
 
   return (
-    <article className="singleArticle">
+    <article className={`singleArticle ${background? 'background': ''}`}>
       <header>
         <h3>
-          <Link to={`/articles/${article._id}`}>
-            {title}
-          </Link>
+          <Link to={`/articles/${article._id}`} className={`${smallHeading? 'small': ''}`}>{title}</Link>
         </h3>
         <div className="article-info flex g-20 align-center">
-          <ArticleDate updatedAt={updatedAt} />
-          {isAuthor && <span className="flex">
-          <CreateIcon />
-          {author?.fullname || Unknown}</span>}
+          <ArticleDate createdAt={createdAt} />
+          {isAuthor && (
+            <span className="flex">
+              <CreateIcon />
+              {author?.fullname || Unknown}
+            </span>
+          )}
+          <p className="min-read color-ccc fw-400 font-blog">
+            {readingTime} read
+          </p>
         </div>
         <h4 className="tags">{tagsComponent}</h4>
       </header>
 
       {showContent && <p className="content">{content}</p>}
 
-      <Link to={`/articles/${article._id}`} className="readmore">Read more</Link>
+      <Link to={`/articles/${article._id}`} className="readmore">
+        Read more
+      </Link>
     </article>
   );
 };

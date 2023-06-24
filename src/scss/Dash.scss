@@ -32,11 +32,11 @@ section.dash-section-main {
     a {
       margin-top: 30px;
       align-self: flex-start;
-      padding: clamp(5px, 3vw, 15px) clamp(15px, 5vw, 25px);
+      padding: clamp(5px, 3vw, 12px) clamp(12px, 5vw, 20px);
       background-color: var(--primary-color);
       box-shadow: 0 1px 10px var(0 0 0 / 0.8);
       color: white;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 1.2rem;
       font-weight: 600;
       transition: 150ms ease-in;
@@ -75,7 +75,7 @@ section.dash-section-main {
               -webkit-box-orient: vertical;
               overflow: hidden;
               text-overflow: ellipsis;
-              -webkit-line-clamp: 3;
+              -webkit-line-clamp: 2;
             }
           }
         }

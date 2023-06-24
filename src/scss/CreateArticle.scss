@@ -1,0 +1,46 @@
+main.create-article-main {
+  max-width: 1000px;
+  min-height: 100dvh;
+  margin: 100px auto 20px auto;
+  padding: 20px;
+//   border: 2px solid red;
+
+
+    header{
+        h2{
+            margin-bottom: 1rem !important;
+        }
+    }
+
+  form {
+    border: 1px solid #aaa;
+    border-radius: 12px;
+    padding: 10px;
+
+    & > *{
+        align-self: stretch;
+    }
+
+    .form-field {
+      label {
+        color: var(--text-white);
+      }
+
+      textarea {
+        resize: none;
+        background-color: #454545;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-family: var(--blog-font);
+        color: var(--text-white);
+        border: none;
+        border-radius: 10px;
+        line-height: 1.5rem;
+
+        &:is(:focus, :active){
+            outline: 1px solid var(--primary-color);
+        }
+      }
+    }
+  }
+}

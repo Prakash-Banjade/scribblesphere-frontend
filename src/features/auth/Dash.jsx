@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../scss/Dash.scss";
 import { selectCurrentEmail, selectCurrentUser } from "./authSlice";
 import { useSelector } from "react-redux";
-import {
-  useGetLimitedMyArticlesQuery,
-} from "../articlesApiSlice";
+import { useGetLimitedMyArticlesQuery } from "../articlesApiSlice";
 import { Link } from "react-router-dom";
 import SpinnerLoader from "../../components/SpinnerLoader";
 import SingleArticle from "../article/SingleArticle";
@@ -37,6 +35,8 @@ const Dash = () => {
           key={article._id}
           articleID={article._id}
           showContent={false}
+          smallHeading
+          background
         />
       );
     })
@@ -69,7 +69,7 @@ const Dash = () => {
           you explore, learn, and inspire.
         </p>
 
-        <Link to="/" className="flex-center">
+        <Link to="/articles/create" className="flex-center">
           Create <span>+</span>
         </Link>
       </div>
@@ -77,13 +77,16 @@ const Dash = () => {
       <div className="section myArticles-section">
         <h2>Recent Artiles Posted</h2>
         <div className="dashArticles flex flex-wrap g-10">
-          {" "}
           {myArticlesContent}
         </div>
 
-       {data?.length && <div className="viewAll flex">
-          <Link to="/articles/myarticles">Show all</Link>
-        </div>}
+        {data?.length > 0 ? (
+          <div className="viewAll flex">
+            <Link to="/articles/myarticles">Show all</Link>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </section>
   );

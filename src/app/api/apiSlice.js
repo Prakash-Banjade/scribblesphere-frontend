@@ -18,21 +18,16 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   if (result?.error?.originalStatus === 403) {
-    console.log("sending refresh token");
 
     const refreshResult = await baseQuery("/refresh", api, extraOptions);
-    console.log(refreshResult);
 
     const fullname = api.getState().auth.fullname;
     const email = api.getState().auth.email;
-
-    console.log(fullname, email); // undefined
     if (refreshResult?.data) {
       api.dispatch(setCredentials({ ...refreshResult.data, fullname, email }));
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(userLogout());
-      console.log("logging out user");
     }
   }
   return result;

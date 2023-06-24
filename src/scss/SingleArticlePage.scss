@@ -66,7 +66,9 @@ main.singleArtilePage-main {
   }
 
   .comment-section{
-
+    border-radius: 10px;
+    background-color: #13171c;
+    padding: 10px;
     h2{
       font-size: clamp(1.3rem, 3vw, 3rem);
       color: var(--text-white);
@@ -123,6 +125,7 @@ main.singleArtilePage-main {
 
         p{
           color: #bbb;
+          line-height: 1.4rem;
           font-family: var(--blog-font);
         }
       }

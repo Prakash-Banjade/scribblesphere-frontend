@@ -4,7 +4,7 @@ import RequireAuth from "./features/auth/RequireAuth";
 import PersistLogin from "./features/auth/PersistLogin";
 import SetHomePage from "./features/auth/SetHomePage";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 const Dash = lazy(() => import("./features/auth/Dash"));
 const PublicHome = lazy(() => import("./components/PublicHome"));
 const SignUp = lazy(() => import("./features/auth/SignUp"));
@@ -15,19 +15,8 @@ import SingleArticlePage from "./features/article/SingleArticlePage";
 import ArticlesList from "./features/article/ArticlesList";
 import MyArticles from "./features/article/MyArticles";
 import CreateArticle from "./features/article/CreateArticle";
-import { useSelector } from "react-redux";
-import { selectCurrentRoles, selectCurrentEmail, selectCurrentToken, selectCurrentUser } from "./features/auth/authSlice";
-
+import NotFound from "./components/404";
 const App = () => {
-
-  const email = useSelector(selectCurrentEmail)
-  const user = useSelector(selectCurrentUser)
-  const roles = useSelector(selectCurrentRoles)
-  const token = useSelector(selectCurrentToken)
-
-  console.log({
-    email, roles, user, token
-  })
 
   const location = useLocation();
 
@@ -59,6 +48,9 @@ const App = () => {
               </Route>
             </Route>
           </Route>
+
+          <Route path="*" element={<NotFound />} />
+
         </Routes>
       </Suspense>
     </>

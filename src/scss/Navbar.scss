@@ -4,8 +4,9 @@ nav {
   top: 0;
   width: 100%;
   z-index: 999;
-  padding: 35px 30px;
-  // background-color: var(--dark);
+  padding: 5px 20px;
+  background-color: rgb(13 17 23 / .8);
+  backdrop-filter: blur(10px);
 
 
   .left-section {
@@ -25,7 +26,8 @@ nav {
         color: #fff;
         font-size: 1rem;
         font-weight: 400;
-        font-family: var(--secondary-text-font) !important;
+        // font-family: var(--secondary-text-font) !important;
+        font-family: var(--primary-text-font);
 
         &:is(:hover, :active), &.active {
           color: var(--primary-color);
@@ -63,6 +65,20 @@ nav {
     &.loggedIn {
       .profile {
         cursor: pointer;
+        position: relative;
+
+        &.online::before{
+          position: absolute;
+          content: '';
+          height: 8px;
+          width: 8px;
+          z-index: 9;
+          border: 2px solid var(--dark);
+          background-color: #0bbe64;
+          border-radius: 50%;
+          top: 0;
+          right: 0;
+        }
       }
       position: relative;
       p {

@@ -8,19 +8,16 @@ main.articlesList-main {
     flex-direction: column-reverse;
   }
 
-  
-  header{
-      margin-bottom: 40px;
-      h2 {
-        font-size: clamp(1.4rem, 3vw, 3rem);
-        color: var(--primary-color);
-      }
+  header {
+    h2 {
+      font-size: clamp(1.4rem, 3vw, 3rem);
+      color: var(--primary-color);
+    }
 
-      p{
-        color: var(--text-white);
-        font-family: var(--primary-font);
-      }
-
+    p {
+      color: var(--text-white);
+      font-family: var(--primary-font);
+    }
   }
 
   article {
@@ -30,7 +27,6 @@ main.articlesList-main {
           font-size: clamp(1.4rem, 3vw, 3rem);
         }
       }
-
       .article-info {
         time {
           color: #aaa;
@@ -39,6 +35,14 @@ main.articlesList-main {
           color: var(--text-white);
         }
       }
+    }
+
+    p.content{
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.7rem;
     }
   }
 }

@@ -9,10 +9,11 @@ import { formatDistanceToNow } from "date-fns";
 import { v4 as uuid } from "uuid";
 import Loader from "../../components/Loader";
 import "../../scss/SingleArticlePage.scss";
-import CreateIcon from "@mui/icons-material/Create";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SpinnerLoader from "../../components/SpinnerLoader";
 import { useSelector } from "react-redux";
+import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
+import NotFound from "../../components/404";
 
 const SingleArticlePage = () => {
   const { id } = useParams();
@@ -21,39 +22,31 @@ const SingleArticlePage = () => {
   const { data, isLoading } = useGetArticleByIdQuery(id);
   const [postComment] = usePostCommentMutation();
 
-  const tagsComponent = data?.tags?.map((tag) => (
+  const tagsComponent = data ?? data?.tags?.map((tag) => (
     <span className="tag" key={tag}>
       {tag}
     </span>
   ));
 
-  const articleDate = new Date(data?.updatedAt);
+  const articleDate = data ?? new Date(data?.createdAt);
 
   const options = { month: "long", day: "numeric", year: "numeric" };
-  const formattedDate = articleDate.toLocaleDateString("en-US", options);
+  const formattedDate = data ?? articleDate.toLocaleDateString("en-US", options);
 
   const formattedDateAgo = formatDistanceToNow(new Date());
 
-  const calculateReadingTime = (content) => {
-    const averageReadingSpeed = 200;
-    const cleanContent = content.replace(/<\/?[^>]+(>|$)/g, "").trim();
-    const words = cleanContent.split(/\s+/);
-    const readingTime = Math.ceil(words.length / averageReadingSpeed);
-
-    const noun = readingTime <= 1 ? "minute" : "minutes";
-    return `${readingTime} ${noun}`;
-  };
+  const readingTime = data ?? useCalculateReadingTime(data?.content);
 
   const article = isLoading ? (
     <Loader />
-  ) : (
+  ) : data? (
     <>
       <article className="flex flex-column">
         <div className="article-author">
           <span className="flex">
             <AccountCircleIcon sx={{ fontSize: "4rem" }} />
             <p>
-              {data?.author?.fullname || Unknown} <br />
+              {data?.author?.fullname || 'Unknown'} <br />
               Author
             </p>
           </span>
@@ -62,7 +55,7 @@ const SingleArticlePage = () => {
           <h3>{data.title}</h3>
           <div className="article-info-summary flex g-20 align-center">
             <time
-              dateTime={data.updatedAt}
+              dateTime={data.createdAt}
               title={`Published on ${formattedDate}`}
               pubdate="true"
             >
@@ -70,7 +63,7 @@ const SingleArticlePage = () => {
             </time>
 
             <p className="min-read color-ccc fw-500 font-blog-text">
-              {calculateReadingTime(data.content)} read
+              {readingTime} read
             </p>
           </div>
           <h4 className="tags flex g-10">{tagsComponent}</h4>
@@ -81,13 +74,13 @@ const SingleArticlePage = () => {
         </div>
       </article>
     </>
-  );
+  ) : <NotFound />
 
   const handleCommentPost = async (e) => {
     e.preventDefault();
     try {
       const message = await postComment({ id, comment }).unwrap();
-      setComment('')
+      setComment("");
     } catch (e) {
       console.log(e);
     }
@@ -130,9 +123,9 @@ const SingleArticlePage = () => {
     <main className="singleArtilePage-main">
       {article}
 
-      {!isLoading && <hr />}
+      {!isLoading && data && <hr />}
 
-      {!isLoading && (
+      {!isLoading && data && (
         <section className="comment-section">
           <h2>Comments</h2>
           <div className="add-comment-form">

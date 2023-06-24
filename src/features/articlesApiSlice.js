@@ -13,7 +13,7 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
     getLimitedMyArticles: builder.query({
       query: (limit) => ({
         url: `/articles/myarticles?limit=${limit}&timestamp=${Date.now()}`,
-        method: 'GET',
+        method: "GET",
       }),
       providesTags: ["Articles"],
     }),
@@ -24,13 +24,21 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Articles"],
     }),
+    postArticle: builder.mutation({
+      query: (articlesDetails) => ({
+        url: `/articles`,
+        method: "POST",
+        body: JSON.stringify({ ...articlesDetails }),
+      }),
+      invalidatesTags: ["Articles"],
+    }),
     postComment: builder.mutation({
       query: (commentDetails) => ({
         url: `/articles/${commentDetails.id}/comment`,
         method: "POST",
         body: JSON.stringify({ comment: commentDetails.comment }),
       }),
-      invalidatesTags: ['Articles']
+      invalidatesTags: ["Articles"],
     }),
   }),
 });
@@ -41,4 +49,5 @@ export const {
   useGetLimitedMyArticlesQuery,
   useGetArticleByIdQuery,
   usePostCommentMutation,
+  usePostArticleMutation,
 } = articlesApiSlice;
