@@ -37,6 +37,16 @@ nav {
   }
 
   .right-section {
+
+    .search-tab{
+      a{
+        border: 1px solid var(--text-white);
+        border-radius: 10px;
+        padding: 5px;
+        
+      }
+    }
+
     a {
       font-size: 1rem;
       padding: 10px 15px;
@@ -80,7 +90,7 @@ nav {
           right: 0;
         }
       }
-      position: relative;
+      // position: relative;
       p {
         color: var(--text-white);
         font-family: var(--primary-text-font);
@@ -150,4 +160,6 @@ nav {
       }
     }
   }
+
+
 }

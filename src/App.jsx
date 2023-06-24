@@ -16,6 +16,7 @@ import ArticlesList from "./features/article/ArticlesList";
 import MyArticles from "./features/article/MyArticles";
 import CreateArticle from "./features/article/CreateArticle";
 import NotFound from "./components/404";
+import SearchArticles from "./features/article/SearchArticles";
 const App = () => {
 
   const location = useLocation();
@@ -44,6 +45,7 @@ const App = () => {
                 <Route index element={<ArticlesList />} />
                 <Route path="myarticles" element={<MyArticles />} />
                 <Route path="create" element={<CreateArticle />} />
+                <Route path="search" element={<SearchArticles />} />
                 <Route path=":id" element={<SingleArticlePage />} />
               </Route>
             </Route>

@@ -9,6 +9,8 @@ main.articlesList-main {
   }
 
   header {
+    position: relative;
+    align-items: center;
     h2 {
       font-size: clamp(1.4rem, 3vw, 3rem);
       color: var(--primary-color);
@@ -37,7 +39,7 @@ main.articlesList-main {
       }
     }
 
-    p.content{
+    p.content {
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;

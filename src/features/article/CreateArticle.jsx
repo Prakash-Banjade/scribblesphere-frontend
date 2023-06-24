@@ -77,9 +77,11 @@ const CreateArticle = () => {
     setErrMsg("");
   }, [title, content, tags]);
 
+  useEffect(() => {
+    document.title = "Create Article | ScribbleSphere";
+  }, []);
+
   const override = {
-    // marginTop: "-20px",
-    // marginBottom: "20px",
     display: "block",
     margin: "20px auto",
   };
@@ -131,6 +133,7 @@ const CreateArticle = () => {
           </label>
 
           <textarea
+            placeholder="Max 5 tags allowed"
             name="tags"
             rows="1"
             id="tags"

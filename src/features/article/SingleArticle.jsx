@@ -25,16 +25,16 @@ const SingleArticle = ({ article, isAuthor, showContent, smallHeading, backgroun
         <div className="article-info flex g-20 align-center">
           <ArticleDate createdAt={createdAt} />
           {isAuthor && (
-            <span className="flex">
+            <span className="flex color-ccc">
               <CreateIcon />
-              {author?.fullname || Unknown}
+              {author?.fullname || 'Unknown'}
             </span>
           )}
           <p className="min-read color-ccc fw-400 font-blog">
             {readingTime} read
           </p>
         </div>
-        <h4 className="tags">{tagsComponent}</h4>
+        <h4 className="tags flex flex-wrap" style={{gap: '8px'}}>{tagsComponent}</h4>
       </header>
 
       {showContent && <p className="content">{content}</p>}

@@ -93,6 +93,10 @@ const Login = () => {
     }
   };
 
+  useEffect(()=>{
+    document.title = "Sign Up | ScribbleSphere"
+  }, [])
+
   useEffect(() => {
     setErrMsg("");
     setEmailErrMsg(false);

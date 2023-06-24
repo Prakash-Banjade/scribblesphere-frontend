@@ -1,17 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useGetArticleByIdQuery,
   usePostCommentMutation,
 } from "../articlesApiSlice";
-import { selectCurrentUser } from "../auth/authSlice";
 import { useParams } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { v4 as uuid } from "uuid";
 import Loader from "../../components/Loader";
 import "../../scss/SingleArticlePage.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SpinnerLoader from "../../components/SpinnerLoader";
-import { useSelector } from "react-redux";
 import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
 import NotFound from "../../components/404";
 
@@ -21,26 +18,29 @@ const SingleArticlePage = () => {
   const [comment, setComment] = useState("");
   const { data, isLoading } = useGetArticleByIdQuery(id);
   const [postComment] = usePostCommentMutation();
+  
+  useEffect(()=>{
+    document.title = data?.title? `${data?.title} | ScribbleSphere` : 'Article | ScribbleSphere'
+  }, [])
 
-  const tagsComponent = data ?? data?.tags?.map((tag) => (
+
+  const tagsComponent = data?.tags?.map((tag) => (
     <span className="tag" key={tag}>
       {tag}
     </span>
   ));
 
-  const articleDate = data ?? new Date(data?.createdAt);
+  const articleDate = data? new Date(data?.createdAt) : new Date();
 
   const options = { month: "long", day: "numeric", year: "numeric" };
-  const formattedDate = data ?? articleDate.toLocaleDateString("en-US", options);
+  const formattedDate = articleDate.toLocaleDateString("en-US", options);
 
-  const formattedDateAgo = formatDistanceToNow(new Date());
 
-  const readingTime = data ?? useCalculateReadingTime(data?.content);
+  const readingTime = useCalculateReadingTime(data?.content)
 
   const article = isLoading ? (
     <Loader />
   ) : data? (
-    <>
       <article className="flex flex-column">
         <div className="article-author">
           <span className="flex">
@@ -52,7 +52,7 @@ const SingleArticlePage = () => {
           </span>
         </div>
         <header>
-          <h3>{data.title}</h3>
+          <h3>{data?.title}</h3>
           <div className="article-info-summary flex g-20 align-center">
             <time
               dateTime={data.createdAt}
@@ -66,21 +66,20 @@ const SingleArticlePage = () => {
               {readingTime} read
             </p>
           </div>
-          <h4 className="tags flex g-10">{tagsComponent}</h4>
+          <h4 className="tags flex flex-wrap g-10">{tagsComponent}</h4>
         </header>
 
         <div className="article-body">
-          <p className="content">{data.content}</p>
+          <p className="content">{data?.content}</p>
         </div>
       </article>
-    </>
   ) : <NotFound />
 
   const handleCommentPost = async (e) => {
     e.preventDefault();
     try {
       const message = await postComment({ id, comment }).unwrap();
-      setComment("");
+      setComment('')
     } catch (e) {
       console.log(e);
     }

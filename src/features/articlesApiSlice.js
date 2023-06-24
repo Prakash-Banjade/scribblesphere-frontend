@@ -40,6 +40,13 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Articles"],
     }),
+    searchArticle: builder.query({
+      query: ({ q }) => ({
+        url: `/articles/search?q=${encodeURIComponent(q)}`,
+        method: "GET",
+      }),
+      invalidatesTags: ["Articles"],
+    }),
   }),
 });
 
@@ -50,4 +57,6 @@ export const {
   useGetArticleByIdQuery,
   usePostCommentMutation,
   usePostArticleMutation,
+  useSearchArticleQuery,
+  useLazySearchArticleQuery
 } = articlesApiSlice;

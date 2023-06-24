@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useGetMyArticlesQuery } from "../articlesApiSlice";
 import SingleArticle from "./SingleArticle";
 import Loader from "../../components/Loader";
@@ -19,6 +19,10 @@ const MyArticles = () => {
   });
 
   const user = useSelector(selectCurrentUser);
+
+  useEffect(()=>{
+    document.title = "My Articles | ScribbleSphere"
+  }, [])
 
   return (
     <main className="articlesList-main flex flex-column g-20">

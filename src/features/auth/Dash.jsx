@@ -21,6 +21,8 @@ const Dash = () => {
         ? "Good afternoon!"
         : "Good evening"
     );
+
+    document.title = 'Dashboard | ScribbleSphere'
   }, []);
 
   const { data, isLoading } = useGetLimitedMyArticlesQuery(5);
