@@ -20,19 +20,23 @@
 body {
   min-height: 100dvh;
   background-color: #0d1117;
+  overflow-x: hidden !important;
 }
 
 header.heading {
   margin-bottom: 27px;
   padding: 10px;
+  overflow: hidden;
 }
 
 header.heading h2 {
   font-size: clamp(1.4rem, 3vw, 3rem);
   color: var(--primary-color);
+  overflow: hidden;
 }
 
 header.heading p {
   color: var(--text-white);
+  overflow: hidden;
   font-family: var(--primary-font);
 }

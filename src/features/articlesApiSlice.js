@@ -47,6 +47,14 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Articles"],
     }),
+    deleteArticle: builder.mutation({
+      query: ({ id }) => ({
+        url: '/articles',
+        method: "DELETE",
+        body: {id}
+      }),
+      invalidatesTags: ["Articles"],
+    }),
   }),
 });
 
@@ -58,5 +66,6 @@ export const {
   usePostCommentMutation,
   usePostArticleMutation,
   useSearchArticleQuery,
-  useLazySearchArticleQuery
+  useLazySearchArticleQuery,
+  useDeleteArticleMutation
 } = articlesApiSlice;

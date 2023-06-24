@@ -6,8 +6,8 @@ main.searchArticles {
   .search-wrapper {
     border-radius: 5px;
     background-color: #343434;
-    border-radius: 12px;
-    padding-right: 15px;
+    border-radius: 6px;
+    // padding-right: 15px;
     margin-bottom: 1rem;
 
     .search-container {
@@ -16,14 +16,18 @@ main.searchArticles {
         width: inherit;
         height: inherit;
         padding: 15px;
-        border-radius: 12px;
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
         border: none;
         font-size: 1rem;
         color: var(--text-white);
         background: transparent;
+        border: 1px solid transparent;
 
         &:focus {
-          outline: 1px solid var(--primary-color);
+          outline: none;
+          border: 1px solid var(--primary-color);
+          border-right-width: 0;
         }
       }
     }
@@ -31,8 +35,14 @@ main.searchArticles {
     button.searchIcon {
       cursor: pointer;
       border: none;
-      background-color: transparent;
-      padding: 10px;
+      background-color: var(--primary-color);
+      padding: 10px 20px;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+      border: 1px solid var(--primary-color);
+      height: 100%;
+      display: block;
+    //   width: 100%;
 
       &:is(:active, :focus) {
         outline: 1px solid var(--primary-color);

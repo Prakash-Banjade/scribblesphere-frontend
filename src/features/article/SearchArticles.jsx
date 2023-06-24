@@ -40,7 +40,7 @@ const SearchArticles = () => {
 
   return (
     <main className="searchArticles">
-      <div className="search-wrapper flex-center g-10">
+      <div className="search-wrapper flex-center">
         <div className="search-container" ref={searchContainerRef}>
           <input
             ref={searchInputRef}
@@ -56,7 +56,7 @@ const SearchArticles = () => {
           onClick={handleSearchSubmit}
           type="submit"
         >
-          <SearchIcon sx={{ color: "var(--text-white)", fontSize: "1.8rem" }} />
+          <SearchIcon sx={{ color: "var(--text-white)", fontSize: "1.8rem", transform: 'translateY(2px)' }} />
         </button>
       </div>
 

@@ -53,53 +53,38 @@ const Navbar = () => {
       ) {
         profileFeaturesRef.current.classList.remove("open");
       }
-    };
 
-    document.addEventListener("mousedown", handleOutsideClick);
+      document.addEventListener("mousedown", handleOutsideClick);
 
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
+      return () => {
+        document.removeEventListener("mousedown", handleOutsideClick);
+      };
     };
   }, []);
+  const isOnline = useInternetConnection();
+  const hamburgerRef = useRef();
+  const linksRef = useRef();
+  const menuRef = useRef();
 
-  const PublicNav = (
-    <nav className="flex-center justify-between">
-      <div className="left-section flex-center g-20">
-        <div className="logo-container grid-center">
-          <a href="/" title="ScribbleSphere">
-            <img src={logo} alt="ScribbleSphere Logo" />
-          </a>
-        </div>
+  const handleMenuClicked = (e) => {
+    hamburgerRef.current.classList.toggle("open");
+    linksRef.current.classList.toggle("open");
+    menuRef.current.classList.toggle("open");
+  };
 
-        <div className="links">
-          <ul className="flex-center g-20">
-            <li>
-              <Link to="/articles">Latest Articles</Link>
-            </li>
-            <li>
-              <Link to="/">About</Link>
-            </li>
-            <li>
-              <Link to="/">Open Source</Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="right-section dflex-center g-10">
-        <Link to="/login" className="signin">
-          Sign In
-        </Link>
-        <Link to="/signup" className="signup">
-          Sign Up
-        </Link>
-      </div>
-    </nav>
+  const hamburger = (
+    <div
+      className="hamburger-container"
+      ref={hamburgerRef}
+      onClick={handleMenuClicked}
+    >
+      <div className="line"></div>
+      <div className="line"></div>
+      <div className="line"></div>
+    </div>
   );
 
-  const isOnline = useInternetConnection();
-
-  const LoggedInNav = (
+  const Nav = (
     <nav className="flex-center justify-between">
       <div className="left-section flex-center g-20">
         <div className="logo-container grid-center">
@@ -108,79 +93,108 @@ const Navbar = () => {
           </a>
         </div>
 
-        <div className="links">
-          <ul className="flex-center g-20">
-            <li>
-              <NavLink className={navLinkClass} end to="/dash">
-                Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className={navLinkClass} end to="/articles">
-                Latest Articles
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className={navLinkClass} to="/articles/myarticles">
-                My Articles
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className={navLinkClass} to="/articles/create">
-                Create
-              </NavLink>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="right-section flex-center g-20 loggedIn">
-        <div className="search-tab">
-          <Link to="/articles/search" className="flex-center">
-            <SearchIcon sx={{fontSize: '1.5rem'}} />
-          </Link>
-        </div>
-
-        <div
-          className={`profile ${isOnline ? "online" : ""} flex-center g-10`}
-          onClick={handleProfileClick}
-        >
-          <Tooltip title={`${email?.slice(0, 9)}...`} arrow>
-            <Avatar
-              sx={{
-                bgcolor: deepOrange[500],
-                width: "2.2rem",
-                height: "2.2rem",
-              }}
-            >
-              {user?.slice(0, 1)}
-            </Avatar>
-          </Tooltip>
-          <div className="features" ref={profileFeaturesRef}>
-            <ul className="flex flex-column g-10">
-              <li className="accountName">
-                <em>{email}</em>
+        {token ? (
+          <div className="links" ref={linksRef}>
+            <ul className="flex-center g-20" ref={menuRef}>
+              <li>
+                <NavLink className={navLinkClass} end to="/dash">
+                  Dashboard
+                </NavLink>
               </li>
               <li>
-                <AccountCircleIcon sx={{ fontSize: "1.4rem" }} />
-                <Link to="/">Change profile picture</Link>
+                <NavLink className={navLinkClass} end to="/articles">
+                  Latest Articles
+                </NavLink>
               </li>
               <li>
-                <CreateIcon sx={{ fontSize: "1.4rem" }} />
-                <Link to="/articles/create">Write article</Link>
+                <NavLink className={navLinkClass} to="/articles/myarticles">
+                  My Articles
+                </NavLink>
               </li>
-              <li className="logout" onClick={handleLogout}>
-                <LogoutIcon sx={{ fontSize: "1.4rem" }} />
-                Log out
+              <li>
+                <NavLink className={navLinkClass} to="/articles/create">
+                  Create
+                </NavLink>
               </li>
             </ul>
           </div>
-        </div>
+        ) : (
+          <div className="links" ref={linksRef}>
+            <ul className="flex-center g-20" ref={menuRef}>
+              <li>
+                <Link to="/articles">Latest Articles</Link>
+              </li>
+              <li>
+                <Link to="/">About</Link>
+              </li>
+              <li>
+                <Link to="/">Open Source</Link>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
+
+      {token ? (
+        <div className="right-section flex-center g-20 loggedIn">
+          {hamburger}
+          <div className="search-tab">
+            <Link to="/articles/search" className="flex-center">
+              <SearchIcon sx={{ fontSize: "1.5rem" }} />
+            </Link>
+          </div>
+
+          <div
+            className={`profile ${isOnline ? "online" : ""} flex-center g-10`}
+            onClick={handleProfileClick}
+          >
+            <Tooltip title={`${email?.slice(0, 9)}...`} arrow>
+              <Avatar
+                sx={{
+                  bgcolor: deepOrange[500],
+                  width: "2.2rem",
+                  height: "2.2rem",
+                }}
+              >
+                {user?.slice(0, 1)}
+              </Avatar>
+            </Tooltip>
+            <div className="features" ref={profileFeaturesRef}>
+              <ul className="flex flex-column g-10">
+                <li className="accountName">
+                  <em>{email}</em>
+                </li>
+                <li>
+                  <AccountCircleIcon sx={{ fontSize: "1.4rem" }} />
+                  <Link to="/">Change profile picture</Link>
+                </li>
+                <li>
+                  <CreateIcon sx={{ fontSize: "1.4rem" }} />
+                  <Link to="/articles/create">Write article</Link>
+                </li>
+                <li className="logout" onClick={handleLogout}>
+                  <LogoutIcon sx={{ fontSize: "1.4rem" }} />
+                  Log out
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="right-section dflex-center g-10">
+          {hamburger}
+          <Link to="/login" className="signin">
+            Sign In
+          </Link>
+          <Link to="/signup" className="signup">
+            Sign Up
+          </Link>
+        </div>
+      )}
     </nav>
   );
 
-  return token ? LoggedInNav : PublicNav;
+  return Nav;
 };
 
 export default Navbar;

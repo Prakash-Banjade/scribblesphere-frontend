@@ -290,7 +290,7 @@ const Login = () => {
               color: "white",
               fontWeight: "600",
               width: "100%",
-              "&:hover": { backgroundColor: "#00a954" },
+              "&:hover": { backgroundColor: "#bc2757" },
             }}
             size="large"
           >

@@ -15,7 +15,9 @@ const MyArticles = () => {
   const { data, isLoading } = useGetMyArticlesQuery(0);
 
   const articles = data?.map((data) => {
-    return <SingleArticle article={data} key={data._id} showContent />;
+    return <div className="myArticle" key={data._id}>
+      <SingleArticle article={data} key={data._id} showContent crud />
+    </div>;
   });
 
   const user = useSelector(selectCurrentUser);
