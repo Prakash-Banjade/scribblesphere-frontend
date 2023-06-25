@@ -190,7 +190,7 @@ const Login = () => {
             </Alert>
           )}
           <ThemeProvider theme={emailInputTheme}>
-            <FormControl sx={{ mb: 1, width: "45ch" }} variant="outlined">
+            <FormControl sx={{ mb: 1, alignSelf: 'stretch' }} variant="outlined">
               <InputLabel
                 htmlFor="outlined-adornment-email"
                 error={Boolean(emailErrMsg)}
@@ -229,7 +229,7 @@ const Login = () => {
           </ThemeProvider>
 
           <ThemeProvider theme={pwdInputTheme}>
-            <FormControl sx={{ width: "45ch" }} variant="outlined">
+            <FormControl variant="outlined" sx={{alignSelf: 'stretch' }}>
               <InputLabel
                 htmlFor="outlined-adornment-password"
                 error={Boolean(pwdErrMsg)}

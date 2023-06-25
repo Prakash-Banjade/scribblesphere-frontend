@@ -317,7 +317,7 @@ const Login = () => {
           )}
           {success && successAlert}
           <ThemeProvider theme={fullnameInputTheme}>
-            <FormControl sx={{ width: "45ch" }} variant="outlined">
+            <FormControl sx={{ alignSelf: 'stretch'  }} variant="outlined">
               <InputLabel
                 htmlFor="outlined-adornment-fullname"
                 error={Boolean(fullnameErrMsg)}
@@ -355,7 +355,7 @@ const Login = () => {
             </FormControl>
           </ThemeProvider>
           <ThemeProvider theme={emailInputTheme}>
-            <FormControl sx={{ width: "45ch" }} variant="outlined">
+            <FormControl sx={{ alignSelf: 'stretch'  }} variant="outlined">
               <InputLabel
                 htmlFor="outlined-adornment-email"
                 error={Boolean(emailErrMsg)}
@@ -393,7 +393,7 @@ const Login = () => {
           </ThemeProvider>
 
           <ThemeProvider theme={pwdInputTheme}>
-            <FormControl sx={{ width: "45ch" }} variant="outlined">
+            <FormControl sx={{ alignSelf: 'stretch'  }} variant="outlined">
               <InputLabel
                 htmlFor="outlined-adornment-password"
                 error={Boolean(pwdErrMsg)}
@@ -430,7 +430,7 @@ const Login = () => {
             </FormControl>
           </ThemeProvider>
           <ThemeProvider theme={conPwdInputTheme}>
-            <FormControl sx={{ width: "45ch" }} variant="outlined">
+            <FormControl sx={{ alignSelf: 'stretch'  }} variant="outlined">
               <InputLabel
                 htmlFor="outlined-adornment-confirmPassword"
                 error={Boolean(conPwdErr)}

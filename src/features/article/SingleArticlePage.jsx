@@ -18,11 +18,12 @@ const SingleArticlePage = () => {
   const [comment, setComment] = useState("");
   const { data, isLoading } = useGetArticleByIdQuery(id);
   const [postComment] = usePostCommentMutation();
-  
-  useEffect(()=>{
-    document.title = data?.title? `${data?.title} | ScribbleSphere` : 'Article | ScribbleSphere'
-  }, [])
 
+  useEffect(() => {
+    document.title = data?.title
+      ? `${data?.title} | ScribbleSphere`
+      : "Article | ScribbleSphere";
+  }, []);
 
   const tagsComponent = data?.tags?.map((tag) => (
     <span className="tag" key={tag}>
@@ -30,56 +31,57 @@ const SingleArticlePage = () => {
     </span>
   ));
 
-  const articleDate = data? new Date(data?.createdAt) : new Date();
+  const articleDate = data ? new Date(data?.createdAt) : new Date();
 
   const options = { month: "long", day: "numeric", year: "numeric" };
   const formattedDate = articleDate.toLocaleDateString("en-US", options);
 
-
-  const readingTime = useCalculateReadingTime(data?.content)
+  const readingTime = useCalculateReadingTime(data?.content);
 
   const article = isLoading ? (
     <Loader />
-  ) : data? (
-      <article className="flex flex-column">
-        <div className="article-author">
-          <span className="flex">
-            <AccountCircleIcon sx={{ fontSize: "4rem" }} />
-            <p>
-              {data?.author?.fullname || 'Unknown'} <br />
-              Author
-            </p>
-          </span>
-        </div>
-        <header>
-          <h3>{data?.title}</h3>
-          <div className="article-info-summary flex g-20 align-center">
-            <time
-              dateTime={data.createdAt}
-              title={`Published on ${formattedDate}`}
-              pubdate="true"
-            >
-              {formatDistanceToNow(articleDate)} ago
-            </time>
+  ) : data ? (
+    <article className="flex flex-column">
+      <div className="article-author">
+        <span className="flex">
+          <AccountCircleIcon sx={{ fontSize: "4rem" }} />
+          <p>
+            {data?.author?.fullname || "Unknown"} <br />
+            Author
+          </p>
+        </span>
+      </div>
+      <header>
+        <h3>{data?.title}</h3>
+        <div className="article-info-summary flex g-20 align-center">
+          <time
+            dateTime={data.createdAt}
+            title={`Published on ${formattedDate}`}
+            pubdate="true"
+          >
+            {formatDistanceToNow(articleDate)} ago
+          </time>
 
-            <p className="min-read color-ccc fw-500 font-blog-text">
-              {readingTime} read
-            </p>
-          </div>
-          <h4 className="tags flex flex-wrap g-10">{tagsComponent}</h4>
-        </header>
-
-        <div className="article-body">
-          <p className="content">{data?.content}</p>
+          <p className="min-read color-ccc fw-500 font-blog-text">
+            {readingTime} read
+          </p>
         </div>
-      </article>
-  ) : <NotFound />
+        <h4 className="tags flex flex-wrap g-10">{tagsComponent}</h4>
+      </header>
+
+      <div className="article-body">
+        <p className="content">{data?.content}</p>
+      </div>
+    </article>
+  ) : (
+    <NotFound />
+  );
 
   const handleCommentPost = async (e) => {
     e.preventDefault();
     try {
       const message = await postComment({ id, comment }).unwrap();
-      setComment('')
+      setComment("");
     } catch (e) {
       console.log(e);
     }
@@ -126,7 +128,13 @@ const SingleArticlePage = () => {
 
       {!isLoading && data && (
         <section className="comment-section">
-          <h2>Comments</h2>
+          <header>
+            <h2>Comments</h2>
+            <small className="color-ccc">
+              Comments are write only. You can't edit or delete your comment
+              once posted.
+            </small>
+          </header>
           <div className="add-comment-form">
             <form onSubmit={handleCommentPost}>
               <div className="form-field flex flex-column g-10">

@@ -1,6 +1,7 @@
 main.login-main{
     padding-top: 60px;
     min-height: 100dvh;
+    margin-bottom: 20px;
 }
 
 main.signup-main{
@@ -31,10 +32,9 @@ main.signup-main{
     }
 
     form{
-        // width: 600px;
-        max-width: 45ch;
+        width: 100%;
+        max-width: 500px;
         a.forgetPwd{
-            // color: var(--text-white);
             color: dodgerblue;
             width: fit-content;
             margin-top: 5px;

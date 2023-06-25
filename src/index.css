@@ -23,6 +23,11 @@ body {
   overflow-x: hidden !important;
 }
 
+main {
+  padding: 20px;
+  min-height: 100dvh;
+}
+
 header.heading {
   margin-bottom: 27px;
   padding: 10px;
@@ -39,4 +44,10 @@ header.heading p {
   color: var(--text-white);
   overflow: hidden;
   font-family: var(--primary-font);
+}
+
+@media screen and (max-width: 670px) {
+  main {
+    padding: 10px !important;
+  }
 }

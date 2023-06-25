@@ -1,15 +1,15 @@
-section.dash-section-main {
+main.dash-section-main {
   margin-top: 60px;
-  padding: 20px;
 
   .section {
     // border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 20px;
+    // padding: 20px;
     margin-bottom: 30px;
   }
 
   .greeting-section {
+    margin-top: 30px;
     h3 {
       font-size: clamp(1.7rem, 3vw, 3rem);
       font-weight: 800;

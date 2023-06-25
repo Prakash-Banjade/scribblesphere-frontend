@@ -1,7 +1,6 @@
 main.articlesList-main {
   max-width: 800px;
   margin: 100px auto 20px auto;
-  padding: 20px;
 
   .articlesList {
     gap: 4rem;
@@ -14,11 +13,6 @@ main.articlesList-main {
     h2 {
       font-size: clamp(1.4rem, 3vw, 3rem);
       color: var(--primary-color);
-    }
-
-    p {
-      color: var(--text-white);
-      font-family: var(--primary-font);
     }
   }
 

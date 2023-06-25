@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "../../scss/SingleArticle.scss";
 import ArticleDate from "./ArticleDateAgo";
-import { Link } from "react-router-dom";
-import CreateIcon from "@mui/icons-material/Create";
+import { Link, useNavigate } from "react-router-dom";
 import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
-import DeleteModal from "../../components/DeleteModal.jsx"
+import useAuth from "../../hooks/useAuth";
+import DeleteModal from "../../components/DeleteModal.jsx";
 
+import CreateIcon from "@mui/icons-material/Create";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -21,9 +22,11 @@ const SingleArticle = ({
   crud,
 }) => {
   const { _id, title, content, tags, createdAt, author } = article;
+  const { setCurrentArticle, setCanAccessUpdate } = useAuth();
+  const navigate = useNavigate();
 
   const [deleteArticle, { isLoading }] = useDeleteArticleMutation();
-  const [errDeleteMsg, setErrDeleteMsg] = useState('')
+  const [errDeleteMsg, setErrDeleteMsg] = useState("");
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -46,6 +49,12 @@ const SingleArticle = ({
     }
   };
 
+  const handleEditClick = () => {
+    setCurrentArticle(article);
+    setCanAccessUpdate(true);
+    navigate("/articles/edit");
+  };
+
   return (
     <article className={`singleArticle ${background ? "background" : ""}`}>
       <header>
@@ -57,10 +66,10 @@ const SingleArticle = ({
             {title}
           </Link>
         </h3>
-        <div className="article-info flex g-20 align-center">
+        <div className="article-info flex flex-wrap align-center">
           <ArticleDate createdAt={createdAt} />
           {isAuthor && (
-            <span className="flex color-ccc">
+            <span className="flex color-ccc font-blog">
               <CreateIcon />
               {author?.fullname || "Unknown"}
             </span>
@@ -87,7 +96,11 @@ const SingleArticle = ({
           </Alert>
         )}
 
-        <DeleteModal open={open} handleClose={handleClose} func={handleDelete} />
+        <DeleteModal
+          open={open}
+          handleClose={handleClose}
+          func={handleDelete}
+        />
 
         {crud && (
           <div className="crud flex g-10">
@@ -115,8 +128,9 @@ const SingleArticle = ({
                 "&:hover": { color: "#bc2757", borderColor: "currentcolor" },
               }}
               startIcon={<EditIcon />}
+              onClick={handleEditClick}
             >
-              Update
+              Edit
             </Button>
           </div>
         )}

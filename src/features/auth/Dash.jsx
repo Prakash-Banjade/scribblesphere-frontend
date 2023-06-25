@@ -6,11 +6,11 @@ import { useGetLimitedMyArticlesQuery } from "../articlesApiSlice";
 import { Link } from "react-router-dom";
 import SpinnerLoader from "../../components/SpinnerLoader";
 import SingleArticle from "../article/SingleArticle";
+import { SettingsApplications } from "@mui/icons-material";
 
 const Dash = () => {
   const [greeting, setGreeting] = useState("Good morning!");
   const user = useSelector(selectCurrentUser);
-  const email = useSelector(selectCurrentEmail);
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -25,7 +25,7 @@ const Dash = () => {
     document.title = 'Dashboard | ScribbleSphere'
   }, []);
 
-  const { data, isLoading } = useGetLimitedMyArticlesQuery(5);
+  const { data, isLoading } = useGetLimitedMyArticlesQuery(3);
 
   const myArticlesContent = isLoading ? (
     <SpinnerLoader />
@@ -55,8 +55,8 @@ const Dash = () => {
   );
 
   return (
-    <section className="dash-section-main">
-      <div className="greeting-section section flex flex-column">
+    <main className="dash-section-main">
+      <section className="greeting-section section flex flex-column">
         <header>
           <h3>
             {greeting} {user},
@@ -74,9 +74,9 @@ const Dash = () => {
         <Link to="/articles/create" className="flex-center">
           Create <span>+</span>
         </Link>
-      </div>
+      </section>
 
-      <div className="section myArticles-section">
+      <section className="section myArticles-section">
         <h2>Recent Artiles Posted</h2>
         <div className="dashArticles flex flex-wrap g-10">
           {myArticlesContent}
@@ -89,8 +89,17 @@ const Dash = () => {
         ) : (
           ""
         )}
-      </div>
-    </section>
+      </section>
+
+      <section className="section profile-section">
+        <h2>Profile</h2>
+        <div className="dashArticles flex flex-wrap g-10">
+          {myArticlesContent}
+        </div>
+      </section>
+
+      
+    </main>
   );
 };
 

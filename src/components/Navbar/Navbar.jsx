@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import logo from "../../assets/logo.svg";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import "../../scss/Navbar.scss";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -35,6 +35,7 @@ const Navbar = () => {
   const profileFeaturesRef = useRef();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleProfileClick = (e) => {
     profileFeaturesRef.current.classList.toggle("open");
@@ -45,6 +46,7 @@ const Navbar = () => {
     dispatch(userLogout());
     navigate("/");
   };
+
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (
@@ -53,14 +55,21 @@ const Navbar = () => {
       ) {
         profileFeaturesRef.current.classList.remove("open");
       }
+    };
 
-      document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
 
-      return () => {
-        document.removeEventListener("mousedown", handleOutsideClick);
-      };
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
+
+  useEffect(() => {
+    hamburgerRef.current.classList.remove("open");
+    linksRef.current.classList.remove("open");
+    menuRef.current.classList.remove("open");
+  }, [location]);
+
   const isOnline = useInternetConnection();
   const hamburgerRef = useRef();
   const linksRef = useRef();

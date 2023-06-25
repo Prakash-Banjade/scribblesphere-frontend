@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import "../../scss/CreateArticle.scss";
-import { usePostArticleMutation } from "../articlesApiSlice";
 
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 
 import PropagateLoader from "react-spinners/PropagateLoader";
+import { useUpdateArticleMutation } from "../articlesApiSlice";
 
-const CreateArticle = () => {
+const UpdateArticle = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
@@ -16,7 +18,19 @@ const CreateArticle = () => {
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  const [post, { isLoading }] = usePostArticleMutation();
+  const { currentArticle, setCurrentArticle, setCanAccessUpdate } = useAuth();
+
+  const [updateArticle, { isLoading }] = useUpdateArticleMutation();
+
+  useEffect(() => {
+    let stringTags = currentArticle?.tags?.join(",");
+
+    setTitle(currentArticle?.title || "");
+    setContent(currentArticle?.content || "");
+    setTags(stringTags || "");
+  }, []);
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,12 +39,13 @@ const CreateArticle = () => {
     else if (name === "tags") setTags(value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSaveClick = async (e) => {
     e.preventDefault();
     setSuccessMsg("");
     setErrMsg("");
 
     const articleDetails = {
+      id: currentArticle._id,
       title,
       content,
       tags: tags
@@ -54,23 +69,38 @@ const CreateArticle = () => {
         "Too short content. Minimun of 100 characters content is need to be posted."
       );
 
-    console.log(articleDetails);
-
     try {
-      const response = await post({ ...articleDetails });
+      const response = await updateArticle(articleDetails);
+      //   console.log(response)
 
-      setSuccessMsg("You article has been posted successfully.");
+      if (response?.data?.status !== 200) {
+        console.log(response.error.status);
+        throw response.error;
+      }
+      //   console.log(response.error)
+      setSuccessMsg("Updated successfully.");
       setTitle("");
       setContent("");
       setTags("");
+      setCurrentArticle({});
 
       setTimeout(() => {
+        navigate("/articles/myarticles");
         setSuccessMsg("");
-      }, 5000);
-    } catch (e) {
-      console.log(e);
-      setErrMsg(e?.message);
+        setCanAccessUpdate(false)
+      }, 1000);
+    } catch (error) {
+      console.log("error while saving");
+      if (error?.data?.message) return setErrMsg(error.data.message);
+      setErrMsg("Unable to save. Please report of any inconvinience");
+      setCanAccessUpdate(false)
     }
+  };
+
+  const handleCancelClick = () => {
+    setCurrentArticle({});
+    setCanAccessUpdate(false)
+    navigate("/articles/myarticles");
   };
 
   useEffect(() => {
@@ -78,7 +108,7 @@ const CreateArticle = () => {
   }, [title, content, tags]);
 
   useEffect(() => {
-    document.title = "Create Article | ScribbleSphere";
+    document.title = "Update Article | ScribbleSphere";
   }, []);
 
   const override = {
@@ -88,17 +118,10 @@ const CreateArticle = () => {
   return (
     <main className="create-article-main">
       <header className="heading">
-        <h2>Create Article</h2>
-        <p>
-          Write up to your maximum potential! Your article has the power to
-          inspire, inform, and captivate readers around the world. Let your
-          creativity flow and share your unique perspectives. Remember, every
-          great article starts with a single word. Embrace this opportunity to
-          make a difference through your writing. Happy article creation!
-        </p>
+        <h2>Edit Article</h2>
       </header>
 
-      <form onSubmit={handleSubmit} className="flex-center flex-column g-20">
+      <form onSubmit={handleSaveClick} className="flex-center flex-column g-20">
         <div className="form-field flex flex-column g-10">
           <label htmlFor="title">Title for you article:</label>
           <textarea
@@ -113,14 +136,13 @@ const CreateArticle = () => {
             required
           />
         </div>
-
         <div className="form-field flex flex-column g-10">
           <label htmlFor="content">Start your article here:</label>
           <textarea
             rows="15"
             id={content}
             name="content"
-            placeholder="Minumum of 100 characters and maximum of 5000 characters"
+            placeholder="This field is required"
             value={content}
             onChange={handleInputChange}
             minLength={100}
@@ -129,13 +151,10 @@ const CreateArticle = () => {
           />
         </div>
         <div className="form-field flex flex-column g-10">
-          <label htmlFor="tags">
-            Finally write some tags for you article for searching puspose,
-            (Comma separared)
-          </label>
+          <label htmlFor="tags">Mention some tags (optional)</label>
 
           <textarea
-            placeholder="Max 5 tags allowed"
+            placeholder="This field is required"
             name="tags"
             rows="1"
             id="tags"
@@ -169,26 +188,43 @@ const CreateArticle = () => {
           loading={isLoading}
         />
 
-        <Button
-          onClick={handleSubmit}
-          disabled={isLoading}
-          type="submit"
-          variant="contained"
-          sx={{
-            width: "100%",
-            backgroundColor: "var(--primary-color)",
-            "&:hover": { backgroundColor: "#b51e4e" },
-            "&:disabled": {
-              opacity: 0.8,
+        <div className="actionBtns flex g-10 flex-wrap">
+          <Button
+            disabled={isLoading}
+            type="submit"
+            variant="contained"
+            sx={{
               backgroundColor: "var(--primary-color)",
-            },
-          }}
-        >
-          <span>Post Artile</span>
-        </Button>
+              "&:hover": { backgroundColor: "#b51e4e" },
+              "&:disabled": {
+                opacity: 0.8,
+                backgroundColor: "var(--primary-color)",
+              },
+            }}
+            onClick={handleSaveClick}
+          >
+            <span>Save</span>
+          </Button>
+
+          <Button
+            onClick={handleCancelClick}
+            disabled={isLoading}
+            variant="contained"
+            sx={{
+              backgroundColor: "#676767",
+              "&:hover": { backgroundColor: "#787878" },
+              "&:disabled": {
+                opacity: 0.9,
+                backgroundColor: "#343434",
+              },
+            }}
+          >
+            <span>Cancel</span>
+          </Button>
+        </div>
       </form>
     </main>
   );
 };
 
-export default CreateArticle;
+export default UpdateArticle;

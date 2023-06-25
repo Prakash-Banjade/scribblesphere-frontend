@@ -1,7 +1,6 @@
 main.singleArtilePage-main {
   margin: 100px auto 0 auto;
   max-width: 850px;
-  padding: 40px;
   display: block;
 
   hr{
@@ -69,10 +68,13 @@ main.singleArtilePage-main {
     border-radius: 10px;
     background-color: #13171c;
     padding: 10px;
-    h2{
-      font-size: clamp(1.3rem, 3vw, 3rem);
-      color: var(--text-white);
+    
+    header{
       margin-bottom: 22px;
+      h2{
+        font-size: clamp(1.3rem, 3vw, 3rem);
+        color: var(--text-white);
+      }
     }
 
     .add-comment-form{

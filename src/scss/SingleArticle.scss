@@ -33,11 +33,9 @@ article.singleArticle {
 
     .article-info {
       margin-bottom: 10px;
-      .article-timeline {
-        time {
-          color: #ccc;
-          font-family: var(--blog-font);
-        }
+
+      & > *{
+        margin-right: 30px;
       }
     }
 
