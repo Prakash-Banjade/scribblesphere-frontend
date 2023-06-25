@@ -19,16 +19,13 @@ import NotFound from "./components/404";
 import SearchArticles from "./features/article/SearchArticles";
 import UpdateArticle from "./features/article/UpdateArticle";
 import CanAccessUpdate from "./features/article/CanAccessUpdate";
-import useAuth from "./hooks/useAuth";
+import MyProfile from "./features/auth/MyProfile";
 const App = () => {
-
   const location = useLocation();
 
-  const {canAccessUpdate} = useAuth();
-
-  useEffect(()=> {
-    document.documentElement.scrollTop = 0
-  }, [location])
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+  }, [location]);
 
   return (
     <>
@@ -51,16 +48,16 @@ const App = () => {
                 <Route path="myarticles" element={<MyArticles />} />
                 <Route path="create" element={<CreateArticle />} />
                 <Route element={<CanAccessUpdate />}>
-                    <Route path="edit" element={<UpdateArticle />} />
+                  <Route path="edit" element={<UpdateArticle />} />
                 </Route>
                 <Route path="search" element={<SearchArticles />} />
                 <Route path=":id" element={<SingleArticlePage />} />
               </Route>
+              <Route path="/profile" element={<MyProfile />} />
             </Route>
           </Route>
 
           <Route path="*" element={<NotFound />} />
-
         </Routes>
       </Suspense>
     </>

@@ -6,11 +6,31 @@ import { useGetLimitedMyArticlesQuery } from "../articlesApiSlice";
 import { Link } from "react-router-dom";
 import SpinnerLoader from "../../components/SpinnerLoader";
 import SingleArticle from "../article/SingleArticle";
-import { SettingsApplications } from "@mui/icons-material";
+import { useGetMyDetailsQuery } from "../userApiSlice";
+
+import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import Collapse from "@mui/material/Collapse";
 
 const Dash = () => {
   const [greeting, setGreeting] = useState("Good morning!");
   const user = useSelector(selectCurrentUser);
+  const email = useSelector(selectCurrentEmail);
+  const [open, setOpen] = useState(true);
+
+  const [detailState, setDetailState] = useState({})
+
+  const myDetails = useGetMyDetailsQuery();
+
+  useEffect(()=>{
+    if (!myDetails.isLoading) setDetailState(myDetails?.data?.details)
+  }, [myDetails.isLoading])
+
+  const needProfiling =
+    detailState?.socialLinks?.length === 0 ||
+    detailState?.writesOn?.length === 0 ||
+    detailState?.qualification?.length === 0 ||
+    detailState?.address?.length === 0;
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -22,7 +42,7 @@ const Dash = () => {
         : "Good evening"
     );
 
-    document.title = 'Dashboard | ScribbleSphere'
+    document.title = "Dashboard | ScribbleSphere";
   }, []);
 
   const { data, isLoading } = useGetLimitedMyArticlesQuery(3);
@@ -54,8 +74,38 @@ const Dash = () => {
     </p>
   );
 
+  const alertProfiling = (
+    <Collapse in={open}>
+      <Alert severity="info">
+        <div
+          className="wrapper flex flex-wrap justify-between g-20"
+          style={{ minWidth: "100%" }}
+        >
+          <p className="font-primary fw-500">Finish up setting your profile!</p>
+          <div className="action-btns flex g-10">
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: "var(--primary-color)" }}
+            >
+              Go to profile
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => setOpen(false)}
+            >
+              Later
+            </Button>
+          </div>
+        </div>
+      </Alert>
+    </Collapse>
+  );
+
   return (
     <main className="dash-section-main">
+      {needProfiling && !myDetails.isLoading && alertProfiling}
+
       <section className="greeting-section section flex flex-column">
         <header>
           <h3>
@@ -77,7 +127,9 @@ const Dash = () => {
       </section>
 
       <section className="section myArticles-section">
-        <h2>Recent Artiles Posted</h2>
+        <header className="heading">
+          <h2>Recent Articles Posted</h2>
+        </header>
         <div className="dashArticles flex flex-wrap g-10">
           {myArticlesContent}
         </div>
@@ -90,15 +142,6 @@ const Dash = () => {
           ""
         )}
       </section>
-
-      <section className="section profile-section">
-        <h2>Profile</h2>
-        <div className="dashArticles flex flex-wrap g-10">
-          {myArticlesContent}
-        </div>
-      </section>
-
-      
     </main>
   );
 };

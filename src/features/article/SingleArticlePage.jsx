@@ -90,17 +90,22 @@ const SingleArticlePage = () => {
   const handleCommentChange = (e) => setComment(e.target.value);
 
   const SingleComment = ({ comment }) => {
+    const commentDateAgo = formatDistanceToNow(new Date(comment.createdAt))
     return (
       <div className="comments flex g-20">
         <div className="comment-profile-icon">
           <AccountCircleIcon
             sx={{ fontSize: "2rem", color: "var(--text-white)" }}
-            title={comment.author.fullname}
+            title={comment?.author?.fullname || 'unknown'}
           />
         </div>
 
         <div className="comment-details">
-          <div className="comment-author">{comment.author.fullname}</div>
+          <div className="comment-author flex justify-between align-center">
+
+            <h3>{comment?.author?.fullname || 'unknown'}</h3>
+            <time className="color-ccc font-blog" dateTime={comment?.createdAt} pubdate>{commentDateAgo} ago</time>
+          </div>
 
           <p>{comment.text}</p>
         </div>
@@ -112,7 +117,10 @@ const SingleArticlePage = () => {
     <Loader />
   ) : data?.comments?.length ? (
     data.comments.map((comment) => (
-      <SingleComment comment={comment} key={uuid()} />
+      <div className="comment-wrapper" key={uuid()}>
+        <SingleComment comment={comment} />
+        <hr className="comment-divider" />
+      </div>
     ))
   ) : (
     <p style={{ fontFamily: "var(--blog-text)", color: "var(--text-white)" }}>

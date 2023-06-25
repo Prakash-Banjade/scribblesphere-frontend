@@ -30,7 +30,6 @@ main {
 
 header.heading {
   margin-bottom: 27px;
-  padding: 10px;
   overflow: hidden;
 }
 
@@ -44,6 +43,10 @@ header.heading p {
   color: var(--text-white);
   overflow: hidden;
   font-family: var(--primary-font);
+}
+
+.MuiAlert-message{
+  width: 100% !important;
 }
 
 @media screen and (max-width: 670px) {

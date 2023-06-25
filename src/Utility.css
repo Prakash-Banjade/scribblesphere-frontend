@@ -64,8 +64,16 @@ li{
     font-family: var(--blog-font);
 }
 
+.font-primary{
+    font-family: var(--primary-text-font);
+}
+
 .color-text-white{
     color: var(--text-white);
+}
+
+.color-primary{
+    color: var(--primary-color);
 }
 
 .color-ccc{

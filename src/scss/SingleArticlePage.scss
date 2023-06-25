@@ -3,7 +3,7 @@ main.singleArtilePage-main {
   max-width: 850px;
   display: block;
 
-  hr{
+  hr {
     height: 1px;
     background-color: #888;
     margin: clamp(3rem, 4vw, 4rem) 0;
@@ -11,18 +11,17 @@ main.singleArtilePage-main {
   }
 
   article {
-    .article-author{
+    .article-author {
       span {
         gap: 3rem;
         margin-bottom: 30px;
         color: #eef;
         align-items: center;
-        p{
-          font-size: clamp(1rem, 2vw, 2rem);;
+        p {
+          font-size: clamp(1rem, 2vw, 2rem);
           font-weight: 400;
           line-height: 1.8rem;
           font-family: var(--blog-font);
-
         }
       }
     }
@@ -64,26 +63,26 @@ main.singleArtilePage-main {
     }
   }
 
-  .comment-section{
+  .comment-section {
     border-radius: 10px;
     background-color: #13171c;
     padding: 10px;
-    
-    header{
+
+    header {
       margin-bottom: 22px;
-      h2{
+      h2 {
         font-size: clamp(1.3rem, 3vw, 3rem);
         color: var(--text-white);
       }
     }
 
-    .add-comment-form{
-      form{
+    .add-comment-form {
+      form {
         margin-bottom: 2rem;
-        label{
+        label {
           color: var(--text-white);
         }
-        textarea{
+        textarea {
           resize: none;
           background: #444;
           color: var(--text-white);
@@ -93,13 +92,13 @@ main.singleArtilePage-main {
           border: 1px solid transparent;
           border-radius: 10px;
 
-          &:is(:active, :focus){
+          &:is(:active, :focus) {
             outline: none;
             border-color: var(--primary-color);
           }
         }
 
-        button[type=submit]{
+        button[type="submit"] {
           margin-top: 1rem;
           padding: 7px 14px;
           border-radius: 8px;
@@ -111,21 +110,33 @@ main.singleArtilePage-main {
         }
       }
     }
-    .comments-list{
+    .comments-list {
       flex-direction: column-reverse;
     }
+    hr.comment-divider{
+      margin: 0;
+      margin-bottom: 5px;
+      background-color: #444;
+      border-radius: 50%;
+    }
 
-    .comments{
+    .comments {
       margin-bottom: 20px;
 
-      .comment-details{
-        .comment-author{
-          font-size: 1.2rem;
-          font-weight: 600;
-          color: var(--text-white);
+
+      .comment-details {
+        width: 100%;
+        .comment-author {
+          h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-white);
+          }
         }
 
-        p{
+        
+
+        p {
           color: #bbb;
           line-height: 1.4rem;
           font-family: var(--blog-font);

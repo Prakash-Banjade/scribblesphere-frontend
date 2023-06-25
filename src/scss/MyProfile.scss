@@ -1,0 +1,47 @@
+main.myProfile-main {
+  max-width: 800px;
+  display: block;
+  margin: 100px auto 0 auto;
+
+  section {
+    margin-bottom: 2rem;
+  }
+
+  .profileImg {
+    img {
+      width: 300px;
+      display: block;
+      border-radius: 50%;
+      aspect-ratio: 1 /1;
+    }
+  }
+
+  .details {
+    border-radius: 10px;
+    background-color: #232232;
+    padding: 20px;
+
+    header.heading {
+      margin-bottom: 1rem;
+
+      h3 {
+        font-size: clamp(1.2rem, 3vw, 2rem);
+      }
+    }
+
+    hr {
+      background-color: #777;
+      margin-bottom: 1rem;
+      border: none;
+      height: 1px;
+    }
+
+    ul {
+      li {
+        font-family: var(--primary-font);
+        font-size: 1rem;
+        color: var(--text-white);
+      }
+    }
+  }
+}

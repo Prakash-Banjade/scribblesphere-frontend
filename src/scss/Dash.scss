@@ -2,10 +2,7 @@ main.dash-section-main {
   margin-top: 60px;
 
   .section {
-    // border: 1px solid #aaa;
-    border-radius: 5px;
-    // padding: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 4rem;
   }
 
   .greeting-section {
@@ -53,16 +50,17 @@ main.dash-section-main {
     }
   }
 
-  .myArticles-section {
-    h2 {
-      color: whitesmoke;
-      margin-bottom: 20px;
-      font-size: clamp(1.8rem, 3vw, 3rem);
-      color: var(--primary-color);
+  header.heading{
+    margin-bottom: 2rem !important;
+
+    h2{
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
     }
+  }
+
+  .myArticles-section {
 
     .dashArticles {
-      //   flex-direction: row-reverse;
       & > * {
         flex: 1 1 400px;
       }
