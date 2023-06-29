@@ -65,7 +65,8 @@ main.singleArtilePage-main {
 
   .comment-section {
     border-radius: 10px;
-    background-color: #13171c;
+    background-color: var(--bg-dark-light);
+    border: 1px solid var(--line-color);
     padding: 10px;
 
     header {
@@ -84,13 +85,13 @@ main.singleArtilePage-main {
         }
         textarea {
           resize: none;
-          background: #444;
+          background: var(--bg-dark);
           color: var(--text-white);
           padding: 10px;
           font-size: 1rem;
           font-family: var(--primary-font);
-          border: 1px solid transparent;
-          border-radius: 10px;
+          border: 1px solid var(--line-color);
+          border-radius: 7px;
 
           &:is(:active, :focus) {
             outline: none;
@@ -101,12 +102,16 @@ main.singleArtilePage-main {
         button[type="submit"] {
           margin-top: 1rem;
           padding: 7px 14px;
-          border-radius: 8px;
+          border-radius: 4px;
           background-color: dodgerblue;
           border: none;
           cursor: pointer;
           color: white;
           font-size: 1.1rem;
+
+          &:is(:hover,:active, :focus){
+            opacity: .9;
+          }
         }
       }
     }

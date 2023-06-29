@@ -305,7 +305,7 @@ const Login = () => {
           <h2>Sign Up to ScribbleSphere</h2>
         </header>
         <PropagateLoader
-          color="#0bbe64"
+          color="#be0b44"
           cssOverride={override}
           loading={isLoading}
         />

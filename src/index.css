@@ -3,9 +3,12 @@
   --primary-text-font: "Poppins", sans-serif;
   --secondary-text-font: "Lora", serif;
   --blog-font: "IBM Plex Sans", sans-serif;
-  /* --primary-color: #0bbe64; */
+  --line-color: #434343;
+  --primary-color: #0bbe64;
   --primary-color: #be0b44;
-  --dark: rgb(13, 17, 23);
+  --bg-dark: rgb(33, 34, 34);
+  --bg-dark-light: #2a2a2a;
+  --dark: #0d1117;
   --error-text-color: #d32f2f;
   --text-white: #e5e7eb;
 }
@@ -19,7 +22,7 @@
 
 body {
   min-height: 100dvh;
-  background-color: #0d1117;
+  background-color: var(--bg-dark) !important;
   overflow-x: hidden !important;
 }
 
@@ -47,6 +50,11 @@ header.heading p {
 
 .MuiAlert-message{
   width: 100% !important;
+}
+
+a.activeNavTab{
+  /* color: red; */
+  background-color: rgb(25, 25, 25);
 }
 
 @media screen and (max-width: 670px) {

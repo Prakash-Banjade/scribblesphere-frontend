@@ -72,7 +72,6 @@ const EditForm = ({details}) => {
 
       <Button
         variant="contained"
-        sx={{ backgroundColor: "var(--primary-color)" }}
         type="submit"
       >
         Save changes

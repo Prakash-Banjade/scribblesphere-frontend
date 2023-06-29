@@ -179,7 +179,7 @@ const Login = () => {
           <h2>Sign in to ScribbleSphere</h2>
         </header>
         <PropagateLoader
-          color="#0bbe64"
+          color="#be0b44"
           cssOverride={override}
           loading={isLoading}
         />
@@ -286,11 +286,8 @@ const Login = () => {
             onClick={handleSubmit}
             type="submit"
             sx={{
-              backgroundColor: "var(--primary-color)",
-              color: "white",
               fontWeight: "600",
               width: "100%",
-              "&:hover": { backgroundColor: "#bc2757" },
             }}
             size="large"
           >

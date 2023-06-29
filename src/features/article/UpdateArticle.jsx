@@ -193,14 +193,6 @@ const UpdateArticle = () => {
             disabled={isLoading}
             type="submit"
             variant="contained"
-            sx={{
-              backgroundColor: "var(--primary-color)",
-              "&:hover": { backgroundColor: "#b51e4e" },
-              "&:disabled": {
-                opacity: 0.8,
-                backgroundColor: "var(--primary-color)",
-              },
-            }}
             onClick={handleSaveClick}
           >
             <span>Save</span>

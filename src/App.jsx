@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Link, Navigate } from "react-router-dom";
 import RequireAuth from "./features/auth/RequireAuth";
 import PersistLogin from "./features/auth/PersistLogin";
 import SetHomePage from "./features/auth/SetHomePage";
@@ -20,6 +20,10 @@ import SearchArticles from "./features/article/SearchArticles";
 import UpdateArticle from "./features/article/UpdateArticle";
 import CanAccessUpdate from "./features/article/CanAccessUpdate";
 import MyProfile from "./features/auth/MyProfile";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "./features/auth/authSlice";
+import Home from "./features/auth/Home";
+
 const App = () => {
   const location = useLocation();
 
@@ -27,22 +31,24 @@ const App = () => {
     document.documentElement.scrollTop = 0;
   }, [location]);
 
-  return (
-    <>
-      <Navbar />
-      <Suspense fallback={<Loader />}>
-        <Routes>
-          {/* public routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+  const token = useSelector(selectCurrentToken);
 
-          {/* private routes */}
-          <Route element={<PersistLogin />}>
-            <Route element={<SetHomePage />}>
-              <Route path="/" element={<PublicHome />} />
-            </Route>
-            <Route element={<RequireAuth authorizedRoles={[2059]} />}>
-              <Route path="/dash" element={<Dash />} />
+  return (
+    <Suspense fallback={<Loader />}>
+      <Routes path="/*">
+        {/* public routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+
+        {/* private routes */}
+        <Route element={<PersistLogin />}>
+          <Route
+            path="/"
+            element={!token ? <PublicHome /> : <Navigate to="/dash" />}
+          />
+          <Route element={<RequireAuth authorizedRoles={[2059]} />}>
+            <Route element={<Home />}>
+              <Route index path="/dash" element={<Dash />} />
               <Route path="/articles">
                 <Route index element={<ArticlesList />} />
                 <Route path="myarticles" element={<MyArticles />} />
@@ -54,13 +60,16 @@ const App = () => {
                 <Route path=":id" element={<SingleArticlePage />} />
               </Route>
               <Route path="/profile" element={<MyProfile />} />
+
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Route>
+          {/* </Route> */}
+        </Route>
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-    </>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
   );
 };
 

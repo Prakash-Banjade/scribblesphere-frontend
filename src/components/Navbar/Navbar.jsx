@@ -64,34 +64,7 @@ const Navbar = () => {
     };
   }, []);
 
-  useEffect(() => {
-    hamburgerRef.current.classList.remove("open");
-    linksRef.current.classList.remove("open");
-    menuRef.current.classList.remove("open");
-  }, [location]);
-
   const isOnline = useInternetConnection();
-  const hamburgerRef = useRef();
-  const linksRef = useRef();
-  const menuRef = useRef();
-
-  const handleMenuClicked = (e) => {
-    hamburgerRef.current.classList.toggle("open");
-    linksRef.current.classList.toggle("open");
-    menuRef.current.classList.toggle("open");
-  };
-
-  const hamburger = (
-    <div
-      className="hamburger-container"
-      ref={hamburgerRef}
-      onClick={handleMenuClicked}
-    >
-      <div className="line"></div>
-      <div className="line"></div>
-      <div className="line"></div>
-    </div>
-  );
 
   const Nav = (
     <nav className="flex-center justify-between">
@@ -101,52 +74,10 @@ const Navbar = () => {
             <img src={logo} alt="ScribbleSphere Logo" />
           </a>
         </div>
-
-        {token ? (
-          <div className="links" ref={linksRef}>
-            <ul className="flex-center g-20" ref={menuRef}>
-              <li>
-                <NavLink className={navLinkClass} end to="/dash">
-                  Dashboard
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className={navLinkClass} end to="/articles">
-                  Latest Articles
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className={navLinkClass} to="/articles/myarticles">
-                  My Articles
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className={navLinkClass} to="/articles/create">
-                  Create
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        ) : (
-          <div className="links" ref={linksRef}>
-            <ul className="flex-center g-20" ref={menuRef}>
-              <li>
-                <Link to="/articles">Latest Articles</Link>
-              </li>
-              <li>
-                <Link to="/">About</Link>
-              </li>
-              <li>
-                <Link to="/">Open Source</Link>
-              </li>
-            </ul>
-          </div>
-        )}
       </div>
 
       {token ? (
         <div className="right-section flex-center g-20 loggedIn">
-          {hamburger}
           <div className="search-tab">
             <Link to="/articles/search" className="flex-center">
               <SearchIcon sx={{ fontSize: "1.5rem" }} />
@@ -191,7 +122,6 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="right-section dflex-center g-10">
-          {hamburger}
           <Link to="/login" className="signin">
             Sign In
           </Link>

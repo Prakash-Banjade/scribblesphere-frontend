@@ -18,13 +18,13 @@ const Dash = () => {
   const email = useSelector(selectCurrentEmail);
   const [open, setOpen] = useState(true);
 
-  const [detailState, setDetailState] = useState({})
+  const [detailState, setDetailState] = useState({});
 
   const myDetails = useGetMyDetailsQuery();
 
-  useEffect(()=>{
-    if (!myDetails.isLoading) setDetailState(myDetails?.data?.details)
-  }, [myDetails.isLoading])
+  useEffect(() => {
+    if (!myDetails.isLoading) setDetailState(myDetails?.data?.details);
+  }, [myDetails.isLoading]);
 
   const needProfiling =
     detailState?.socialLinks?.length === 0 ||
@@ -78,16 +78,13 @@ const Dash = () => {
     <Collapse in={open}>
       <Alert severity="info">
         <div
-          className="wrapper flex flex-wrap justify-between g-20"
+          className="profile-alert-wrapper flex flex-wrap justify-between g-20"
           style={{ minWidth: "100%" }}
         >
           <p className="font-primary fw-500">Finish up setting your profile!</p>
           <div className="action-btns flex g-10">
-            <Button
-              variant="contained"
-              sx={{ backgroundColor: "var(--primary-color)" }}
-            >
-              Go to profile
+            <Button variant="contained" sx={{p: 0}}>
+              <Link to="/profile">Go to profile</Link>
             </Button>
             <Button
               variant="outlined"

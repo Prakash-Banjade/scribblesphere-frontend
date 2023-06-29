@@ -1,12 +1,13 @@
 nav {
   height: 60px;
-  position: fixed;
-  top: 0;
+  // position: fixed;
+  // top: 0;
   width: 100%;
-  z-index: 999;
-  padding: 5px 20px;
-  background-color: rgb(13 17 23 / 0.8);
-  backdrop-filter: blur(10px);
+  // z-index: 999;
+  // padding: 5px 20px;
+  // background-color: var(--bg-dark-light);
+  // border-bottom: 1px solid var(--line-color);
+  // backdrop-filter: blur(10px);
 
   .left-section {
     .logo-container {
@@ -79,7 +80,7 @@ nav {
           height: 8px;
           width: 8px;
           z-index: 9;
-          border: 2px solid var(--dark);
+          border: 2px solid var(--bg-dark-light);
           background-color: #0bbe64;
           border-radius: 50%;
           top: 0;
@@ -95,11 +96,11 @@ nav {
       .features {
         position: absolute;
         top: 115%;
+        border: 1px solid var(--line-color);
         right: 0;
 
-        background: #202123;
+        background: var(--bg-dark-light);
         border-radius: 8px;
-        border: #676776;
         padding: 5px;
         transform: translateY(-10px);
         visibility: hidden;
@@ -194,95 +195,6 @@ nav {
 
           &.open{
             transform: translateY(0);
-          }
-        }
-      }
-    }
-
-    .right-section {
-
-        padding-right: 3.5rem;
-      
-
-      .hamburger-container {
-        --burger-menu-radius: 4em;
-        
-        position: fixed;
-        top: -3px;
-        right: 0;
-        z-index: 100;
-        display: block;
-        width: var(--burger-menu-radius);
-        height: var(--burger-menu-radius);
-        outline: none;
-        cursor: pointer;
-
-        .line {
-          position: absolute;
-          left: 25%;
-          width: 50%;
-          height: 3px;
-          background: var(--text-white);
-          border-radius: 10px;
-          overflow: hidden;
-          transition: 0.5s;
-
-          &:nth-child(1) {
-            top: 35%;
-          }
-
-          &:nth-child(2) {
-            top: 50%;
-          }
-
-          &:nth-child(3) {
-            top: 65%;
-          }
-
-          &::after {
-            position: absolute;
-            content: "";
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-color);
-            transform: translateX(-100%);
-            transition: 0.25s;
-          }
-
-          @for $i from 2 through 3 {
-            &:nth-child(#{$i})::after {
-              transition-delay: 0.1s * ($i - 1);
-            }
-          }
-        }
-
-        &:hover {
-          .line::after {
-            transform: translateX(0);
-          }
-        }
-
-        &.open {
-          .line {
-            &::after {
-              transform: translateX(0);
-            }
-
-            &:nth-child(1) {
-              top: 50%;
-              transform: rotate(45deg);
-            }
-
-            &:nth-child(2) {
-              transform: scaleX(0);
-            }
-
-            &:nth-child(3) {
-              top: 50%;
-              transform: rotate(-45deg);
-            }
           }
         }
       }

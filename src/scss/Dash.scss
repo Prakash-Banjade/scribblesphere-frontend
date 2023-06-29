@@ -1,6 +1,17 @@
 main.dash-section-main {
   margin-top: 60px;
 
+  .profile-alert-wrapper {
+    .action-btns {
+      button {
+        a {
+          color: white;
+          padding: 6px 16px;
+        }
+      }
+    }
+  }
+
   .section {
     margin-bottom: 4rem;
   }
@@ -50,16 +61,15 @@ main.dash-section-main {
     }
   }
 
-  header.heading{
+  header.heading {
     margin-bottom: 2rem !important;
 
-    h2{
+    h2 {
       font-size: clamp(1.8rem, 3vw, 2.5rem);
     }
   }
 
   .myArticles-section {
-
     .dashArticles {
       & > * {
         flex: 1 1 400px;

@@ -6,10 +6,10 @@ const SetHomePage = () => {
   const token = useSelector(selectCurrentToken);
   const location = useLocation();
 
-  return !token ? (
+  return token ? (
     <Outlet />
   ) : (
-    <Navigate to="/dash" state={{ from: location }} replace />
+    <Navigate to="/" state={{ from: location }} replace />
   );
 };
 

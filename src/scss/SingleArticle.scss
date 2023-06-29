@@ -5,7 +5,8 @@ article.singleArticle {
   position: relative;
 
   &.background {
-    background-color: #122121;
+    background-color: var(--bg-dark-light);
+    border: 1px solid var(--line-color);
   }
 
   header {
