@@ -4,12 +4,10 @@ import Navbar from "../../components/Navbar/Navbar";
 import {NavLink, Outlet} from 'react-router-dom'
 
 import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -25,6 +23,9 @@ import NotesIcon from "@mui/icons-material/Notes";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import CreateIcon from "@mui/icons-material/Create";
 import Tooltip from "@mui/material/Tooltip";
+
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
 
 const drawerWidth = 220;
 
@@ -108,7 +109,7 @@ const Home = () => {
     isPending ? "pending" : isActive ? "activeNavTab" : "";
 
   return (
-    <Box sx={{ display: "flex", backgroundColor: "var(--bg-dark)" }}>
+    <div style={{ display: "flex", backgroundColor: "var(--bg-dark)" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -303,10 +304,10 @@ const Home = () => {
           </ListItem>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <div component="main" style={{ flexGrow: 1, p: 3 }}>
         <Outlet />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

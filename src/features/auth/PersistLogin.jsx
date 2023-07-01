@@ -72,7 +72,7 @@ const PersistLogin = () => {
       // React 18 Strict Mode
 
       const verifyRefreshToken = async () => {
-        console.log("verifying refresh token");
+        // console.log("verifying refresh token");
         try {
           //const response =
           await refresh();
@@ -106,7 +106,7 @@ const PersistLogin = () => {
     content = (
       <p className="errmsg">
         {error.data?.message}
-        <Link to="/login">Please login again</Link>.
+        <Link to="/login">Please login again</Link>. // Add a "Your login session has expired component"
       </p>
     );
   } else if (isSuccess && success) {

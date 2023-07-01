@@ -13,7 +13,7 @@ import FormControl from "@mui/material/FormControl";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import { FormHelperText } from "@mui/material";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider} from '@mui/material/styles';
 
 import { setCredentials } from "./authSlice";
 

@@ -1,17 +1,16 @@
 import React, { useRef, useEffect } from "react";
 import logo from "../../assets/logo.svg";
-import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../scss/Navbar.scss";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   selectCurrentEmail,
   selectCurrentToken,
   selectCurrentUser,
-  userLogout,
 } from "../../features/auth/authSlice";
 
-import { useLogoutMutation } from "../../features/logoutApiSlice";
+import { useLogoutMutation } from "../../features/auth/authApiSlice";
 import useInternetConnection from "../../hooks/useInternetConnection";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
