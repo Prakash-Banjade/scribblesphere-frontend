@@ -3,7 +3,8 @@ import "../../scss/SingleArticle.scss";
 import ArticleDate from "./ArticleDateAgo";
 import { Link, useNavigate } from "react-router-dom";
 import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
-import useAuth from "../../hooks/useAuth";
+import { setCurrentArticle, resetCurrentArticle } from "./articleSlice";
+import { useDispatch } from "react-redux";
 import DeleteModal from "../../components/DeleteModal.jsx";
 
 import CreateIcon from "@mui/icons-material/Create";
@@ -11,7 +12,7 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Alert from "@mui/material/Alert";
-import { useDeleteArticleMutation } from "../articlesApiSlice";
+import { useDeleteArticleMutation } from "./articlesApiSlice";
 
 const SingleArticle = ({
   article,
@@ -22,8 +23,8 @@ const SingleArticle = ({
   crud,
 }) => {
   const { _id, title, content, tags, createdAt, author } = article;
-  const { setCurrentArticle, setCanAccessUpdate } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [deleteArticle, { isLoading }] = useDeleteArticleMutation();
   const [errDeleteMsg, setErrDeleteMsg] = useState("");
@@ -43,6 +44,7 @@ const SingleArticle = ({
   const handleDelete = async () => {
     try {
       const response = await deleteArticle({ id: _id });
+      dispatch(resetCurrentArticle())
     } catch (e) {
       console.log(e.message);
       setErrDeleteMsg(e.message);
@@ -50,8 +52,7 @@ const SingleArticle = ({
   };
 
   const handleEditClick = () => {
-    setCurrentArticle(article);
-    setCanAccessUpdate(true);
+    dispatch(setCurrentArticle({ ...article }));
     navigate("/articles/edit");
   };
 
@@ -107,30 +108,18 @@ const SingleArticle = ({
             <Button
               variant="outlined"
               size="small"
-              sx={{
-                color: "var(--primary-color)",
-                borderColor: "currentColor",
-                "&:hover": { color: "#bc2757", borderColor: "currentcolor" },
-              }}
-              startIcon={<DeleteIcon />}
-              // onClick={handleDeleteClick}
-              onClick={handleOpen}
-            >
-              Delete
-            </Button>
-
-            <Button
-              variant="outlined"
-              size="small"
-              sx={{
-                color: "var(--primary-color)",
-                borderColor: "currentColor",
-                "&:hover": { color: "#bc2757", borderColor: "currentcolor" },
-              }}
               startIcon={<EditIcon />}
               onClick={handleEditClick}
             >
               Edit
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              startIcon={<DeleteIcon />}
+              onClick={handleOpen}
+            >
+              Delete
             </Button>
           </div>
         )}

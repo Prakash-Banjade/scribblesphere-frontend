@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../../scss/Dash.scss";
-import { selectCurrentEmail, selectCurrentUser } from "./authSlice";
+import { selectCurrentEmail, selectCurrentUser } from "../auth/authSlice";
 import { useSelector } from "react-redux";
-import { useGetLimitedMyArticlesQuery } from "../articlesApiSlice";
+import { useGetMyArticlesQuery } from "../article/articlesApiSlice";
 import { Link } from "react-router-dom";
 import SpinnerLoader from "../../components/SpinnerLoader";
 import SingleArticle from "../article/SingleArticle";
-import { useGetMyDetailsQuery } from "../userApiSlice";
+import { useGetMyDetailsQuery } from "./userApiSlice";
 
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
@@ -17,22 +17,24 @@ const Dash = () => {
   const user = useSelector(selectCurrentUser);
   const email = useSelector(selectCurrentEmail);
   const [open, setOpen] = useState(true);
-
-  const [detailState, setDetailState] = useState({});
+  const [needProfiling, setNeedProfiling] = useState(false);
 
   const myDetails = useGetMyDetailsQuery();
+  const { data, isLoading, refetch } = useGetMyArticlesQuery(3);
 
   useEffect(() => {
-    if (!myDetails.isLoading) setDetailState(myDetails?.data?.details);
+    if (!myDetails.isLoading) {
+      setNeedProfiling(
+        myDetails?.data.details?.socialLinks?.length === 0 ||
+          myDetails?.data.details?.writesOn?.length === 0 ||
+          myDetails?.data.details?.qualification?.length === 0 ||
+          myDetails?.data.details?.address?.length === 0
+      );
+    }
   }, [myDetails.isLoading]);
 
-  const needProfiling =
-    detailState?.socialLinks?.length === 0 ||
-    detailState?.writesOn?.length === 0 ||
-    detailState?.qualification?.length === 0 ||
-    detailState?.address?.length === 0;
-
   useEffect(() => {
+    // refetch();
     const currentHour = new Date().getHours();
     setGreeting(
       currentHour < 12
@@ -44,8 +46,6 @@ const Dash = () => {
 
     document.title = "Dashboard | ScribbleSphere";
   }, []);
-
-  const { data, isLoading } = useGetLimitedMyArticlesQuery(3);
 
   const myArticlesContent = isLoading ? (
     <SpinnerLoader />
@@ -83,7 +83,7 @@ const Dash = () => {
         >
           <p className="font-primary fw-500">Finish up setting your profile!</p>
           <div className="action-btns flex g-10">
-            <Button variant="contained" sx={{p: 0}}>
+            <Button variant="contained" sx={{ p: 0 }}>
               <Link to="/profile">Go to profile</Link>
             </Button>
             <Button

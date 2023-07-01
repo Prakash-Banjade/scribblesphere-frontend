@@ -23,12 +23,12 @@ export default function KeepMountedModal({ handleClose, open, func }) {
       keepMounted
       open={open}
       onClose={handleClose}
-      aria-labelledby="keep-mounted-modal-title"
+      aria-labelledby="modal-title"
       aria-describedby="keep-mounted-modal-description"
     >
       <Box sx={style}>
         <Typography
-          id="keep-mounted-modal-title"
+          id="modal-title"
           component="h2"
           sx={{ color: "var(--primary-color)", fontSize: '1.5rem', fontWeight: 600, fontFamily: 'var(--blog-font)' }}
         >
@@ -43,7 +43,7 @@ export default function KeepMountedModal({ handleClose, open, func }) {
         </Typography>
 
         <div className="actionBtn-group flex justify-between g-10" style={{marginTop: '20px'}}>
-          <Button variant="contained" color="error" onClick={() => func()} sx={{width: '100%'}}>
+          <Button variant="outlined" color="error" onClick={() => func()} sx={{width: '100%'}}>
             Delete
           </Button>
           <Button variant="contained" onClick={handleClose} sx={{width: '100%'}}>

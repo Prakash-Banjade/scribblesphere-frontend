@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../scss/CreateArticle.scss";
-import { usePostArticleMutation } from "../articlesApiSlice";
+import { usePostArticleMutation } from "./articlesApiSlice";
 
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
@@ -15,6 +16,8 @@ const CreateArticle = () => {
 
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+
+  const navigate = useNavigate()
 
   const [post, { isLoading }] = usePostArticleMutation();
 
@@ -54,22 +57,23 @@ const CreateArticle = () => {
         "Too short content. Minimun of 100 characters content is need to be posted."
       );
 
-    console.log(articleDetails);
-
     try {
       const response = await post({ ...articleDetails });
+      if (response?.data?.status === 201) {
+        setSuccessMsg("You article has been posted successfully.");
+        setTitle("");
+        setContent("");
+        setTags("");
 
-      setSuccessMsg("You article has been posted successfully.");
-      setTitle("");
-      setContent("");
-      setTags("");
-
-      setTimeout(() => {
-        setSuccessMsg("");
-      }, 5000);
+        setTimeout(() => {
+          setSuccessMsg("");
+          navigate('/articles/myarticles')
+        }, 2000);
+      }else{
+        throw response.error
+      }
     } catch (e) {
-      console.log(e);
-      setErrMsg(e?.message);
+      setErrMsg(e?.data.message);
     }
   };
 
@@ -163,7 +167,6 @@ const CreateArticle = () => {
         )}
 
         <PropagateLoader
-          // color="#0bbe64"
           color="grey"
           cssOverride={override}
           loading={isLoading}
@@ -184,7 +187,9 @@ const CreateArticle = () => {
             },
           }}
         >
-          <span>Post Artile</span>
+          <span>
+            {isLoading? 'Posting...' : 'Post Article'}
+          </span>
         </Button>
       </form>
     </main>

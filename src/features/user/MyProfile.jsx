@@ -3,7 +3,7 @@ import "../../scss/MyProfile.scss";
 import ProfilePic from "../../assets/profileImg.jpg";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "./authSlice";
-import { useGetMyDetailsQuery } from "../userApiSlice";
+import { useGetMyDetailsQuery } from "../user/userApiSlice";
 import Loader from "../../components/Loader";
 
 import Button from "@mui/material/Button";

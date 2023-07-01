@@ -1,4 +1,4 @@
-import { apiSlice } from "../app/api/apiSlice";
+import { apiSlice } from "../../app/api/apiSlice";
 
 export const articlesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -7,13 +7,9 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Articles"],
     }),
     getMyArticles: builder.query({
-      query: () => "/articles/myarticles",
-      providesTags: ["Articles"],
-    }),
-    getLimitedMyArticles: builder.query({
       query: (limit) => ({
-        url: `/articles/myarticles?limit=${limit}&timestamp=${Date.now()}`,
-        method: "GET",
+        url: `articles/myarticles?limit=${Number(limit)}`,
+        method: 'GET',
       }),
       providesTags: ["Articles"],
     }),
@@ -69,7 +65,6 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetArticlesQuery,
   useGetMyArticlesQuery,
-  useGetLimitedMyArticlesQuery,
   useGetArticleByIdQuery,
   usePostCommentMutation,
   usePostArticleMutation,

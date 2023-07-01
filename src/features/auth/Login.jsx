@@ -5,7 +5,7 @@ import logo from "../../assets/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
-import { useLoginMutation } from "../loginApiSlice";
+import { useLoginMutation } from "./authApiSlice";
 
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -13,14 +13,13 @@ import FormControl from "@mui/material/FormControl";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import { FormHelperText } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
-import { createTheme } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { setCredentials } from "./authSlice";
 
 import PropagateLoader from "react-spinners/PropagateLoader";
 import useInternetConnection from "../../hooks/useInternetConnection";
-import useAuth from "../../hooks/useAuth";
+import usePersist from "../../hooks/usePersist";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -39,7 +38,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const isOnline = useInternetConnection();
-  const {persist, setPersist} = useAuth();
+  const [persist, setPersist] = usePersist();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

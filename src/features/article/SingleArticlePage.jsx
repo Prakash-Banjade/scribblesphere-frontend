@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   useGetArticleByIdQuery,
   usePostCommentMutation,
-} from "../articlesApiSlice";
+} from "./articlesApiSlice";
 import { useParams } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { v4 as uuid } from "uuid";
@@ -104,7 +104,7 @@ const SingleArticlePage = () => {
           <div className="comment-author flex justify-between align-center">
 
             <h3>{comment?.author?.fullname || 'unknown'}</h3>
-            <time className="color-ccc font-blog" dateTime={comment?.createdAt} pubdate>{commentDateAgo} ago</time>
+            <time className="color-ccc font-blog" dateTime={comment?.createdAt} pubdate="true">{commentDateAgo} ago</time>
           </div>
 
           <p>{comment.text}</p>

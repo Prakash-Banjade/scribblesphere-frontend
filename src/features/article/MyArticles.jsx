@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { useGetMyArticlesQuery } from "../articlesApiSlice";
+import { useGetMyArticlesQuery } from "./articlesApiSlice";
 import SingleArticle from "./SingleArticle";
 import Loader from "../../components/Loader";
 import "../../scss/ArticlesList.scss";

@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./app/store.js";
 import { AuthProvider } from "./context/AuthProvider.jsx";
-import { ThemeProvider, createTheme } from "@mui/material";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {

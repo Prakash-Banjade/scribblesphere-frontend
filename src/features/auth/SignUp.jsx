@@ -5,7 +5,7 @@ import logo from "../../assets/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
-import { useRegisterMutation } from "../registerApiSlice";
+import { useRegisterMutation } from "./authApiSlice";
 
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -14,8 +14,7 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Button from "@mui/material/Button";
 import { FormHelperText } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
-import { createTheme } from "@mui/material/styles";
+import { createTheme, ThemeProvider} from '@mui/material/styles';
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";

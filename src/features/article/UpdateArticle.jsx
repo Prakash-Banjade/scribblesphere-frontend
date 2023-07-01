@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import "../../scss/CreateArticle.scss";
+import { selectCurrentArticle, resetCurrentArticle } from "./articleSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { useUpdateArticleMutation } from "../articlesApiSlice";
+import { useUpdateArticleMutation } from "./articlesApiSlice";
 
 const UpdateArticle = () => {
   const [title, setTitle] = useState("");
@@ -18,19 +19,26 @@ const UpdateArticle = () => {
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  const { currentArticle, setCurrentArticle, setCanAccessUpdate } = useAuth();
-
   const [updateArticle, { isLoading }] = useUpdateArticleMutation();
 
-  useEffect(() => {
-    let stringTags = currentArticle?.tags?.join(",");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const article = useSelector(selectCurrentArticle);
 
-    setTitle(currentArticle?.title || "");
-    setContent(currentArticle?.content || "");
+  useEffect(() => {
+    if (
+      article?.title === "" ||
+      article?.content === "" ||
+      article?.tags === ""
+    )
+      return navigate("/articles/myarticles");
+
+    let stringTags = article?.tags?.join(",");
+
+    setTitle(article.title || "");
+    setContent(article.content || "");
     setTags(stringTags || "");
   }, []);
-
-  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +53,7 @@ const UpdateArticle = () => {
     setErrMsg("");
 
     const articleDetails = {
-      id: currentArticle._id,
+      id: article.id,
       title,
       content,
       tags: tags
@@ -72,34 +80,28 @@ const UpdateArticle = () => {
     try {
       const response = await updateArticle(articleDetails);
       //   console.log(response)
+      console.log(response.data.status)
+      if (response?.data?.status === 200) {
+        setSuccessMsg("Updated successfully.");
+        setTitle("");
+        setContent("");
+        setTags("");
+        dispatch(resetCurrentArticle());
 
-      if (response?.data?.status !== 200) {
-        console.log(response.error.status);
-        throw response.error;
+        setTimeout(() => {
+          navigate("/articles/myarticles");
+          setSuccessMsg("");
+        }, 1000);
       }
-      //   console.log(response.error)
-      setSuccessMsg("Updated successfully.");
-      setTitle("");
-      setContent("");
-      setTags("");
-      setCurrentArticle({});
-
-      setTimeout(() => {
-        navigate("/articles/myarticles");
-        setSuccessMsg("");
-        setCanAccessUpdate(false)
-      }, 1000);
     } catch (error) {
       console.log("error while saving");
       if (error?.data?.message) return setErrMsg(error.data.message);
       setErrMsg("Unable to save. Please report of any inconvinience");
-      setCanAccessUpdate(false)
     }
   };
 
   const handleCancelClick = () => {
-    setCurrentArticle({});
-    setCanAccessUpdate(false)
+    dispatch(resetCurrentArticle());
     navigate("/articles/myarticles");
   };
 
@@ -175,7 +177,7 @@ const UpdateArticle = () => {
         {successMsg && (
           <div className="success">
             <Alert severity="success">
-              <AlertTitle>Successfully Posted</AlertTitle>
+              <AlertTitle>Successfully Updated</AlertTitle>
               {successMsg}
             </Alert>
           </div>

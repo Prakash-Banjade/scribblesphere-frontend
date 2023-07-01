@@ -23,29 +23,26 @@ import SearchIcon from "@mui/icons-material/Search";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 
 const Navbar = () => {
-  const navLinkClass = ({ isActive, isPending }) =>
-    isPending ? "pending" : isActive ? "active" : "";
-
   const token = useSelector(selectCurrentToken);
   const email = useSelector(selectCurrentEmail);
   const user = useSelector(selectCurrentUser);
-  const [logout] = useLogoutMutation();
-  const dispatch = useDispatch();
-
-  const profileFeaturesRef = useRef();
-
+  const [logout, {isSuccess, isError, isLoading}] = useLogoutMutation();
+  
   const navigate = useNavigate();
-  const location = useLocation();
-
+  
+  const profileFeaturesRef = useRef();
   const handleProfileClick = (e) => {
     profileFeaturesRef.current.classList.toggle("open");
   };
 
-  const handleLogout = async () => {
-    await logout();
-    dispatch(userLogout());
-    navigate("/");
-  };
+  useEffect(() => {
+    if (isSuccess) navigate('/')
+  }, [isSuccess, navigate])
+
+  const handleLogout = () => {
+    if (isLoading) return;
+    logout();
+  }
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -114,7 +111,7 @@ const Navbar = () => {
                 </li>
                 <li className="logout" onClick={handleLogout}>
                   <LogoutIcon sx={{ fontSize: "1.4rem" }} />
-                  Log out
+                  {isLoading? 'Logging out...' : 'Log out'}
                 </li>
               </ul>
             </div>
