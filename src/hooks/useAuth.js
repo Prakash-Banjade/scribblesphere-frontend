@@ -1,8 +1,19 @@
-import { useContext } from "react";
-import AuthContext from "../context/AuthProvider";
+import { useSelector } from 'react-redux'
+import { selectCurrentToken } from "../features/auth/authSlice"
+import jwtDecode from 'jwt-decode'
 
 const useAuth = () => {
-    return useContext(AuthContext);
-}
+    const token = useSelector(selectCurrentToken)
+    let isAdmin = false;
 
-export default useAuth;
+    if (token) {
+        const decoded = jwtDecode(token)
+        const { email, roles, fullname } = decoded.userInfo
+
+        if (roles?.includes(2023)) isAdmin = true;
+
+        return { email, roles, fullname, isAdmin }
+    }
+    return { email: null, roles: [], fullname: null, isAdmin }
+}
+export default useAuth

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../../scss/Dash.scss";
-import { selectCurrentEmail, selectCurrentUser } from "../auth/authSlice";
-import { useSelector } from "react-redux";
 import { useGetMyArticlesQuery } from "../article/articlesApiSlice";
 import { Link } from "react-router-dom";
 import SpinnerLoader from "../../components/SpinnerLoader";
@@ -11,24 +9,27 @@ import { useGetMyDetailsQuery } from "./userApiSlice";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import Collapse from "@mui/material/Collapse";
+import useAuth from "../../hooks/useAuth";
+import { AiOutlinePlus } from "react-icons/ai";
+import useAppTheme from "../../hooks/useAppTheme";
 
 const Dash = () => {
+  const {dark} = useAppTheme();
   const [greeting, setGreeting] = useState("Good morning!");
-  const user = useSelector(selectCurrentUser);
-  const email = useSelector(selectCurrentEmail);
+  const { email, fullname } = useAuth();
   const [open, setOpen] = useState(true);
   const [needProfiling, setNeedProfiling] = useState(false);
 
   const myDetails = useGetMyDetailsQuery();
-  const { data, isLoading, refetch } = useGetMyArticlesQuery(3);
+  const { data, isLoading } = useGetMyArticlesQuery(3);
 
   useEffect(() => {
     if (!myDetails.isLoading) {
       setNeedProfiling(
         myDetails?.data.details?.socialLinks?.length === 0 ||
-          myDetails?.data.details?.writesOn?.length === 0 ||
-          myDetails?.data.details?.qualification?.length === 0 ||
-          myDetails?.data.details?.address?.length === 0
+        myDetails?.data.details?.writesOn?.length === 0 ||
+        myDetails?.data.details?.qualification?.length === 0 ||
+        myDetails?.data.details?.address?.length === 0
       );
     }
   }, [myDetails.isLoading]);
@@ -40,8 +41,8 @@ const Dash = () => {
       currentHour < 12
         ? "Good morning"
         : currentHour < 18
-        ? "Good afternoon!"
-        : "Good evening"
+          ? "Good afternoon!"
+          : "Good evening"
     );
 
     document.title = "Dashboard | ScribbleSphere";
@@ -76,9 +77,9 @@ const Dash = () => {
 
   const alertProfiling = (
     <Collapse in={open}>
-      <Alert severity="info">
+      <Alert severity="info" sx={{backgroundColor: dark? '#e5f6fd' : '#c7e9f6'}}>
         <div
-          className="profile-alert-wrapper flex flex-wrap justify-between g-20"
+          className="profile-alert-wrapper flex flex-wrap justify-between g-5"
           style={{ minWidth: "100%" }}
         >
           <p className="font-primary fw-500">Finish up setting your profile!</p>
@@ -100,16 +101,15 @@ const Dash = () => {
   );
 
   return (
-    <main className="dash-section-main">
+    <div className="dash-section-main">
       {needProfiling && !myDetails.isLoading && alertProfiling}
-
-      <section className="greeting-section section flex flex-column">
+      <section className={`greeting-section section flex flex-column ${open ? 'mt-5' : ''}`}>
         <header>
-          <h3>
-            {greeting} {user},
+          <h3 style={{color: 'var(--text-200)'}}>
+            {greeting}, {fullname}
           </h3>
         </header>
-        <p className="message">
+        <p className="message font-light">
           <span className="highlight">Unleash your creativity</span> and
           captivate readers with your{" "}
           <span className="highlight">amazing articles</span>.
@@ -118,8 +118,8 @@ const Dash = () => {
           you explore, learn, and inspire.
         </p>
 
-        <Link to="/articles/create" className="flex-center">
-          Create <span>+</span>
+        <Link to="/articles/create" className="flex items-center gap-1 px-5 py-3 rounded-md bg-primary text-white w-fit mt-5 font-medium text-lg hover:shadow-xl transition-all">
+          Create <span className="text-2xl"><AiOutlinePlus /></span>
         </Link>
       </section>
 
@@ -139,7 +139,7 @@ const Dash = () => {
           ""
         )}
       </section>
-    </main>
+    </div>
   );
 };
 

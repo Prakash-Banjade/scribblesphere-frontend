@@ -3,7 +3,7 @@ import {
   useGetArticleByIdQuery,
   usePostCommentMutation,
 } from "./articlesApiSlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { v4 as uuid } from "uuid";
 import Loader from "../../components/Loader";
@@ -11,9 +11,12 @@ import "../../scss/SingleArticlePage.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
 import NotFound from "../../components/404";
+import useAppTheme from "../../hooks/useAppTheme";
+import { MdKeyboardBackspace } from 'react-icons/md'
 
 const SingleArticlePage = () => {
   const { id } = useParams();
+  const { dark } = useAppTheme();
 
   const [comment, setComment] = useState("");
   const { data, isLoading } = useGetArticleByIdQuery(id);
@@ -62,7 +65,7 @@ const SingleArticlePage = () => {
             {formatDistanceToNow(articleDate)} ago
           </time>
 
-          <p className="min-read color-ccc fw-500 font-blog-text">
+          <p className="min-read fw-500 font-blog">
             {readingTime} read
           </p>
         </div>
@@ -79,6 +82,7 @@ const SingleArticlePage = () => {
 
   const handleCommentPost = async (e) => {
     e.preventDefault();
+    if (comment === '') return;
     try {
       const message = await postComment({ id, comment }).unwrap();
       setComment("");
@@ -95,7 +99,7 @@ const SingleArticlePage = () => {
       <div className="comments flex g-20">
         <div className="comment-profile-icon">
           <AccountCircleIcon
-            sx={{ fontSize: "2rem", color: "var(--text-white)" }}
+            sx={{ fontSize: "2rem", color: "var(--text-300)" }}
             title={comment?.author?.fullname || 'unknown'}
           />
         </div>
@@ -104,7 +108,7 @@ const SingleArticlePage = () => {
           <div className="comment-author flex justify-between align-center">
 
             <h3>{comment?.author?.fullname || 'unknown'}</h3>
-            <time className="color-ccc font-blog" dateTime={comment?.createdAt} pubdate="true">{commentDateAgo} ago</time>
+            <time className="font-blog" style={{ color: 'var(--text-300)' }} dateTime={comment?.createdAt} pubdate="true">{commentDateAgo} ago</time>
           </div>
 
           <p>{comment.text}</p>
@@ -123,48 +127,58 @@ const SingleArticlePage = () => {
       </div>
     ))
   ) : (
-    <p style={{ fontFamily: "var(--blog-text)", color: "var(--text-white)" }}>
+    <p style={{ fontFamily: "var(--blog-text)", color: "var(--text-200)" }}>
       No comments. Be the first to comment
     </p>
   );
 
+  const navigate = useNavigate()
+
   return (
-    <main className="singleArtilePage-main">
-      {article}
+    <>
+      <button className={`text-2xl mb-5 rounded-md  ${dark ? 'hover:bg-gray-500' : 'hover:bg-slate-300'} transition-all`} style={{ color: 'var(--text-200)' }} onClick={() => navigate(-1)} title="Back">
+        <MdKeyboardBackspace />
+      </button>
+      <div className="singleArtilePage-main mx-auto">
 
-      {!isLoading && data && <hr />}
 
-      {!isLoading && data && (
-        <section className="comment-section">
-          <header>
-            <h2>Comments</h2>
-            <small className="color-ccc">
-              Comments are write only. You can't edit or delete your comment
-              once posted.
-            </small>
-          </header>
-          <div className="add-comment-form">
-            <form onSubmit={handleCommentPost}>
-              <div className="form-field flex flex-column g-10">
-                <label htmlFor="comment">Add a comment</label>
-                <textarea
-                  rows="2"
-                  id="comment"
-                  value={comment}
-                  onChange={handleCommentChange}
-                />
-              </div>
+        {article}
 
-              <button type="submit" title="Add comment">
-                Add
-              </button>
-            </form>
-          </div>
+        {!isLoading && data && <hr style={{ backgroundColor: 'var(--line-color)' }} />}
 
-          <div className="comments-list flex flex-column g-10">{comments}</div>
-        </section>
-      )}
-    </main>
+        {!isLoading && data && (
+          <section className="comment-section">
+            <header>
+              <h2>Comments</h2>
+              <small className="color-ccc">
+                Comments are write only. You can't edit or delete your comment
+                once posted.
+              </small>
+            </header>
+            <div className="add-comment-form">
+              <form onSubmit={handleCommentPost}>
+                <div className="form-field flex flex-column g-10">
+                  <label htmlFor="comment">Add a comment</label>
+                  <textarea
+                    rows="2"
+                    id="comment"
+                    value={comment}
+                    required
+                    onChange={handleCommentChange}
+                  />
+                </div>
+
+                <button type="submit" title="Add comment" className="disabled:bg-gray-400 disabled:cursor-not-allowed hover:opacity-90 transition-colors px-3 py-2 mt-2 rounded-md bg-primary text-white" disabled={!comment}>
+                  Add
+                </button>
+              </form>
+            </div>
+
+            <div className="comments-list flex flex-column g-10">{comments}</div>
+          </section>
+        )}
+      </div>
+    </>
   );
 };
 

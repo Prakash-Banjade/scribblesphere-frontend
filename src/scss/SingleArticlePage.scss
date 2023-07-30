@@ -1,5 +1,4 @@
-main.singleArtilePage-main {
-  margin: 100px auto 0 auto;
+div.singleArtilePage-main {
   max-width: 850px;
   display: block;
 
@@ -15,7 +14,7 @@ main.singleArtilePage-main {
       span {
         gap: 3rem;
         margin-bottom: 30px;
-        color: #eef;
+        color: var(--text-400);
         align-items: center;
         p {
           font-size: clamp(1rem, 2vw, 2rem);
@@ -35,16 +34,16 @@ main.singleArtilePage-main {
       }
 
       .article-info-summary {
-        time {
-          color: #ccc;
+        time, p {
+          color: var(--text-300);
         }
       }
       h4 {
         margin-top: 10px;
         span {
           font-size: 0.9rem;
-          border: 1px solid white;
-          color: var(--text-white);
+          border: 1px solid var(--text-300);
+          color: var(--text-300);
           padding: 2px 5px;
           font-weight: 300;
           border-radius: 2px;
@@ -56,7 +55,7 @@ main.singleArtilePage-main {
       margin-top: 40px;
       p.content {
         font-family: var(--blog-font) !important;
-        color: var(--text-white);
+        color: var(--text-300);
         font-size: 1.1rem;
         line-height: 1.9rem;
       }
@@ -65,7 +64,7 @@ main.singleArtilePage-main {
 
   .comment-section {
     border-radius: 10px;
-    background-color: var(--bg-dark-light);
+    background-color: var(--bg-secondary);
     border: 1px solid var(--line-color);
     padding: 10px;
 
@@ -73,7 +72,7 @@ main.singleArtilePage-main {
       margin-bottom: 22px;
       h2 {
         font-size: clamp(1.3rem, 3vw, 3rem);
-        color: var(--text-white);
+        color: var(--text-100);
       }
     }
 
@@ -81,12 +80,12 @@ main.singleArtilePage-main {
       form {
         margin-bottom: 2rem;
         label {
-          color: var(--text-white);
+          color: var(--text-200);
         }
         textarea {
           resize: none;
-          background: var(--bg-dark);
-          color: var(--text-white);
+          background: var(--bg-primary);
+          color: var(--text-200);
           padding: 10px;
           font-size: 1rem;
           font-family: var(--primary-font);
@@ -98,21 +97,6 @@ main.singleArtilePage-main {
             border-color: var(--primary-color);
           }
         }
-
-        button[type="submit"] {
-          margin-top: 1rem;
-          padding: 7px 14px;
-          border-radius: 4px;
-          background-color: dodgerblue;
-          border: none;
-          cursor: pointer;
-          color: white;
-          font-size: 1.1rem;
-
-          &:is(:hover,:active, :focus){
-            opacity: .9;
-          }
-        }
       }
     }
     .comments-list {
@@ -121,7 +105,7 @@ main.singleArtilePage-main {
     hr.comment-divider{
       margin: 0;
       margin-bottom: 5px;
-      background-color: #444;
+      background-color: var(--line-color);
       border-radius: 50%;
     }
 
@@ -135,14 +119,14 @@ main.singleArtilePage-main {
           h3 {
             font-size: 1.2rem;
             font-weight: 600;
-            color: var(--text-white);
+            color: var(--text-200);
           }
         }
 
         
 
         p {
-          color: #bbb;
+          color: var(--text-400);
           line-height: 1.4rem;
           font-family: var(--blog-font);
         }

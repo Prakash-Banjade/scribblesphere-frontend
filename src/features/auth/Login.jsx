@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../scss/Login.scss";
 import logo from "../../assets/logo.svg";
+import loading from '../../assets/signInLoading.gif'
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -13,11 +14,9 @@ import FormControl from "@mui/material/FormControl";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import { FormHelperText } from "@mui/material";
-import { createTheme, ThemeProvider} from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { setCredentials } from "./authSlice";
-
-import PropagateLoader from "react-spinners/PropagateLoader";
 import useInternetConnection from "../../hooks/useInternetConnection";
 import usePersist from "../../hooks/usePersist";
 
@@ -32,7 +31,8 @@ const Login = () => {
   const pwdRef = useRef();
 
   const dispatch = useDispatch();
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, {isLoading}] = useLoginMutation();
+  
 
 
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const Login = () => {
 
     try {
       const userData = await login({ email, pwd }).unwrap();
-      dispatch(setCredentials({ ...userData, email }));
+      dispatch(setCredentials({ token: userData.accessToken }));
       setEmail("");
       setPwd("");
 
@@ -74,7 +74,7 @@ const Login = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     document.title = "Sign in | ScribbleSphere"
   }, [])
 
@@ -84,7 +84,7 @@ const Login = () => {
     setPwdErrMsg(false);
   }, [email, pwd]);
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.setItem('persist', persist)
   }, [persist])
 
@@ -116,7 +116,7 @@ const Login = () => {
                 : "var(--text-white)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: emailErrMsg ? "var(--error-text-color)" : "white",
+              borderColor: emailErrMsg ? "var(--error-text-color)" : "var(--primary-color)",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: emailErrMsg
@@ -152,7 +152,7 @@ const Login = () => {
                 : "var(--text-white)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: pwdErrMsg ? "var(--error-text-color)" : "white",
+              borderColor: pwdErrMsg ? "var(--error-text-color)" : "var(--primary-color)",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: pwdErrMsg
@@ -165,11 +165,6 @@ const Login = () => {
     },
   });
 
-  const override = {
-    marginTop: "-20px",
-    marginBottom: "20px",
-  };
-
   return (
     <main className="grid-center login-main">
       <div className="form-wrapper flex-center-column g-20">
@@ -177,11 +172,6 @@ const Login = () => {
           <img src={logo} alt="ScribbleSphere Logo" />
           <h2>Sign in to ScribbleSphere</h2>
         </header>
-        <PropagateLoader
-          color="#be0b44"
-          cssOverride={override}
-          loading={isLoading}
-        />
         <form onSubmit={handleSubmit} className="flex-center-column g-10">
           {errMsg && (
             <Alert severity="error" sx={{ width: "100%", mb: 1.5 }}>
@@ -228,7 +218,7 @@ const Login = () => {
           </ThemeProvider>
 
           <ThemeProvider theme={pwdInputTheme}>
-            <FormControl variant="outlined" sx={{alignSelf: 'stretch' }}>
+            <FormControl variant="outlined" sx={{ alignSelf: 'stretch' }}>
               <InputLabel
                 htmlFor="outlined-adornment-password"
                 error={Boolean(pwdErrMsg)}
@@ -263,7 +253,7 @@ const Login = () => {
                 </FormHelperText>
               )}
               <Link to="/" className="forgetPwd">
-                <small>Forget password?</small>
+                <small className="hover:underline">Forget password?</small>
               </Link>
             </FormControl>
           </ThemeProvider>
@@ -287,16 +277,27 @@ const Login = () => {
             sx={{
               fontWeight: "600",
               width: "100%",
+              display: 'flex',
+              alignItems: 'center',
+              padding: '14px',
+              gap: '8px',
+              color: 'white',
+              '&:disabled': {
+                backgroundColor: '#686868',
+                color: '#aaa',
+              }
             }}
             size="large"
+            disabled={isLoading}
           >
-            Sign in
+          {isLoading && <img src={loading} alt="loading spinner" className="w-[20px] h-[20px]" />}
+            {isLoading? 'Signing in...' : 'sign in'}
           </Button>
         </form>
 
         <section className="needAccount flex-center">
           <p>Need an account? &nbsp;</p>
-          <Link to="/signup">Sign Up</Link>
+          <Link to="/signup" className="hover:underline">Sign Up</Link>
         </section>
       </div>
     </main>

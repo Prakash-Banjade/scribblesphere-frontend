@@ -9,7 +9,7 @@ const ArticleDate = ({ createdAt }) => {
 
   return (
     <div className="article-timeline">
-      <time className="color-ccc" dateTime={createdAt} title={`Published ${articleTime} ago`} pubdate="true">
+      <time style={{color: 'var(--text-300)'}} dateTime={createdAt} title={`Published ${articleTime} ago`} pubdate="true">
         {articleTime} ago
       </time>
     </div>

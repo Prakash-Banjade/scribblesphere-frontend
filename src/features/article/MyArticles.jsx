@@ -1,15 +1,14 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useGetMyArticlesQuery } from "./articlesApiSlice";
 import SingleArticle from "./SingleArticle";
 import Loader from "../../components/Loader";
 import "../../scss/ArticlesList.scss";
 
 import CreateIcon from "@mui/icons-material/Create";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../auth/authSlice";
 
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const MyArticles = () => {
   const { data, isLoading } = useGetMyArticlesQuery(0);
@@ -20,20 +19,20 @@ const MyArticles = () => {
     </div>;
   });
 
-  const user = useSelector(selectCurrentUser);
+  const { fullname } = useAuth();
 
-  useEffect(()=>{
+  useEffect(() => {
     document.title = "My Articles | ScribbleSphere"
   }, [])
 
   return (
-    <main className="articlesList-main flex flex-column g-20">
+    <div className="articlesList-main flex flex-column g-20">
       {data?.length !== 0 ? (
         <>
           <header className="heading">
             <h2>My Articles</h2>
             <p className="flex g-10" title="Author">
-              <CreateIcon /> {user}
+              <CreateIcon /> {fullname}
             </p>
           </header>
           <div className="articlesList flex flex-column">
@@ -41,9 +40,9 @@ const MyArticles = () => {
           </div>
         </>
       ) : (
-        <div className="noArticles-msg flex-center flex-column g-10" style={{padding: '10px'}}>
-        <p className="color-text-white font-500 font-blog" style={{fontSize: '1.3rem'}}>You haven't created any articles.</p>
-        <Button
+        <div className="noArticles-msg flex-center flex-column g-10" style={{ padding: '10px' }}>
+          <p className="color-text-white font-500 font-blog" style={{ fontSize: '1.3rem' }}>You haven't created any articles.</p>
+          <Button
             variant="contained"
             type="button"
             sx={{
@@ -55,13 +54,13 @@ const MyArticles = () => {
             }}
             size="large"
           >
-            <Link to="/articles/create" className="color-text-white"> 
+            <Link to="/articles/create" className="color-text-white">
               Create now
             </Link>
           </Button>
         </div>
       )}
-    </main>
+    </div>
   );
 };
 

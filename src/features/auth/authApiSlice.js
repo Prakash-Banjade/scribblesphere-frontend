@@ -5,21 +5,21 @@ export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
-        url: "/login",
+        url: "/auth/login",
         method: "POST",
         body: { ...credentials },
       }),
     }),
     register: builder.mutation({
       query: (credentials) => ({
-        url: "/register",
+        url: "/auth/register",
         method: "POST",
         body: { ...credentials },
       }),
     }),
     logout: builder.mutation({
       query: (credentials) => ({
-        url: "/logout",
+        url: "/auth/logout",
         method: "POST",
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
@@ -36,15 +36,14 @@ export const authApiSlice = apiSlice.injectEndpoints({
     }),
     refresh: builder.mutation({
       query: () => ({
-        url: "/refresh",
+        url: "/auth/refresh",
         method: "GET",
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
-          // console.log(data);
+          const {data} = await queryFulfilled;
           // const { accessToken, fullname, email, roles } = data;
-          dispatch(setCredentials(data));
+          dispatch(setCredentials({token: data.accessToken}));
         } catch (err) {
           console.log(err); // handle this error via UI message
         }

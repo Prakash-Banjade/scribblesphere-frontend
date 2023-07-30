@@ -58,9 +58,9 @@ const UpdateArticle = () => {
       content,
       tags: tags
         ? tags
-            .replace(/\s/g, "")
-            .split(",")
-            .filter((tag) => tag !== "")
+          .replace(/\s/g, "")
+          .split(",")
+          .filter((tag) => tag !== "")
         : [],
     };
 
@@ -118,7 +118,7 @@ const UpdateArticle = () => {
     margin: "20px auto",
   };
   return (
-    <main className="create-article-main">
+    <div className="create-article-main">
       <header className="heading">
         <h2>Edit Article</h2>
       </header>
@@ -192,20 +192,12 @@ const UpdateArticle = () => {
 
         <div className="actionBtns flex g-10 flex-wrap">
           <Button
-            disabled={isLoading}
-            type="submit"
-            variant="contained"
-            onClick={handleSaveClick}
-          >
-            <span>Save</span>
-          </Button>
-
-          <Button
             onClick={handleCancelClick}
             disabled={isLoading}
             variant="contained"
             sx={{
-              backgroundColor: "#676767",
+              backgroundColor: "grey",
+              color: 'white',
               "&:hover": { backgroundColor: "#787878" },
               "&:disabled": {
                 opacity: 0.9,
@@ -215,9 +207,18 @@ const UpdateArticle = () => {
           >
             <span>Cancel</span>
           </Button>
+          <Button
+            disabled={isLoading}
+            type="submit"
+            variant="contained"
+            onClick={handleSaveClick}
+            sx={{ color: 'white' }}
+          >
+            Save
+          </Button>
         </div>
       </form>
-    </main>
+    </div>
   );
 };
 

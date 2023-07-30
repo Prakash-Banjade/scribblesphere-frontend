@@ -70,12 +70,12 @@ const SingleArticle = ({
         <div className="article-info flex flex-wrap align-center">
           <ArticleDate createdAt={createdAt} />
           {isAuthor && (
-            <span className="flex color-ccc font-blog">
+            <span className="flex-none font-blog" style={{color: 'var(--text-300)'}}>
               <CreateIcon />
               {author?.fullname || "Unknown"}
             </span>
           )}
-          <p className="min-read color-ccc fw-400 font-blog">
+          <p className="min-read fw-400 font-blog" style={{color: 'var(--text-500)'}}>
             {readingTime} read
           </p>
         </div>
@@ -110,6 +110,9 @@ const SingleArticle = ({
               size="small"
               startIcon={<EditIcon />}
               onClick={handleEditClick}
+              sx={{
+                color: 'var(--primary-color)'
+              }}
             >
               Edit
             </Button>
@@ -118,6 +121,9 @@ const SingleArticle = ({
               size="small"
               startIcon={<DeleteIcon />}
               onClick={handleOpen}
+              sx={{
+                color: 'white'
+              }}
             >
               Delete
             </Button>

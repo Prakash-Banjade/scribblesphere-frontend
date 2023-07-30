@@ -1,49 +1,43 @@
-main.create-article-main {
-  max-width: 1000px;
-  min-height: 100dvh;
-  margin: 100px auto 20px auto;
-//   border: 2px solid red;
-
-
-    header{
-        h2{
-            margin-bottom: 1rem !important;
-        }
+div.create-article-main {
+  header {
+    h2 {
+      margin-bottom: 1rem !important;
     }
+  }
 
   form {
-    border: 1px solid #aaa;
-    border-radius: 12px;
+    border: 1px solid var(--line-color);
+    border-radius: 6px;
     padding: 10px;
 
-    & > *{
-        align-self: stretch;
+    & > * {
+      align-self: stretch;
     }
 
     .form-field {
       label {
-        color: var(--text-white);
+        color: var(--text-200);
       }
 
       textarea {
         resize: none;
-        background-color: #454545;
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--line-color);
         padding: 10px 20px;
         font-size: 1rem;
         font-family: var(--blog-font);
-        color: var(--text-white);
-        border: none;
-        border-radius: 10px;
+        color: var(--text-200);
+        border-radius: 6px;
         line-height: 1.5rem;
 
-        &:is(:focus, :active){
-            outline: 1px solid var(--primary-color);
+        &:is(:focus, :active) {
+          outline: 1px solid var(--primary-color);
         }
       }
     }
 
-    .actionBtns{
-      & > *{
+    .actionBtns {
+      & > * {
         flex: 1 1 50px;
       }
     }

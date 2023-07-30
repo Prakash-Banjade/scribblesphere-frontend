@@ -1,16 +1,38 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
-:root {
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root.dark {
+  --line-color: #434343;
+  --primary-color: #be0b44;
+  --primary-color: #0bbe64;
+  --bg-primary: #212222;
+  --bg-secondary: #2a2a2a;
+  --dark: #0d1117;
+  --error-text-color: #d32f2f;
+  --text-100: #f7f8f9;
+  --text-200: #eef0f3;
+  --text-300: #d5dae1;
+  --text-400: #bbc3cf;
+  --text-500: #8896ab;
+}
+
+:root{
   --primary-text-font: "Poppins", sans-serif;
   --secondary-text-font: "Lora", serif;
   --blog-font: "IBM Plex Sans", sans-serif;
-  --line-color: #434343;
   --primary-color: #0bbe64;
-  --primary-color: #be0b44;
-  --bg-dark: rgb(33, 34, 34);
-  --bg-dark-light: #2a2a2a;
-  --dark: #0d1117;
-  --error-text-color: #d32f2f;
-  --text-white: #e5e7eb;
+
+  --bg-primary: #f2f4f7;
+  --bg-secondary: #fff;
+  --line-color: #ced3da;
+  --text-100: #111211;
+  --text-200: #122112;
+  --text-300: #313331;
+  --text-400: #525151;
+  --text-500: #676777;
 }
 
 * {
@@ -22,13 +44,13 @@
 
 body {
   min-height: 100dvh;
-  background-color: var(--bg-dark) !important;
   overflow-x: hidden !important;
 }
 
-main {
-  padding: 20px;
-  min-height: 100dvh;
+main{
+  overflow-x: hidden;
+  max-height: calc(100dvh - 60px);
+  height: calc(100vh - 60px);
 }
 
 header.heading {
@@ -38,12 +60,12 @@ header.heading {
 
 header.heading h2 {
   font-size: clamp(1.4rem, 3vw, 3rem);
-  color: var(--primary-color);
+  color: var(--text-200);
   overflow: hidden;
 }
 
 header.heading p {
-  color: var(--text-white);
+  color: var(--text-300);
   overflow: hidden;
   font-family: var(--primary-font);
 }

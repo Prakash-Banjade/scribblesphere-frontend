@@ -2,20 +2,7 @@ import * as React from "react";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: '100%',
-  maxWidth: '500px',
-  backgroundColor: "#232321",
-  borderRadius: '10px',
-  boxShadow: 24,
-  p: 5,
-};
 
 export default function KeepMountedModal({ handleClose, open, func }) {
   return (
@@ -26,7 +13,7 @@ export default function KeepMountedModal({ handleClose, open, func }) {
       aria-labelledby="modal-title"
       aria-describedby="keep-mounted-modal-description"
     >
-      <div sx={style}>
+      <div style={{backgroundColor: 'var(--bg-secondary)'}} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[500px] shadow-lg p-5 rounded-md">
         <Typography
           id="modal-title"
           component="h2"
@@ -43,11 +30,11 @@ export default function KeepMountedModal({ handleClose, open, func }) {
         </Typography>
 
         <div className="actionBtn-group flex justify-between g-10" style={{marginTop: '20px'}}>
-          <Button variant="outlined" color="error" onClick={() => func()} sx={{width: '100%'}}>
-            Delete
-          </Button>
-          <Button variant="contained" onClick={handleClose} sx={{width: '100%'}}>
+          <Button variant="outlined" onClick={handleClose} sx={{width: '100%'}}>
             Cancel
+          </Button>
+          <Button variant="contained" color="error" onClick={() => func()} sx={{width: '100%'}}>
+            Delete
           </Button>
         </div>
       </div>

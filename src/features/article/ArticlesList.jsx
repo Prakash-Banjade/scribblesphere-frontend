@@ -23,7 +23,7 @@ const ArticlesList = () => {
   );
 
   return (
-    <main className="articlesList-main flex flex-column g-20">
+    <div className="articlesList-main flex flex-column g-20">
       <header className="heading">
         <h2>Fresh Perspectives</h2>
         <p>Discover the Cutting Edge in Latest Articles From Other Users</p>
@@ -34,7 +34,7 @@ const ArticlesList = () => {
       ) : (
         <div className="articlesList flex flex-column">{articles}</div>
       )}
-    </main>
+    </div>
   );
 };
 

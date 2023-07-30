@@ -1,6 +1,4 @@
-main.dash-section-main {
-  margin-top: 60px;
-
+div.dash-section-main {
   .profile-alert-wrapper {
     .action-btns {
       button {
@@ -17,46 +15,19 @@ main.dash-section-main {
   }
 
   .greeting-section {
-    margin-top: 30px;
     h3 {
       font-size: clamp(1.7rem, 3vw, 3rem);
-      font-weight: 800;
-      color: white;
+      font-weight: 600;
     }
 
     p.message {
-      font-size: 18px;
-      margin-top: 20px;
+      margin-top: 10px;
       line-height: 1.5;
-      font-weight: 400;
-      color: var(--text-white);
+      color: var(--text-300);
       font-family: var(--primary-font);
 
       .highlight {
         color: #007bff;
-      }
-    }
-
-    a {
-      margin-top: 30px;
-      align-self: flex-start;
-      padding: clamp(5px, 3vw, 12px) clamp(12px, 5vw, 20px);
-      background-color: var(--primary-color);
-      box-shadow: 0 1px 10px var(0 0 0 / 0.8);
-      color: white;
-      border-radius: 12px;
-      font-size: 1.2rem;
-      font-weight: 600;
-      transition: 150ms ease-in;
-      gap: 2px;
-
-      span {
-        font-size: 1.5rem;
-        box-shadow: 0 5px 10px var(0 0 0 / 0.9);
-      }
-
-      &:hover {
-        transform: translateY(-10px);
       }
     }
   }

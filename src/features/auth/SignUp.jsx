@@ -14,7 +14,7 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Button from "@mui/material/Button";
 import { FormHelperText } from "@mui/material";
-import { createTheme, ThemeProvider} from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
@@ -52,7 +52,7 @@ const Login = () => {
         "You are offline. Make sure to be online and try again!"
       );
 
-    if (pwd !== conPwd){
+    if (pwd !== conPwd) {
       console.log('confirm Pwd err')
       return setConPwdErr(true)
     }
@@ -92,7 +92,7 @@ const Login = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     document.title = "Sign Up | ScribbleSphere"
   }, [])
 
@@ -104,7 +104,7 @@ const Login = () => {
 
   }, [email, pwd, fullname]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (pwd !== conPwd) return setConPwdErr(true)
     setConPwdErr(false)
   }, [pwd, conPwd])
@@ -139,7 +139,7 @@ const Login = () => {
                 : "var(--text-white)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: emailErrMsg ? "var(--error-text-color)" : "white",
+              borderColor: emailErrMsg ? "var(--error-text-color)" : "var(--primary-color)",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: emailErrMsg
@@ -175,7 +175,7 @@ const Login = () => {
                 : "var(--text-white)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: pwdErrMsg ? "var(--error-text-color)" : "white",
+              borderColor: pwdErrMsg ? "var(--error-text-color)" : "var(--primary-color)",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: pwdErrMsg
@@ -213,7 +213,7 @@ const Login = () => {
                 : "var(--text-white)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: fullnameErrMsg ? "var(--error-text-color)" : "white",
+              borderColor: fullnameErrMsg ? "var(--error-text-color)" : "var(--primary-color)",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: fullnameErrMsg
@@ -250,7 +250,7 @@ const Login = () => {
                 : "var(--text-white)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: conPwdErr ? "var(--error-text-color)" : "white",
+              borderColor: conPwdErr ? "var(--error-text-color)" : "var(--primary-color)",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: conPwdErr
@@ -269,7 +269,7 @@ const Login = () => {
   };
 
   const successAlert = (
-    <Collapse in={open} sx={{width: '100%'}}>
+    <Collapse in={open} sx={{ width: '100%' }}>
       <Alert
         action={
           <IconButton
@@ -316,7 +316,7 @@ const Login = () => {
           )}
           {success && successAlert}
           <ThemeProvider theme={fullnameInputTheme}>
-            <FormControl sx={{ alignSelf: 'stretch'  }} variant="outlined">
+            <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
               <InputLabel
                 htmlFor="outlined-adornment-fullname"
                 error={Boolean(fullnameErrMsg)}
@@ -354,7 +354,7 @@ const Login = () => {
             </FormControl>
           </ThemeProvider>
           <ThemeProvider theme={emailInputTheme}>
-            <FormControl sx={{ alignSelf: 'stretch'  }} variant="outlined">
+            <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
               <InputLabel
                 htmlFor="outlined-adornment-email"
                 error={Boolean(emailErrMsg)}
@@ -392,7 +392,7 @@ const Login = () => {
           </ThemeProvider>
 
           <ThemeProvider theme={pwdInputTheme}>
-            <FormControl sx={{ alignSelf: 'stretch'  }} variant="outlined">
+            <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
               <InputLabel
                 htmlFor="outlined-adornment-password"
                 error={Boolean(pwdErrMsg)}
@@ -429,7 +429,7 @@ const Login = () => {
             </FormControl>
           </ThemeProvider>
           <ThemeProvider theme={conPwdInputTheme}>
-            <FormControl sx={{ alignSelf: 'stretch'  }} variant="outlined">
+            <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
               <InputLabel
                 htmlFor="outlined-adornment-confirmPassword"
                 error={Boolean(conPwdErr)}
@@ -473,22 +473,28 @@ const Login = () => {
             onClick={handleSubmit}
             type="submit"
             sx={{
-              backgroundColor: "var(--primary-color)",
-              color: "white",
               fontWeight: "600",
               width: "100%",
-              mt: 1,
-              "&:hover": { backgroundColor: "#bc2757" },
+              display: 'flex',
+              alignItems: 'center',
+              padding: '14px',
+              gap: '8px',
+              color: 'white',
+              '&:disabled': {
+                backgroundColor: '#686868',
+                color: '#aaa',
+              }
             }}
             size="large"
+            disabled={isLoading}
           >
-            Sign Up
+            {isLoading ? 'signing up...' : 'Sign up'}
           </Button>
         </form>
 
         <section className="needAccount flex-center">
           <p>Already have an account? &nbsp;</p>
-          <Link to="/login">Sign In</Link>
+          <Link to="/login" className="hover:underline">Sign In</Link>
         </section>
       </div>
     </main>
