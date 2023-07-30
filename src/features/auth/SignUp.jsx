@@ -21,6 +21,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import PropagateLoader from "react-spinners/PropagateLoader";
 import useInternetConnection from "../../hooks/useInternetConnection";
+import useAppTheme from "../../hooks/useAppTheme";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -35,6 +36,7 @@ const Login = () => {
   const [success, setSuccess] = useState(false);
 
   const [open, setOpen] = useState(true);
+  const {dark} = useAppTheme();
 
   const emailRef = useRef();
   const pwdRef = useRef();
@@ -62,6 +64,7 @@ const Login = () => {
       setEmail("");
       setPwd("");
       setFullname("");
+      setConPwd('')
 
       setSuccess(true);
     } catch (e) {
@@ -283,7 +286,7 @@ const Login = () => {
             <CloseIcon fontSize="inherit" />
           </IconButton>
         }
-        sx={{ mb: 2 }}
+        sx={{ mb: 2, background: dark? '' : 'lightgreen' }}
       >
         <AlertTitle>Registration Success!</AlertTitle>
         You can head to login —{" "}
