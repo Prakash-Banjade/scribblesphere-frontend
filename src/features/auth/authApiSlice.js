@@ -43,6 +43,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         try {
           const {data} = await queryFulfilled;
           // const { accessToken, fullname, email, roles } = data;
+          console.log(data)
           dispatch(setCredentials({token: data.accessToken}));
         } catch (err) {
           console.log(err); // handle this error via UI message

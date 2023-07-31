@@ -56,10 +56,7 @@ const PersistLogin = () => {
     //persist: yes, token: no
     // console.log("error");
     content = (
-      <p className="errmsg">
-        {/* {error.data?.message} */}
-        <LoginExpire />
-      </p>
+      <LoginExpire message={error.data?.message} /> // there is no message from the backend
     );
   } else if (isSuccess && success) {
     //persist: yes, token: yes
