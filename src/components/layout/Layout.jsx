@@ -79,7 +79,7 @@ const Layout = () => {
           />
         </header>
 
-        <main className={`w-full max-w-full lg:p-3 p-2 ${dark? 'bg-darkBg' : 'bg-lightBg'}`}>
+        <main className={`w-full max-w-full xl:p-5 lg:p-4 md:p-3 p-2 ${dark? 'bg-darkBg' : 'bg-lightBg'}`}>
           <Outlet />
         </main>
       </div>

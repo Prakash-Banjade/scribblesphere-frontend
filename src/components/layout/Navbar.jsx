@@ -119,11 +119,13 @@ const Navbar = ({ open, small, setShowSideBar }) => {
               type="search"
               id="mobileSearch"
               ref={mobileSearchRef}
-              className="block w-full p-2.5 pl-10 text-md border border-slate-400 rounded-lg bg-lineColor focus:border-[#575757] focus:outline-none"
-              style={{ color: 'var(--text-100)' }}
+              className={`block w-full p-2.5 pl-10 text-md border-2 focus:border-primary ${dark ? 'border-lineColorDark' : 'border-lineColorLight'} rounded-lg focus:outline-none`}
+              style={{ color: 'var(--text-100)', background: 'var(--bg-primary)' }}
               placeholder="Search..."
               required
-              onBlur={() => setSearchOpen(false)}
+              onBlur={(e) => {
+                if (!e.target.value) setSearchOpen(false)
+              }}
             />
           </div>
         </form>
@@ -242,7 +244,7 @@ const Navbar = ({ open, small, setShowSideBar }) => {
               <hr style={{ borderColor: 'var(--line-color)' }} />
               <li className="w-full flex items-center text-red-500 ">
                 <button
-                  className={`${dark? 'hover:bg-darkBg' : 'hover:bg-slate-100'} whitespace-nowrap transition-colors grow py-3 pl-3 pr-[60px] flex items-center gap-2`}
+                  className={`${dark ? 'hover:bg-darkBg' : 'hover:bg-slate-100'} whitespace-nowrap transition-colors grow py-3 pl-3 pr-[60px] flex items-center gap-2`}
                   onClick={handleLogOut}
                 >
                   <span className="text-xl">

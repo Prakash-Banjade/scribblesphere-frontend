@@ -34,7 +34,8 @@ div.singleArtilePage-main {
       }
 
       .article-info-summary {
-        time, p {
+        time,
+        p {
           color: var(--text-300);
         }
       }
@@ -53,11 +54,44 @@ div.singleArtilePage-main {
 
     .article-body {
       margin-top: 40px;
-      p.content {
-        font-family: var(--blog-font) !important;
-        color: var(--text-300);
-        font-size: 1.1rem;
-        line-height: 1.9rem;
+
+      div.content-wrapper {
+        font-family: var(--blog-font);
+
+        h1 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          font-family: var(--blog-font) !important;
+          color: var(--text-300);
+        }
+
+        h2 {
+          font-size: 1.4rem;
+          font-weight: 600;
+          font-family: var(--blog-font) !important;
+          color: var(--text-300);
+        }
+
+        h3 {
+          font-size: 1.3rem;
+          font-weight: 500;
+          font-family: var(--blog-font) !important;
+          color: var(--text-300);
+        }
+
+        h4 {
+          font-size: 1.2rem;
+          font-weight: 500;
+          font-family: var(--blog-font) !important;
+          color: var(--text-300);
+        }
+
+        p {
+          font-size: 1.1rem;
+          line-height: 1.75rem;
+          color: var(--text-400);
+          font-family: var(--blog-font);
+        }
       }
     }
   }
@@ -102,7 +136,7 @@ div.singleArtilePage-main {
     .comments-list {
       flex-direction: column-reverse;
     }
-    hr.comment-divider{
+    hr.comment-divider {
       margin: 0;
       margin-bottom: 5px;
       background-color: var(--line-color);
@@ -111,7 +145,6 @@ div.singleArtilePage-main {
 
     .comments {
       margin-bottom: 20px;
-
 
       .comment-details {
         width: 100%;
@@ -122,8 +155,6 @@ div.singleArtilePage-main {
             color: var(--text-200);
           }
         }
-
-        
 
         p {
           color: var(--text-400);

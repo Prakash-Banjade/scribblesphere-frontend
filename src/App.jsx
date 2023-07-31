@@ -43,6 +43,20 @@ const App = () => {
     components: {
       MuiButton: {
         styleOverrides: {
+          root: {
+            backgroundColor: '#0bbe64',
+            '&:hover': {
+              backgroundColor: '#0bbe64',
+              opacity: .9
+            }
+          },
+          outlined: {
+            background: 'transparent',
+            '&:hover': {
+              opacity: 1,
+              background: 'rgb(0 0 0 / 0.05)',
+            }
+          }
         },
       },
       MuiIconButton: {
@@ -55,6 +69,13 @@ const App = () => {
           },
         },
       },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            color: 'var(--text-100)',
+          }
+        }
+      }
     },
   });
 

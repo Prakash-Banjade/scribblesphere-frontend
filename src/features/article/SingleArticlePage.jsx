@@ -12,6 +12,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
 import NotFound from "../../components/404";
 import useAppTheme from "../../hooks/useAppTheme";
+import DOMPurify from 'dompurify';
 import { MdKeyboardBackspace } from 'react-icons/md'
 
 const SingleArticlePage = () => {
@@ -40,6 +41,10 @@ const SingleArticlePage = () => {
   const formattedDate = articleDate.toLocaleDateString("en-US", options);
 
   const readingTime = useCalculateReadingTime(data?.content);
+
+  const sanitizeHTML = (html) => {
+    return { __html: DOMPurify.sanitize(html) };
+  };
 
   const article = isLoading ? (
     <Loader />
@@ -73,7 +78,8 @@ const SingleArticlePage = () => {
       </header>
 
       <div className="article-body">
-        <p className="content">{data?.content}</p>
+        {/* <section >{data?.content}</section> */}
+        <div className="content-wrapper" dangerouslySetInnerHTML={sanitizeHTML(data?.content)} />
       </div>
     </article>
   ) : (

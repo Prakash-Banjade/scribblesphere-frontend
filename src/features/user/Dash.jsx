@@ -67,7 +67,7 @@ const Dash = () => {
     <p
       style={{
         fontWeight: "500",
-        color: "white",
+        color: "var(--text-300)",
         fontFamily: "var(--blog-font)",
       }}
     >

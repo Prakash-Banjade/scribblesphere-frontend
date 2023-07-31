@@ -23,7 +23,7 @@ export default function KeepMountedModal({ handleClose, open, func }) {
         </Typography>
         <Typography
           id="keep-mounted-modal-description"
-          sx={{ color: "var(--text-white)", mt: 2, fontSize: '1.2rem', fontFamily: 'var(--blog-font)' }}
+          sx={{ color: "var(--text-200)", mt: 2, fontSize: '1.2rem', fontFamily: 'var(--blog-font)' }}
         >
           Are you sure want to delete this article? <br />
           <small>This process is irreversible</small>

@@ -8,15 +8,15 @@ const ArticlesList = () => {
   const { data, isLoading } = useGetArticlesQuery();
 
   const articles = Array.isArray(data) ? (
-    data?.reverse()?.map((data) => {
+    data?.map((data) => {
       return (
         <SingleArticle article={data} isAuthor key={data._id} showContent />
       );
     })
   ) : (
     <p
-      className="fw-500 color-ccc font-blog"
-      style={{ marginLeft: "20px", fontSize: "1.4rem" }}
+      className="font-blog text-lg font-medium"
+      style={{ color: 'var(--text-500)'}}
     >
       No articles has been published yet. Be the fist to post.
     </p>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../scss/CreateArticle.scss";
 import { usePostArticleMutation } from "./articlesApiSlice";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
@@ -15,6 +17,7 @@ const CreateArticle = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
+  
 
   const { dark } = useAppTheme();
 
@@ -123,7 +126,8 @@ const CreateArticle = () => {
             />
           </div>
 
-          <div className="form-field flex flex-column g-10">
+          <ReactQuill theme="snow" value={content} onChange={setContent} />
+          {/* <div className="form-field flex flex-column g-10">
             <label htmlFor="content">Start your article here:</label>
             <textarea
               rows="15"
@@ -136,7 +140,7 @@ const CreateArticle = () => {
               maxLength={10000}
               required
             />
-          </div>
+          </div> */}
           <div className="form-field flex flex-column g-10">
             <label htmlFor="tags">
               Finally write some tags for you article for searching puspose,

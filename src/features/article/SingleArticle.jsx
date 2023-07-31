@@ -6,6 +6,7 @@ import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
 import { setCurrentArticle, resetCurrentArticle } from "./articleSlice";
 import { useDispatch } from "react-redux";
 import DeleteModal from "../../components/DeleteModal.jsx";
+import DOMPurify from 'dompurify';
 
 import CreateIcon from "@mui/icons-material/Create";
 import Button from "@mui/material/Button";
@@ -55,6 +56,10 @@ const SingleArticle = ({
     dispatch(setCurrentArticle({ ...article }));
     navigate("/articles/edit");
   };
+  
+  const sanitizeHTML = (html) => {
+    return { __html: DOMPurify.sanitize(html) };
+  };
 
   return (
     <article className={`singleArticle ${background ? "background" : ""}`}>
@@ -70,12 +75,12 @@ const SingleArticle = ({
         <div className="article-info flex flex-wrap align-center">
           <ArticleDate createdAt={createdAt} />
           {isAuthor && (
-            <span className="flex-none font-blog" style={{color: 'var(--text-300)'}}>
+            <span className="flex-none font-blog" style={{ color: 'var(--text-300)' }}>
               <CreateIcon />
               {author?.fullname || "Unknown"}
             </span>
           )}
-          <p className="min-read fw-400 font-blog" style={{color: 'var(--text-500)'}}>
+          <p className="min-read fw-400 font-blog" style={{ color: 'var(--text-500)' }}>
             {readingTime} read
           </p>
         </div>
@@ -84,7 +89,9 @@ const SingleArticle = ({
         </h4>
       </header>
 
-      {showContent && <p className="content">{content}</p>}
+      {showContent &&
+        <div className="content-wrapper-mini" dangerouslySetInnerHTML={sanitizeHTML(content)} />
+      }
 
       <div className="more flex flex-wrap justify-between align-center">
         <Link to={`/articles/${article._id}`} className="readmore">
