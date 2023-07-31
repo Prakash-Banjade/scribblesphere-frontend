@@ -105,7 +105,7 @@ const SingleArticlePage = () => {
         </div>
 
         <div className="comment-details">
-          <div className="comment-author flex justify-between align-center">
+          <div className="comment-author flex justify-between sm:flex-row flex-col">
 
             <h3>{comment?.author?.fullname || 'unknown'}</h3>
             <time className="font-blog" style={{ color: 'var(--text-300)' }} dateTime={comment?.createdAt} pubdate="true">{commentDateAgo} ago</time>
@@ -150,7 +150,7 @@ const SingleArticlePage = () => {
           <section className="comment-section">
             <header>
               <h2>Comments</h2>
-              <small className="color-ccc">
+              <small style={{color: 'var(--text-500)'}}>
                 Comments are write only. You can't edit or delete your comment
                 once posted.
               </small>

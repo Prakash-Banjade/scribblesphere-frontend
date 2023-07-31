@@ -71,7 +71,7 @@ const Navbar = ({ open, small, setShowSideBar }) => {
       <section className="flex gap-10 items-center relative flex-1">
         {small && (
           <IconButton
-            sx={{ color: "white" }}
+            sx={{ color: "var(--text-200)" }}
             onClick={() => {
               setShowSideBar(true);
             }}

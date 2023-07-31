@@ -15,6 +15,13 @@ main.signup-main{
     border-radius: 8px;
     border: 1px solid var(--line-color);
 
+    @media screen and (max-width: 670px){
+        margin: 0;
+        width: 100%;
+        border: none;
+        padding: 0;
+    }
+
     header{
         margin-bottom: 20px;
         img{

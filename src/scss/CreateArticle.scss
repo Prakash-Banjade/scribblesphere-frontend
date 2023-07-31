@@ -1,14 +1,15 @@
 div.create-article-main {
-  header {
-    h2 {
-      margin-bottom: 1rem !important;
-    }
-  }
+ 
 
   form {
     border: 1px solid var(--line-color);
     border-radius: 6px;
     padding: 10px;
+
+    @media screen and (max-width: 670px){
+      padding: 0;
+      border: none;
+    }
 
     & > * {
       align-self: stretch;

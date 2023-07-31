@@ -102,11 +102,7 @@ const CreateArticle = () => {
         <header className="heading">
           <h2>Create Article</h2>
           <p>
-            Write up to your maximum potential! Your article has the power to
-            inspire, inform, and captivate readers around the world. Let your
-            creativity flow and share your unique perspectives. Remember, every
-            great article starts with a single word. Embrace this opportunity to
-            make a difference through your writing. Happy article creation!
+          Easy creation, your language, your way, your style.
           </p>
         </header>
 
@@ -116,7 +112,7 @@ const CreateArticle = () => {
             <textarea
               rows="1"
               id={content}
-              placeholder="Minimum of 15 characters and maximum of 100 characters"
+              placeholder="15 to 100 chars only"
               name="title"
               value={title}
               onChange={handleInputChange}
@@ -132,7 +128,7 @@ const CreateArticle = () => {
               rows="15"
               id={content}
               name="content"
-              placeholder="Minumum of 100 characters and maximum of 5000 characters"
+              placeholder="100 to 500 chars only"
               value={content}
               onChange={handleInputChange}
               minLength={100}
@@ -143,7 +139,7 @@ const CreateArticle = () => {
           <div className="form-field flex flex-column g-10">
             <label htmlFor="tags">
               Finally write some tags for you article for searching puspose,
-              (Comma separared)
+              (Comma separared) <small className="text-xs" style={{color: 'var(--text-300)'}}>(optional)</small>
             </label>
 
             <textarea

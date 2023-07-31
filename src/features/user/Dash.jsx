@@ -79,7 +79,7 @@ const Dash = () => {
     <Collapse in={open}>
       <Alert severity="info" sx={{backgroundColor: dark? '#e5f6fd' : '#c7e9f6'}}>
         <div
-          className="profile-alert-wrapper flex flex-wrap justify-between g-5"
+          className="profile-alert-wrapper flex flex-wrap justify-between gap-3"
           style={{ minWidth: "100%" }}
         >
           <p className="font-primary fw-500">Finish up setting your profile!</p>
