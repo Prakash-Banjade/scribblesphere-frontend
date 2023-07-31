@@ -7,7 +7,7 @@ const PublicHome = () => {
 
   return (
     <main className="grid-center">
-      <div className="background">
+      <div className="background-public">
         <img src={Logo} draggable="false" alt="Logo" />
       </div>
       <div className="wrapper grid-center">

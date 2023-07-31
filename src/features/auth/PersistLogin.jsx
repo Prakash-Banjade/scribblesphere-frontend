@@ -6,6 +6,7 @@ import { selectCurrentToken } from "./authSlice";
 import usePersist from "../../hooks/usePersist";
 
 import Loader from "../../components/Loader";
+import LoginExpire from "./LoginExpire";
 
 const PersistLogin = () => {
   const [persist] = usePersist();
@@ -56,8 +57,8 @@ const PersistLogin = () => {
     // console.log("error");
     content = (
       <p className="errmsg">
-        {error.data?.message}
-        <Link to="/login">Please login again</Link>
+        {/* {error.data?.message} */}
+        <LoginExpire />
       </p>
     );
   } else if (isSuccess && success) {

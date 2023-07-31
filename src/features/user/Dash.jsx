@@ -26,10 +26,10 @@ const Dash = () => {
   useEffect(() => {
     if (!myDetails.isLoading) {
       setNeedProfiling(
-        myDetails?.data.details?.socialLinks?.length === 0 ||
-        myDetails?.data.details?.writesOn?.length === 0 ||
-        myDetails?.data.details?.qualification?.length === 0 ||
-        myDetails?.data.details?.address?.length === 0
+        myDetails?.data?.details?.socialLinks?.length === 0 ||
+        myDetails?.data?.details?.writesOn?.length === 0 ||
+        myDetails?.data?.details?.qualification?.length === 0 ||
+        myDetails?.data?.details?.address?.length === 0
       );
     }
   }, [myDetails.isLoading]);

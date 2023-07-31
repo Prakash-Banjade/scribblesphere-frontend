@@ -16,7 +16,7 @@ const CreateArticle = () => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
 
-  const {dark} = useAppTheme();
+  const { dark } = useAppTheme();
 
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -56,7 +56,7 @@ const CreateArticle = () => {
         "You title length is too short. Try something more relevant"
       );
 
-    if (content.length < 100)
+    if (content.length < 1000)
       return setErrMsg(
         "Too short content. Minimun of 100 characters content is need to be posted."
       );
@@ -93,6 +93,7 @@ const CreateArticle = () => {
     display: "block",
     margin: "20px auto",
   };
+
   return (
     <>
       <button className={`text-2xl mb-5 rounded-md  ${dark ? 'hover:bg-gray-500' : 'hover:bg-slate-300'} transition-all`} style={{ color: 'var(--text-200)' }} onClick={() => navigate(-1)} title="Back">
@@ -102,7 +103,7 @@ const CreateArticle = () => {
         <header className="heading">
           <h2>Create Article</h2>
           <p>
-          Easy creation, your language, your way, your style.
+            Easy creation, your language, your way, your style.
           </p>
         </header>
 
@@ -110,14 +111,14 @@ const CreateArticle = () => {
           <div className="form-field flex flex-column g-10">
             <label htmlFor="title">Title for you article:</label>
             <textarea
-              rows="1"
+              rows="2"
               id={content}
-              placeholder="15 to 100 chars only"
+              placeholder="15 to 150 chars only"
               name="title"
               value={title}
               onChange={handleInputChange}
               minLength={15}
-              maxLength={100}
+              maxLength={150}
               required
             />
           </div>
@@ -128,18 +129,18 @@ const CreateArticle = () => {
               rows="15"
               id={content}
               name="content"
-              placeholder="100 to 500 chars only"
+              placeholder="Minimum 1000 characters"
               value={content}
               onChange={handleInputChange}
-              minLength={100}
-              maxLength={5000}
+              minLength={1000}
+              maxLength={10000}
               required
             />
           </div>
           <div className="form-field flex flex-column g-10">
             <label htmlFor="tags">
               Finally write some tags for you article for searching puspose,
-              (Comma separared) <small className="text-xs" style={{color: 'var(--text-300)'}}>(optional)</small>
+              (Comma separared) <small className="text-xs" style={{ color: 'var(--text-300)' }}>(optional)</small>
             </label>
 
             <textarea
