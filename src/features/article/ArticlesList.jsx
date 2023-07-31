@@ -8,7 +8,7 @@ const ArticlesList = () => {
   const { data, isLoading } = useGetArticlesQuery();
 
   const articles = Array.isArray(data) ? (
-    data?.map((data) => {
+    data?.reverse()?.map((data) => {
       return (
         <SingleArticle article={data} isAuthor key={data._id} showContent />
       );

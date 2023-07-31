@@ -10,6 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import EditForm from "./ProfileEditingForm";
 import useAuth from "../../hooks/useAuth";
 import { MdKeyboardBackspace } from "react-icons/md";
+import useAppTheme from "../../hooks/useAppTheme";
 
 const MyProfile = () => {
   const { fullname } = useAuth();
@@ -40,6 +41,7 @@ const MyProfile = () => {
   };
 
   const navigate = useNavigate();
+  const {dark} = useAppTheme();
 
 
   return (
