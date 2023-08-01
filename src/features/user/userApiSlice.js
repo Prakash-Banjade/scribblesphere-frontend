@@ -7,10 +7,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Users"],
     }),
     setMyDetails: builder.mutation({
-        query: () => ({
-            url: "/users/setmydetails",
+        query: (args) => ({
+            url: "/users/editmydetails",
             method: "PATCH",
-            body: {}
+            body: {...args}
         })
     })
   }),

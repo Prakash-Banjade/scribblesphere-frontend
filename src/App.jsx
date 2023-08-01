@@ -22,10 +22,11 @@ import { useSelector } from "react-redux";
 import { selectCurrentToken } from "./features/auth/authSlice";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useAppTheme from "./hooks/useAppTheme";
+import { SnackbarProvider } from 'notistack';
 
 const App = () => {
   const location = useLocation();
-  const {dark} = useAppTheme();
+  const { dark } = useAppTheme();
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -36,7 +37,7 @@ const App = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: "#be0b44", // red primary
+        // main: "#be0b44", // red primary
         main: '#0bbe64', // green primary
       },
     },
@@ -62,9 +63,9 @@ const App = () => {
       MuiIconButton: {
         styleOverrides: {
           root: {
-            color: dark? "white" : "#343434",
+            color: dark ? "white" : "#343434",
             "&:hover": {
-              backgroundColor: dark? "rgb(35, 35, 35)" : "rgb(0 0 10 / .1)",
+              backgroundColor: dark ? "rgb(35, 35, 35)" : "rgb(0 0 10 / .1)",
             },
           },
         },
@@ -81,40 +82,42 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Suspense fallback={<Loader />}>
-        <Routes path="/*">
-          {/* public routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+      <SnackbarProvider maxSnack={3}>
+        <Suspense fallback={<Loader />}>
+          <Routes path="/*">
+            {/* public routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
 
-          {/* private routes */}
-          <Route element={<PersistLogin />}>
-            <Route
-              path="/"
-              element={!token ? <PublicHome /> : <Navigate to="/dash" />}
-            />
-            <Route element={<RequireAuth authorizedRoles={[2059]} />}>
-              <Route element={<Layout />}>
-                <Route index path="/dash" element={<Dash />} />
-                <Route path="/articles">
-                  <Route index element={<ArticlesList />} />
-                  <Route path="myarticles" element={<MyArticles />} />
-                  <Route path="create" element={<CreateArticle />} />
-                  <Route path="edit" element={<UpdateArticle />} />
-                  <Route path="search" element={<SearchArticles />} />
-                  <Route path=":id" element={<SingleArticlePage />} />
+            {/* private routes */}
+            <Route element={<PersistLogin />}>
+              <Route
+                path="/"
+                element={!token ? <PublicHome /> : <Navigate to="/dash" />}
+              />
+              <Route element={<RequireAuth authorizedRoles={[2059]} />}>
+                <Route element={<Layout />}>
+                  <Route index path="/dash" element={<Dash />} />
+                  <Route path="/articles">
+                    <Route index element={<ArticlesList />} />
+                    <Route path="myarticles" element={<MyArticles />} />
+                    <Route path="create" element={<CreateArticle />} />
+                    <Route path="edit" element={<UpdateArticle />} />
+                    <Route path="search" element={<SearchArticles />} />
+                    <Route path=":id" element={<SingleArticlePage />} />
+                  </Route>
+                  <Route path="/profile" element={<MyProfile />} />
+
+                  <Route path="*" element={<NotFound />} />
                 </Route>
-                <Route path="/profile" element={<MyProfile />} />
-
-                <Route path="*" element={<NotFound />} />
               </Route>
+              {/* </Route> */}
             </Route>
-            {/* </Route> */}
-          </Route>
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 };

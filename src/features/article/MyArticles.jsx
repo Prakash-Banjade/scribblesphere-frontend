@@ -31,7 +31,7 @@ const MyArticles = () => {
         <>
           <header className="heading">
             <h2>My Articles</h2>
-            <p className="flex g-10" title="Author">
+            <p className="flex g-10 w-fit" title="Author">
               <CreateIcon /> {fullname}
             </p>
           </header>

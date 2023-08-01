@@ -52,45 +52,13 @@ article.singleArticle {
     }
   }
 
-  // p.content {
-  //   font-family: var(--blog-font) !important;
-  //   margin-top: 20px;
-  //   color: var(--text-400);
-  //   line-height: 1.7rem;
-  // }
-
-  .content-wrapper-mini {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5 {
-      display: none;
-    }
-
-    br {
-      display: none;
-    }
-
-    p{
-      display: none;
-    }
-
-
-
-    p:nth-child(3) {
-      display: block;
-      font-family: var(--blog-font);
-      color: var(--text-300);
-      font-size: 1.1rem;
-      line-height: 1.9rem;
-
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
+  p.tagline {
+    font-family: var(--blog-font) !important;
+    margin-top: 20px;
+    color: var(--text-400);
+    line-height: 1.7rem;
   }
+
 
   .more {
     margin-top: 10px;

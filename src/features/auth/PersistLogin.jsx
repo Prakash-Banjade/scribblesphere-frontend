@@ -54,7 +54,8 @@ const PersistLogin = () => {
     content = <Loader />;
   } else if (isError) {
     //persist: yes, token: no
-    // console.log("error");
+    console.log("error");
+
     content = (
       <LoginExpire message={error.data?.message} /> // there is no message from the backend
     );

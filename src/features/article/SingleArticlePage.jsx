@@ -3,6 +3,7 @@ import {
   useGetArticleByIdQuery,
   usePostCommentMutation,
 } from "./articlesApiSlice";
+import profile from '../../assets/profileHolder.webp'
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { v4 as uuid } from "uuid";
@@ -50,27 +51,26 @@ const SingleArticlePage = () => {
     <Loader />
   ) : data ? (
     <article className="flex flex-column">
-      <div className="article-author">
-        <span className="flex">
-          <AccountCircleIcon sx={{ fontSize: "4rem" }} />
-          <p>
-            {data?.author?.fullname || "Unknown"} <br />
-            Author
-          </p>
-        </span>
+      <div className="article-author mb-5 flex items-center gap-8">
+      <img src={profile} alt="profile image" className="self-start sm:w-[70px] w-[50px] aspect-square" />
+        <p className="flex flex-col">
+          {data?.author?.fullname || "Unknown"} 
+          <span>Author</span>
+        </p>
       </div>
       <header>
         <h3>{data?.title}</h3>
-        <div className="article-info-summary flex g-20 align-center">
+        <div className="article-info-summary flex gap-2 flex-wrap align-center">
           <time
             dateTime={data.createdAt}
             title={`Published on ${formattedDate}`}
             pubdate="true"
+            className="mr-5"
           >
             {formatDistanceToNow(articleDate)} ago
           </time>
 
-          <p className="min-read fw-500 font-blog">
+          <p className="min-read fw-500">
             {readingTime} read
           </p>
         </div>
@@ -156,7 +156,7 @@ const SingleArticlePage = () => {
           <section className="comment-section">
             <header>
               <h2>Comments</h2>
-              <small style={{color: 'var(--text-500)'}}>
+              <small style={{ color: 'var(--text-500)' }}>
                 Comments are write only. You can't edit or delete your comment
                 once posted.
               </small>

@@ -14,12 +14,6 @@ const Layout = () => {
 
   const {dark} = useAppTheme();
 
-  const handleDocumentKeyDown = e => {
-    if (e.ctrlKey && e.key === 'b') {
-      setOpen(prev => !prev)
-    };
-  }
-
   useEffect(() => {
     const handleResize = () => {
       const isMobile = window.matchMedia("(max-width: 800px)").matches;
@@ -33,12 +27,10 @@ const Layout = () => {
 
     // Add the event listener for resize events
     window.addEventListener("resize", handleResize);
-    window.addEventListener('keydown', handleDocumentKeyDown)
 
     // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener('keydown', handleDocumentKeyDown)
     };
   }, []);
 

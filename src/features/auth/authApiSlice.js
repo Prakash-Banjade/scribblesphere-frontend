@@ -18,16 +18,19 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     logout: builder.mutation({
-      query: (credentials) => ({
+      query: () => ({
         url: "/auth/logout",
         method: "POST",
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        // console.log('logging out')
         try {
           const { data } = await queryFulfilled;
           dispatch(userLogout());
+          // console.log(data)
           setTimeout(() => {
             dispatch(apiSlice.util.resetApiState()); // very important to reset the data previously cached before logout
+            
           }, 1000);
         } catch (err) {
           console.log(err);
@@ -41,10 +44,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
-          const {data} = await queryFulfilled;
+          const { data } = await queryFulfilled;
           // const { accessToken, fullname, email, roles } = data;
-          console.log(data)
-          dispatch(setCredentials({token: data.accessToken}));
+          // console.log(data)
+          dispatch(setCredentials({ token: data.accessToken }));
         } catch (err) {
           console.error(err); // handle this error via UI message
         }

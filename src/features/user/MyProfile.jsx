@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
-import "../../scss/MyProfile.scss";
 import { useNavigate } from "react-router-dom";
 import profile from '../../assets/profileHolder.webp'
-import { useGetMyDetailsQuery } from "../user/userApiSlice";
+import { useGetMyDetailsQuery, useSetMyDetailsMutation } from "../user/userApiSlice";
 import Loader from "../../components/Loader";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
 import Button from "@mui/material/Button";
-import EditIcon from "@mui/icons-material/Edit";
-import EditForm from "./ProfileEditingForm";
 import useAuth from "../../hooks/useAuth";
-import { MdKeyboardBackspace } from "react-icons/md";
 import useAppTheme from "../../hooks/useAppTheme";
+import { useSnackbar } from 'notistack';
+
 
 const MyProfile = () => {
   const { fullname, email } = useAuth();
+  // const [successMsg, setSuccessMst]
 
   const [detailState, setDetailState] = useState({});
 
@@ -37,19 +36,22 @@ const MyProfile = () => {
   }
 
   const myDetails = useGetMyDetailsQuery();
-  const isLoading = myDetails.isLoading;
-  const isError = myDetails.isError;
+  const [setMyDetails, setDetails] = useSetMyDetailsMutation();
 
   useEffect(() => {
-    if (!isLoading && !isError) {
-      setDetailState(myDetails?.data || {});
+    if (!myDetails.isLoading && !myDetails.isError) {
+      setDetailState({
+        ...myDetails?.data,
+        writesOn: myDetails?.data?.details?.writesOn?.length ? myDetails?.data?.details.writesOn : ''
+      } || {});
       setFormDetails(prev => ({
         ...prev,
         ...myDetails?.data?.details,
         fullname,
+        writesOn: myDetails?.data?.details?.writesOn?.length ? myDetails?.data?.details.writesOn : ''
       }))
     }
-  }, [isLoading, isError, myDetails.data]);
+  }, [myDetails.isLoading, myDetails.isError, myDetails.data]);
 
   const [activeTab, setActiveTab] = useState(1);
 
@@ -67,12 +69,45 @@ const MyProfile = () => {
     );
   };
 
-  const navigate = useNavigate();
   const { dark } = useAppTheme();
 
+  const { enqueueSnackbar } = useSnackbar();
 
-  if (isLoading) return <Loader />;
-  if (isError) return <h1 style={{ color: 'var(--text-200)' }}>An error occurred</h1>
+  const handleClick = (message, variant) => {
+    enqueueSnackbar(message, { variant });
+  };
+  
+  const handleSaveClick = async (e) => {
+    e.preventDefault();
+    const writesOnArr = formDetails?.writesOn
+      ? formDetails.writesOn
+        .replace(/\s/g, "")
+        .split(",")
+        .filter((writesOn) => writesOn !== "")
+      : []
+
+    try {
+      const response = await setMyDetails({ ...formDetails, writesOn: writesOnArr })
+      // console.log(response);
+      if (setDetails.isSuccess)
+        handleClick(response?.data?.message || 'Message', 'success');
+      else if (response?.error?.data) {
+        handleClick(response?.error?.data?.message || 'Message', 'error');
+      }else {
+        handleClick('An error occurred. Try again', 'error');
+      }
+      console.log(setDetails)
+
+      console.log(response)
+    } catch (e) {
+      console.log(e)
+      handleClick(e.message, 'error');
+    }
+  }
+
+
+  if (myDetails.isLoading) return <Loader />;
+  if (myDetails.isError) return <h1 style={{ color: 'var(--text-200)' }}>An error occurred</h1>
 
   return (
     <div className="wrapper">
@@ -146,18 +181,18 @@ const MyProfile = () => {
           </div>
           <div className="form-control flex flex-col gap-1 grow shrink basis-[300px]">
             <label htmlFor="writesOn">Generally writes on</label>
-            <input type="text" name="writesOn" id="writesOn" value={formDetails.writesOn} onChange={handleFormDetailsChange} className={`px-3 py-2 text-sm border hover:border-primary ${dark ? 'border-lineColorDark' : 'border-lineColorLight'} focus:outline-primary rounded-md placeholder:text-sm placeholder:font-light`} style={{ background: 'var(--bg-primary)' }} placeholder="eg. Facebook, Instagram, Linked In" />
+            <input type="text" name="writesOn" id="writesOn" value={formDetails.writesOn} onChange={handleFormDetailsChange} className={`px-3 py-2 text-sm border hover:border-primary ${dark ? 'border-lineColorDark' : 'border-lineColorLight'} focus:outline-primary rounded-md placeholder:text-sm placeholder:font-light`} style={{ background: 'var(--bg-primary)' }} placeholder="eg. Docker, Kubernetis, Node.js" />
           </div>
           <div className="form-control flex flex-col gap-1 grow shrink basis-[300px]">
             <label htmlFor="socialLinks">Social Links</label>
-            <input type="text" name="socialLinks" id="socialLinks" value={formDetails.socialLinks} onChange={handleFormDetailsChange} className={`px-3 py-2 text-sm border hover:border-primary ${dark ? 'border-lineColorDark' : 'border-lineColorLight'} focus:outline-primary rounded-md placeholder:text-sm placeholder:font-light`} style={{ background: 'var(--bg-primary)' }} placeholder="eg. Docker, Kubernetis, Node.js" />
+            <input type="text" name="socialLinks" id="socialLinks" value={formDetails.socialLinks} onChange={handleFormDetailsChange} className={`px-3 py-2 text-sm border hover:border-primary ${dark ? 'border-lineColorDark' : 'border-lineColorLight'} focus:outline-primary rounded-md placeholder:text-sm placeholder:font-light`} style={{ background: 'var(--bg-primary)' }} disabled placeholder="In Progress!" />
           </div>
           <div className="form-control flex flex-col flex-1 gap-1 grow shrink basis-[100%]">
             <label htmlFor="description">Something about you</label>
             <textarea name="description" rows="5" id="description" value={formDetails.description} onChange={handleFormDetailsChange} className={`px-3 py-2 text-sm border hover:border-primary ${dark ? 'border-lineColorDark' : 'border-lineColorLight'} focus:outline-primary rounded-md leading-5 placeholder:text-sm placeholder:font-light`} style={{ background: 'var(--bg-primary)' }} placeholder="eg. I am a professional DevOps Engineer at ABC Tech. I love teaching and writing blog articles on my knowledge and experience. Also I love dogs." />
           </div>
 
-          <Button type="submit" variant="contained" sx={{ marginLeft: 'auto' }}>Save Changes</Button>
+          <Button type="submit" disabled={setDetails.isLoading} variant="contained" onClick={handleSaveClick} sx={{ marginLeft: 'auto', color: 'white', '&:disabled': { backgroundColor: '#565656' }, minWidth: '40px' }}>{setDetails.isLoading ? 'Saving...' : 'Save Changes'}</Button>
 
         </form>
 

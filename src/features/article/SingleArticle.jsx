@@ -23,7 +23,7 @@ const SingleArticle = ({
   background,
   crud,
 }) => {
-  const { _id, title, content, tags, createdAt, author } = article;
+  const { _id, title, content, tagline, tags, createdAt, author } = article;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -56,10 +56,6 @@ const SingleArticle = ({
     dispatch(setCurrentArticle({ ...article }));
     navigate("/articles/edit");
   };
-  
-  const sanitizeHTML = (html) => {
-    return { __html: DOMPurify.sanitize(html) };
-  };
 
   return (
     <article className={`singleArticle ${background ? "background" : ""}`}>
@@ -89,8 +85,7 @@ const SingleArticle = ({
         </h4>
       </header>
 
-      {showContent &&
-        <div className="content-wrapper-mini" dangerouslySetInnerHTML={sanitizeHTML(content)} />
+      {showContent && <p className="tagline">{tagline}</p>
       }
 
       <div className="more flex flex-wrap justify-between align-center">

@@ -16,13 +16,16 @@ import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks//useAuth";
 import useAppTheme from "../../hooks/useAppTheme";
+import { useLogoutMutation } from "../../features/auth/authApiSlice";
 
 const Navbar = ({ open, small, setShowSideBar }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const dropdownRef = useRef();
 
   const { dark, toggleTheme } = useAppTheme();
-  const dispatch = useDispatch();
+
+
+  const [logout, { isLoading, isError }] = useLogoutMutation();
 
   const handleOutsideClick = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -61,9 +64,13 @@ const Navbar = ({ open, small, setShowSideBar }) => {
   const { fullname, email } = useAuth();
 
 
-  const handleLogOut = () => {
-    dispatch(userLogout())
-    navigate("/login");
+  const handleLogOut = async () => {
+    try {
+      await logout();
+      if (!isError) navigate("/login");
+    } catch (e) {
+      console.log(e)
+    }
   };
 
   return (
@@ -246,11 +253,12 @@ const Navbar = ({ open, small, setShowSideBar }) => {
                 <button
                   className={`${dark ? 'hover:bg-darkBg' : 'hover:bg-slate-100'} whitespace-nowrap transition-colors grow py-3 pl-3 pr-[60px] flex items-center gap-2`}
                   onClick={handleLogOut}
+                  disabled={isLoading}
                 >
                   <span className="text-xl">
                     <FiLogOut />
                   </span>
-                  Sign out
+                  {isLoading ? 'Signing out...' : 'Sign Out'}
                 </button>
               </li>
             </ul>
