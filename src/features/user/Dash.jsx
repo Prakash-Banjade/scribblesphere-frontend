@@ -51,7 +51,7 @@ const Dash = () => {
   const myArticlesContent = isLoading ? (
     <SpinnerLoader />
   ) : data?.length ? (
-    [...data].reverse().map((article) => {
+    data?.map((article) => {
       return (
         <SingleArticle
           article={article}
