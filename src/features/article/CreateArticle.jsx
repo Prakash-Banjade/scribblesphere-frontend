@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../scss/CreateArticle.scss";
 import { usePostArticleMutation } from "./articlesApiSlice";
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 
 import Button from "@mui/material/Button";
@@ -12,12 +12,13 @@ import AlertTitle from "@mui/material/AlertTitle";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import useAppTheme from "../../hooks/useAppTheme";
 import { MdKeyboardBackspace } from "react-icons/md";
+// import TextEditor from "./TextEditor";
 
 const CreateArticle = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
-  
+
 
   const { dark } = useAppTheme();
 
@@ -97,6 +98,37 @@ const CreateArticle = () => {
     margin: "20px auto",
   };
 
+  // const modules = {
+  //   toolbar: [
+  //     [{ 'header': [1, 2, 3] }],
+  //     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+  //     [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+  //     ['link', 'image'],
+  //     ['clean']
+  //   ],
+  // }
+
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }, { 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'color': [] }, { 'background': [] }], // To add text color and background color options
+      [{ 'align': ['right', 'center', ''] }], // To add alignment options with icons
+      [{ 'script': 'sub' }, { 'script': 'super' }], // To add subscript and superscript options
+      ['link', 'image', 'video'], // To add link, image, and video options
+      ['formula'], // To add formula option for mathematical equations
+      ['clean'],
+    ],
+  };
+
+  const formats = [
+    'header', 'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'ordered', 'bullet', 'check', 'indent', 'color', 'background',
+    'align', 'script', 'sub', 'super', 'link', 'image', 'video', 'formula', 'clean'
+  ];
+
+
   return (
     <>
       <button className={`text-2xl mb-5 rounded-md  ${dark ? 'hover:bg-gray-500' : 'hover:bg-slate-300'} transition-all`} style={{ color: 'var(--text-200)' }} onClick={() => navigate(-1)} title="Back">
@@ -126,21 +158,17 @@ const CreateArticle = () => {
             />
           </div>
 
-          <ReactQuill theme="snow" value={content} onChange={setContent} />
-          {/* <div className="form-field flex flex-column g-10">
-            <label htmlFor="content">Start your article here:</label>
-            <textarea
-              rows="15"
-              id={content}
-              name="content"
-              placeholder="Minimum 1000 characters"
-              value={content}
-              onChange={handleInputChange}
-              minLength={1000}
-              maxLength={10000}
-              required
-            />
-          </div> */}
+          <div className="form-field flex flex-col g-10">
+            <label htmlFor="article_content">Write content here:</label>
+            <div className="rounded-lg" style={{ background: 'var(--text-editor-bg)' }}>
+              <ReactQuill id="article_content" className="content-textArea" theme="snow" value={content} onChange={setContent}
+                modules={modules}
+                formats={formats}
+                placeholder="Start writing your content here"
+              />
+            </div>
+          </div>
+
           <div className="form-field flex flex-column g-10">
             <label htmlFor="tags">
               Finally write some tags for you article for searching puspose,

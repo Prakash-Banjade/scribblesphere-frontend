@@ -17,6 +17,8 @@
   --text-300: #d5dae1;
   --text-400: #bbc3cf;
   --text-500: #8896ab;
+
+  --text-editor-bg: #f2f2f2;
 }
 
 :root{
@@ -33,6 +35,9 @@
   --text-300: #313331;
   --text-400: #525151;
   --text-500: #676777;
+
+  --text-editor-bg: white;
+  --text-editor-toolbar: #e4ede4;
 }
 
 * {
