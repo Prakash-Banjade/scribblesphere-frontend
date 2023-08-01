@@ -60,12 +60,17 @@ const Login = () => {
     }
 
     try {
+      setSuccess(false);
       const userData = await register({ email, pwd, fullname }).unwrap();
       setEmail("");
       setPwd("");
       setFullname("");
       setConPwd('')
 
+      fullnameRef.current.blur();
+      emailRef.current.blur();
+      pwdRef.current.blur();
+      conPwdRef.current.blur();
       setSuccess(true);
     } catch (e) {
       console.log(e);
@@ -124,7 +129,7 @@ const Login = () => {
           root: {
             color: emailErrMsg
               ? "var(--error-text-color)"
-              : "var(--text-white)",
+              : "var(--text-200)",
             "&.Mui-focused": {
               color: emailErrMsg
                 ? "var(--error-text-color)"
@@ -139,7 +144,7 @@ const Login = () => {
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: emailErrMsg
                 ? "var(--error-text-color)"
-                : "var(--text-white)",
+                : "var(--text-200)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: emailErrMsg ? "var(--error-text-color)" : "var(--primary-color)",
@@ -160,7 +165,7 @@ const Login = () => {
       MuiInputLabel: {
         styleOverrides: {
           root: {
-            color: pwdErrMsg ? "var(--error-text-color)" : "var(--text-white)",
+            color: pwdErrMsg ? "var(--error-text-color)" : "var(--text-200)",
             "&.Mui-focused": {
               color: pwdErrMsg
                 ? "var(--error-text-color)"
@@ -175,7 +180,7 @@ const Login = () => {
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: pwdErrMsg
                 ? "var(--error-text-color)"
-                : "var(--text-white)",
+                : "var(--text-200)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: pwdErrMsg ? "var(--error-text-color)" : "var(--primary-color)",
@@ -198,7 +203,7 @@ const Login = () => {
           root: {
             color: fullnameErrMsg
               ? "var(--error-text-color)"
-              : "var(--text-white)",
+              : "var(--text-200)",
             "&.Mui-focused": {
               color: fullnameErrMsg
                 ? "var(--error-text-color)"
@@ -213,7 +218,7 @@ const Login = () => {
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: fullnameErrMsg
                 ? "var(--error-text-color)"
-                : "var(--text-white)",
+                : "var(--text-200)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: fullnameErrMsg ? "var(--error-text-color)" : "var(--primary-color)",
@@ -235,7 +240,7 @@ const Login = () => {
           root: {
             color: conPwdErr
               ? "var(--error-text-color)"
-              : "var(--text-white)",
+              : "var(--text-200)",
             "&.Mui-focused": {
               color: conPwdErr
                 ? "var(--error-text-color)"
@@ -250,7 +255,7 @@ const Login = () => {
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: conPwdErr
                 ? "var(--error-text-color)"
-                : "var(--text-white)",
+                : "var(--text-200)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: conPwdErr ? "var(--error-text-color)" : "var(--primary-color)",
@@ -282,6 +287,7 @@ const Login = () => {
             onClick={() => {
               setOpen(false);
             }}
+            sx={{color: '#232323', '&:hover': {color: '#f2f2f2'}}}
           >
             <CloseIcon fontSize="inherit" />
           </IconButton>
@@ -307,7 +313,7 @@ const Login = () => {
           <h2>Sign Up to ScribbleSphere</h2>
         </header>
         <PropagateLoader
-          color="#be0b44"
+          color="#0bbe64"
           cssOverride={override}
           loading={isLoading}
         />
@@ -338,7 +344,7 @@ const Login = () => {
                 autoComplete="false"
                 autoCorrect="false"
                 sx={{
-                  color: "var(--text-white)",
+                  color: "var(--text-200)",
                 }}
                 label="Full name"
               />
@@ -375,7 +381,7 @@ const Login = () => {
                 autoComplete="false"
                 autoCorrect="false"
                 sx={{
-                  color: "var(--text-white)",
+                  color: "var(--text-200)",
                 }}
                 label="Email"
               />
@@ -414,7 +420,7 @@ const Login = () => {
                 error={Boolean(pwdErrMsg)}
                 label="Password"
                 sx={{
-                  color: "var(--text-white)",
+                  color: "var(--text-200)",
                 }}
               />
               {pwdErrMsg && (
@@ -451,7 +457,7 @@ const Login = () => {
                 error={Boolean(conPwdErr)}
                 label="Confirm Password"
                 sx={{
-                  color: "var(--text-white)",
+                  color: "var(--text-200)",
                 }}
               />
               {conPwdErr && (

@@ -98,7 +98,7 @@ const Login = () => {
           root: {
             color: emailErrMsg
               ? "var(--error-text-color)"
-              : "var(--text-white)",
+              : "var(--text-200)",
             "&.Mui-focused": {
               color: emailErrMsg
                 ? "var(--error-text-color)"
@@ -113,7 +113,7 @@ const Login = () => {
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: emailErrMsg
                 ? "var(--error-text-color)"
-                : "var(--text-white)",
+                : "var(--text-200)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: emailErrMsg ? "var(--error-text-color)" : "var(--primary-color)",
@@ -134,7 +134,7 @@ const Login = () => {
       MuiInputLabel: {
         styleOverrides: {
           root: {
-            color: pwdErrMsg ? "var(--error-text-color)" : "var(--text-white)",
+            color: pwdErrMsg ? "var(--error-text-color)" : "var(--text-200)",
             "&.Mui-focused": {
               color: pwdErrMsg
                 ? "var(--error-text-color)"
@@ -149,7 +149,7 @@ const Login = () => {
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: pwdErrMsg
                 ? "var(--error-text-color)"
-                : "var(--text-white)",
+                : "var(--text-200)",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: pwdErrMsg ? "var(--error-text-color)" : "var(--primary-color)",
@@ -198,7 +198,7 @@ const Login = () => {
                 autoComplete="false"
                 autoCorrect="false"
                 sx={{
-                  color: "var(--text-white)",
+                  color: "var(--text-200)",
                 }}
                 label="Email"
               />
@@ -237,7 +237,7 @@ const Login = () => {
                 error={Boolean(pwdErrMsg)}
                 label="Password"
                 sx={{
-                  color: "var(--text-white)",
+                  color: "var(--text-200)",
                 }}
               />
               {pwdErrMsg && (
@@ -295,7 +295,7 @@ const Login = () => {
           </Button>
         </form>
 
-        <section className="needAccount flex-center">
+        <section className="needAccount flex-center" >
           <p>Need an account? &nbsp;</p>
           <Link to="/signup" className="hover:underline">Sign Up</Link>
         </section>

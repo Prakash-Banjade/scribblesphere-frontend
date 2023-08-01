@@ -31,7 +31,7 @@ main.signup-main{
 
         h2{
             font-weight: 300;
-            color: var(--text-white);
+            color: var(--text-200);
             font-size: 1.4rem;
         }
     }
@@ -49,7 +49,7 @@ main.signup-main{
 
     section.needAccount{
         p{
-            color: var(--text-white);
+            color: var(--text-200);
         }
 
         a{
@@ -65,9 +65,10 @@ main.signup-main{
             accent-color: var(--primary-color);
         }
         label{
-            color: var(--text-white);
+            color: var(--text-200);
             margin-left: 8px;
             cursor: pointer;
         }
     }
+
 }
