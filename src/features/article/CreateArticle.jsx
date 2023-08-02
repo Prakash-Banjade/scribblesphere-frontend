@@ -67,7 +67,7 @@ const CreateArticle = () => {
 
     if (content.length < 1000)
       return setErrMsg(
-        "Too short content. Minimun of 100 characters content is need to be posted."
+        "Too short content. Minimun of 1000 characters content is need to be posted."
       );
 
     try {
@@ -161,9 +161,6 @@ const CreateArticle = () => {
               <label htmlFor="article_content">Now start writing the content here:</label>
               <small className="text-xs font-light" style={{ color: 'var(--text-500)' }}>
                 Your content is the beating heart of your article, where your thoughts take flight and your voice finds its true expression. It's the realm where imagination knows no bounds, and your ideas come alive.
-              </small>
-              <small className="text-xs text-right font-light" style={{ color: 'var(--text-500)' }}>
-                {content.length} / 10000
               </small>
             </div>
             <div className="rounded-lg" style={{ background: 'var(--text-editor-bg)' }}>
