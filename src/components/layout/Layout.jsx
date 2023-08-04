@@ -4,6 +4,10 @@ import Navbar from "./Navbar";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import useAppTheme from "../../hooks/useAppTheme";
+import { setProfilePicture } from "../../features/user/userSlice";
+import { useDispatch } from "react-redux";
+import { useGetProfilePicQuery } from "../../features/user/userApiSlice";
+
 
 const Layout = () => {
   const [open, setOpen] = useState(true)
@@ -11,8 +15,12 @@ const Layout = () => {
 
   const [small, setSmall] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false);
+  const dispatch = useDispatch();
 
-  const {dark} = useAppTheme();
+
+  const { dark } = useAppTheme();
+  const getProfilePic = useGetProfilePicQuery();
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -33,6 +41,22 @@ const Layout = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (!getProfilePic.isLoading && !getProfilePic.isError) {
+
+      const buffer = getProfilePic.data?.data?.data
+      const type = getProfilePic.data?.type
+
+      if (buffer) {
+        const base64String = btoa(
+          new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+
+        dispatch(setProfilePicture(`data:${type};base64,${base64String}`));
+      }
+    }
+  }, [getProfilePic.isLoading, getProfilePic.isSuccess, getProfilePic])
 
   useEffect(() => {
     setShowSideBar(false);
@@ -62,7 +86,7 @@ const Layout = () => {
       <div
         className={`aside_content grow ${!open ? "closed" : ""} transition-all`}
       >
-        <header className="w-full relative z-20 min-h-[60px] border-b flex items-center p-3 py-2" style={{background: 'var(--bg-secondary)', borderColor: 'var(--line-color)'}}>
+        <header className="w-full relative z-20 min-h-[60px] border-b flex items-center p-3 py-2" style={{ background: 'var(--bg-secondary)', borderColor: 'var(--line-color)' }}>
           <Navbar
             open={open}
             small={small}
@@ -71,7 +95,7 @@ const Layout = () => {
           />
         </header>
 
-        <main className={`w-full max-w-full xl:p-5 lg:p-4 md:p-3 p-2 ${dark? 'bg-darkBg' : 'bg-lightBg'}`}>
+        <main className={`w-full max-w-full xl:p-5 lg:p-4 md:p-3 p-2 ${dark ? 'bg-darkBg' : 'bg-lightBg'}`}>
           <Outlet />
         </main>
       </div>

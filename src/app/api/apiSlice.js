@@ -2,15 +2,15 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCredentials, userLogout } from "../../features/auth/authSlice";
 
 export const baseQuery = fetchBaseQuery({
-  // baseUrl: "http://localhost:3500",
-  baseUrl: "https://scribblesphere-backend.vercel.app",
+  baseUrl: "http://localhost:3500",
+  // baseUrl: "https://scribblesphere-backend.vercel.app",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     // (headers, api)
     const token = getState().auth.token;
 
     if (token) headers.set("authorization", `Bearer ${token}`);
-    headers.set("Content-Type", "application/json");
+    // headers.set("Content-Type", "application/json");
 
     return headers;
   },
@@ -30,7 +30,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
     console.log(refreshResult)
     if (refreshResult?.data) {
-      api.dispatch(setCredentials({ token: refreshResult?.token }));
+      api.dispatch(setCredentials({ token: refreshResult?.data?.accessToken }));
       result = await baseQuery(args, api, extraOptions);
     } else {
       if (refreshResult?.error?.status === 403) {

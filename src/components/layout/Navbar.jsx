@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
-import { IconButton, Avatar } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { BiSolidDownArrow } from "react-icons/bi";
-import { CiSettings, CiLight, CiDark } from "react-icons/ci";
+import { CiLight, CiDark } from "react-icons/ci";
 import logo from '../../assets/logo.svg'
 import { RiSearchLine, RiDashboardLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
@@ -9,20 +9,19 @@ import { CgProfile } from "react-icons/cg";
 import { MdOutlineCreate } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { deepOrange, deepPurple } from "@mui/material/colors";
-import { userLogout } from "../../features/auth/authSlice";
-import { useDispatch } from "react-redux";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks//useAuth";
 import useAppTheme from "../../hooks/useAppTheme";
 import { useLogoutMutation } from "../../features/auth/authApiSlice";
+import ProfilePicture from "../../features/user/ProfilePicture";
 
 const Navbar = ({ open, small, setShowSideBar }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const dropdownRef = useRef();
 
   const { dark, toggleTheme } = useAppTheme();
+  const { fullname, email } = useAuth();
 
 
   const [logout, { isLoading, isError }] = useLogoutMutation();
@@ -33,12 +32,16 @@ const Navbar = ({ open, small, setShowSideBar }) => {
     }
   };
   const navigate = useNavigate();
+
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
+
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
+
+
 
   const handleDropdownToggle = (event) => {
     event.stopPropagation();
@@ -60,9 +63,6 @@ const Navbar = ({ open, small, setShowSideBar }) => {
     setSearchOpen(true);
     mobileSearchRef.current.focus();
   };
-
-  const { fullname, email } = useAuth();
-
 
   const handleLogOut = async () => {
     try {
@@ -161,27 +161,21 @@ const Navbar = ({ open, small, setShowSideBar }) => {
           className="profile-wrapper flex gap-2 items-center cursor-pointer relative"
           onClick={handleDropdownToggle}
         >
-          <Avatar
-            sx={{
-              bgcolor: deepOrange[500],
-              width: "2.2rem",
-              height: "2.2rem",
-            }}
-          >
-            {fullname?.slice(0, 1)}
-          </Avatar>
+          <button type="button" className="flex gap-2 items-center">
+            <ProfilePicture width={42} />
 
-          <div className="profile sm:flex flex-col hidden">
-            <h3 className=" font-medium text-base flex items-center gap-1 leading-4 whitespace-nowrap" style={{ color: 'var(--text-100)' }}>
-              {fullname}
-              <span
-                className={`text-[10px] translate-y-1px transition-all ${isProfileDropdownOpen ? "rotate-180" : ""
-                  }`}
-              >
-                <BiSolidDownArrow />
-              </span>
-            </h3>
-          </div>
+            <div className="profile sm:flex flex-col hidden">
+              <h3 className=" font-medium text-base flex items-center gap-1 leading-4 whitespace-nowrap" style={{ color: 'var(--text-100)' }}>
+                {fullname}
+                <span
+                  className={`text-[10px] translate-y-1px transition-all ${isProfileDropdownOpen ? "rotate-180" : ""
+                    }`}
+                >
+                  <BiSolidDownArrow />
+                </span>
+              </h3>
+            </div>
+          </button>
 
           <div
             className={`dropdown-container absolute right-1 top-[120%] z-[100] border rounded-md py-2 shadow-lg cursor-default transition-all ${isProfileDropdownOpen

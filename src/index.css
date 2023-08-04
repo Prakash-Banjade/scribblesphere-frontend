@@ -11,7 +11,6 @@
   --bg-primary: #212222;
   --bg-secondary: #2a2a2a;
   --dark: #0d1117;
-  --error-text-color: #d32f2f;
   --text-100: #f7f8f9;
   --text-200: #eef0f3;
   --text-300: #d5dae1;
@@ -26,6 +25,7 @@
   --secondary-text-font: "Lora", serif;
   --blog-font: "IBM Plex Sans", sans-serif;
   --primary-color: #0bbe64;
+  --error-text-color: #d32f2f;
 
   --bg-primary: #f2f4f7;
   --bg-secondary: #fff;
@@ -88,4 +88,14 @@ a.activeNavTab{
   main {
     padding: 10px !important;
   }
+}
+
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+  background-color: transparent;
+  cursor: pointer;
 }

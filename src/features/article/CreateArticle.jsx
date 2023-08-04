@@ -258,28 +258,30 @@ const CreateArticle = () => {
           </div>
 
           {activeTab === 4 && <div className="flex flex-col gap-3">
-          <small className="text-xs text-center font-light" style={{ color: 'var(--text-500)' }}>
-                You can't leave the {!title? 'title' : !content? 'content' : 'tagline'} blank.
-              </small>
-          <Button
-            onClick={handleSubmit}
-            disabled={isLoading || (!title || !content || !tagline)}
-            type="submit"
-            variant="contained"
-            sx={{
-              width: "100%",
-              padding: '10px',
-              color: 'white',
-              backgroundColor: "var(--primary-color)",
-              "&:disabled": {
-                opacity: 0.8,
-              },
-            }}
-          >
-            <span>
-              {isLoading ? 'Posting...' : 'Post Article'}
-            </span>
-          </Button>
+            <small className="text-xs text-center font-light" style={{ color: 'var(--text-500)' }}>
+              You can't leave the {!title ? 'title' : !content ? 'content' : 'tagline'} blank.
+            </small>
+            <Button
+              onClick={handleSubmit}
+              disabled={isLoading || (!title || !content || !tagline)}
+              type="submit"
+              variant="contained"
+              sx={{
+                width: "100%",
+                padding: '10px',
+                color: 'white',
+                backgroundColor: "var(--primary-color)",
+                "&:disabled": {
+                  color: 'white',
+                  backgroundColor: "var(--primary-color)",
+                  opacity: 0.5,
+                },
+              }}
+            >
+              <span>
+                {isLoading ? 'Posting...' : 'Post Article'}
+              </span>
+            </Button>
           </div>}
         </form>
       </div>

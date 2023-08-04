@@ -55,7 +55,7 @@ const SingleArticlePage = () => {
       <img src={profile} alt="profile image" className="self-start sm:w-[70px] w-[50px] aspect-square" />
         <p className="flex flex-col">
           {data?.author?.fullname || "Unknown"} 
-          <span>Author</span>
+          <span style={{fontSize: '1rem'}}>Author</span>
         </p>
       </div>
       <header>

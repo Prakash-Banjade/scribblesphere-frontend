@@ -3,13 +3,22 @@ import { apiSlice } from "../../app/api/apiSlice";
 export const articlesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getArticles: builder.query({
-      query: () => "/articles",
+      query: () => ({
+        url: "/articles",
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
       providesTags: ["Articles"],
     }),
     getMyArticles: builder.query({
       query: (limit) => ({
         url: `articles/myarticles?limit=${Number(limit)}`,
         method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }),
       providesTags: ["Articles"],
     }),
@@ -17,6 +26,9 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/articles/${id}`,
         method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }),
       providesTags: ["Articles"],
     }),
@@ -25,6 +37,9 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
         url: `/articles`,
         method: "POST",
         body: JSON.stringify({ ...articlesDetails }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }),
       invalidatesTags: ["Articles"],
     }),
@@ -33,6 +48,9 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
         url: `/articles/${commentDetails.id}/comment`,
         method: "POST",
         body: JSON.stringify({ comment: commentDetails.comment }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }),
       invalidatesTags: ["Articles"],
     }),
@@ -40,6 +58,9 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
       query: ({ q }) => ({
         url: `/articles/search?q=${encodeURIComponent(q)}`,
         method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }),
       invalidatesTags: ["Articles"],
     }),
@@ -47,7 +68,10 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
       query: ({ id }) => ({
         url: '/articles',
         method: "DELETE",
-        body: {id}
+        body: { id },
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }),
       invalidatesTags: ["Articles"],
     }),
@@ -55,7 +79,10 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
       query: (article) => ({
         url: '/articles/',
         method: "PATCH",
-        body: {...article}
+        body: { ...article },
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }),
       invalidatesTags: ["Articles"],
     }),
