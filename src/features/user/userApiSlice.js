@@ -29,7 +29,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: file,
       }),
-      invalidatesTags: ["Users"]
+      invalidatesTags: ["Users"],
     }),
     getProfilePic: builder.query({
       query: () => ({
@@ -39,7 +39,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
           'Content-Type': 'application/json',
         },
       }),
-      invalidatesTags: ["Users"],
+      providesTags: ["Users"],
     }),
   }),
 });
