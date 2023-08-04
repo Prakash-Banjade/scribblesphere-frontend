@@ -15,6 +15,7 @@ import NotFound from "../../components/404";
 import useAppTheme from "../../hooks/useAppTheme";
 import DOMPurify from 'dompurify';
 import { MdKeyboardBackspace } from 'react-icons/md'
+import ProfilePicture from "../user/ProfilePicture";
 
 const SingleArticlePage = () => {
   const { id } = useParams();
@@ -30,11 +31,31 @@ const SingleArticlePage = () => {
       : "Article | ScribbleSphere";
   }, []);
 
+  // component that return the tags of current article in format
   const tagsComponent = data?.tags?.map((tag) => (
     <span className="tag" key={tag}>
       {tag}
     </span>
   ));
+
+
+  // components that returns author image
+  const AuthorImg = () => {
+    const buffer = data?.author?.profile.data.data
+    const type = data?.author?.profile.type
+    let imgUrl = ''
+    if (buffer) {
+      const base64String = btoa(
+        new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+      );
+
+      imgUrl = `data:${type};base64,${base64String}`
+    }
+
+    return (
+      <ProfilePicture width={70} profilePic={imgUrl} />
+    )
+  }
 
   const articleDate = data ? new Date(data?.createdAt) : new Date();
 
@@ -47,19 +68,21 @@ const SingleArticlePage = () => {
     return { __html: DOMPurify.sanitize(html) };
   };
 
+  // const profilePic = ()
+
   const article = isLoading ? (
     <Loader />
   ) : data ? (
     <article className="flex flex-column">
       <div className="article-author mb-5 flex items-center gap-8">
-      <img src={profile} alt="profile image" className="self-start sm:w-[70px] w-[50px] aspect-square" />
+        <AuthorImg />
         <p className="flex flex-col">
-          {data?.author?.fullname || "Unknown"} 
-          <span style={{fontSize: '1rem'}}>Author</span>
+          {data?.author?.fullname || "Unknown"}
+          <span style={{ fontSize: '1rem' }} className="text-gray-500">Author</span>
         </p>
       </div>
       <header>
-        <h3>{data?.title}</h3>
+        <h3 className="font-bold">{data?.title}</h3>
         <div className="article-info-summary flex gap-2 flex-wrap align-center">
           <time
             dateTime={data.createdAt}

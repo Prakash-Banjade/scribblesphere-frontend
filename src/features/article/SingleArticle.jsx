@@ -6,7 +6,6 @@ import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
 import { setCurrentArticle, resetCurrentArticle } from "./articleSlice";
 import { useDispatch } from "react-redux";
 import DeleteModal from "../../components/DeleteModal.jsx";
-import DOMPurify from 'dompurify';
 
 import CreateIcon from "@mui/icons-material/Create";
 import Button from "@mui/material/Button";

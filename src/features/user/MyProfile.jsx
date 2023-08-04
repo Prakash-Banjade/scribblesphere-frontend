@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation } from "../user/userApiSlice";
+import { useGetMyDetailsQuery, useRemoveProfilePicMutation, useSetMyDetailsMutation, useSetProfilePicMutation } from "../user/userApiSlice";
 import Loader from "../../components/Loader";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -10,13 +10,15 @@ import useAuth from "../../hooks/useAuth";
 import useAppTheme from "../../hooks/useAppTheme";
 import { useSnackbar } from 'notistack';
 import { BsFacebook, BsInstagram, BsTwitter, BsLinkedin } from 'react-icons/bs'
-import { useSelector, useDispatch } from "react-redux";
-import { setProfilePicture } from "./userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setProfilePicture, selectProfilePicture } from "./userSlice";
 import ProfilePicture from "./ProfilePicture";
+import PPRemoveModal from "./PPRemoveModal";
 
 const MyProfile = () => {
   const { fullname, email } = useAuth();
   const dispatch = useDispatch();
+  const currentProfilePicture = useSelector(selectProfilePicture);
   // const [successMsg, setSuccessMst]
 
   const [profileDetails, setProfileDetails] = useState({
@@ -39,6 +41,7 @@ const MyProfile = () => {
   const myDetails = useGetMyDetailsQuery();
   const [setMyDetails, setDetails] = useSetMyDetailsMutation();
   const [setProfilePic, profileUpload] = useSetProfilePicMutation();
+  const [removeProfilePic, removePP] = useRemoveProfilePicMutation();
 
   const [availableMedia, setAvailableMedia] = useState(['facebook', 'instagram', 'twitter', 'linkedin'])
 
@@ -109,7 +112,7 @@ const MyProfile = () => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleClick = (message, variant) => {
+  const snackbar = (message, variant) => {
     enqueueSnackbar(message, { variant });
   };
 
@@ -125,13 +128,13 @@ const MyProfile = () => {
     try {
       const response = await setMyDetails({ ...profileDetails, writesOn: writesOnArr }).unwrap();
       if (response.status === 200) {
-        handleClick(response?.message || "Profile updated", 'success');
+        snackbar(response?.message || "Profile updated", 'success');
       } else {
-        handleClick(response?.message || "An error occurred", 'error');
+        snackbar(response?.message || "An error occurred", 'error');
       }
     } catch (e) {
       console.log(e)
-      handleClick(e.message, 'error');
+      snackbar(e.message, 'error');
     }
   }
 
@@ -160,6 +163,7 @@ const MyProfile = () => {
 
   // logic for profile pic upload
   // event handler when the Image changes
+  const profileInputRef = useRef();
   const handleProfilePicSubmit = async (e) => {
     e.preventDefault();
 
@@ -171,7 +175,27 @@ const MyProfile = () => {
 
     try {
       const response = await setProfilePic(formData).unwrap();
-      if (response.status === 200) handleClick('Profile picture updated', 'success')
+      if (response.status === 200) snackbar('Profile picture updated', 'success')
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+
+  // event handler for profile pic remove
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false)
+
+  const handleProfilePicRemove = async (e) => {
+    try {
+      const response = await removeProfilePic();
+      if (response.data.status === 200) {
+        dispatch(setProfilePicture(null))
+        profileInputRef.current.value = ''
+        snackbar(response.data.message, 'success')
+      } else {
+        snackbar('An error occurred!', 'error')
+      }
     } catch (e) {
       console.log(e)
     }
@@ -228,16 +252,16 @@ const MyProfile = () => {
           <ProfilePicture width={80} />
 
           <div className="flex gap-3 items-center">
-            <button type="button" className={`font-normal px-3 py-2 text-primary rounded-md ${dark ? 'hover:bg-[#232323]' : 'hover:bg-slate-100'}`} title="View profile picture">View</button>
-            <div className="h-[4px] w-[4px]" style={{ background: 'var(--line-color)' }}></div>
             <form onSubmit={handleProfilePicSubmit} encType="multipart/form-data">
-              <label htmlFor="profile_pic_upload" className={`font-normal px-3 py-2 text-[#1e90ff] rounded-md cursor-pointer ${dark ? 'hover:bg-[#232323]' : 'hover:bg-slate-100'}`} title="Upload new profile picture">{profileUpload.isLoading ? 'Changing...' : 'Change'}</label>
-              <input type="file" id="profile_pic_upload" className="sr-only" accept="image/*" onChange={handleProfilePicSubmit} />
+              <label htmlFor="profile_pic_upload" className={`font-normal px-3 py-2 text-[#1e90ff] rounded-md cursor-pointer ${profileUpload.isLoading ? 'pointer-events-none' : ''} ${dark ? 'hover:bg-[#232323]' : 'hover:bg-slate-100'}`} title="Upload new profile picture">{profileUpload.isLoading ? 'Changing...' : 'Change'}</label>
+              <input type="file" ref={profileInputRef} id="profile_pic_upload" className="sr-only" accept="image/*" onChange={handleProfilePicSubmit} />
             </form>
-            <div className="h-[4px] w-[4px]" style={{ background: 'var(--line-color)' }}></div>
-            <button type="button" className={`font-normal px-3 py-2 text-red-500 rounded-md ${dark ? 'hover:bg-[#232323]' : 'hover:bg-slate-100'}`} title="Remove current profile picture">Remove</button>
+            <div className="h-[4px] w-[4px] rounded-[50%]" style={{ background: 'var(--line-color)' }}></div>
+            <button type="button" className={`font-normal px-3 py-2 ${currentProfilePicture ? 'text-red-500' : 'text-red-300'} rounded-md ${dark ? 'hover:bg-[#232323]' : 'hover:bg-slate-100'} ${!currentProfilePicture? 'pointer-events-none' : ''}`} title="Remove current profile picture" onClick={() => setOpen(true)} disabled={removePP.isLoading || !currentProfilePicture}>{removePP.isLoading ? 'Removing...' : 'Remove'}</button>
           </div>
         </section>
+
+        <PPRemoveModal open={open} handleClose={handleClose} handleRemove={handleProfilePicRemove} />
 
 
         <form className="flex flex-wrap gap-7 font-blog mt-6" style={{ color: 'var(--text-200)' }}>

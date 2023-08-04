@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux'
 import { selectProfilePicture } from './userSlice'
 
 
-const ProfilePicture = ({ width, smallWidth }) => {
+const ProfilePicture = ({ width, smallWidth, profilePic }) => {
 
-    const profilePicture = useSelector(selectProfilePicture);
+    const profilePicture = profilePic || useSelector(selectProfilePicture);
 
     let imgWidth = width || 50;
 

@@ -31,9 +31,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Users"],
     }),
-    getProfilePic: builder.query({
+    removeProfilePic: builder.mutation({
       query: () => ({
-        url: "/users/upload",
+        url: '/users/upload',
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Users']
+    }),
+    getProfilePic: builder.query({
+      query: (id) => ({
+        url: `/users/upload/${id}`,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -44,4 +51,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery } = userApiSlice;
+export const { useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation } = userApiSlice;

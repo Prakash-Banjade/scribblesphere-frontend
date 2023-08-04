@@ -7,6 +7,7 @@ import useAppTheme from "../../hooks/useAppTheme";
 import { setProfilePicture } from "../../features/user/userSlice";
 import { useDispatch } from "react-redux";
 import { useGetProfilePicQuery } from "../../features/user/userApiSlice";
+import useAuth from "../../hooks/useAuth";
 
 
 const Layout = () => {
@@ -17,10 +18,12 @@ const Layout = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   const dispatch = useDispatch();
 
+  const { userId } = useAuth();
+
 
   const { dark } = useAppTheme();
-  const getProfilePic = useGetProfilePicQuery();
-
+  const getProfilePic = useGetProfilePicQuery(userId);
+  // console.log(getProfilePic)
 
   useEffect(() => {
     const handleResize = () => {
