@@ -1,225 +1,328 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { v4 as uuidV4 } from 'uuid';
 import "../../scss/CreateArticle.scss";
-import { selectCurrentArticle, resetCurrentArticle } from "./articleSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useUpdateArticleMutation, useGetArticleByIdQuery } from "./articlesApiSlice";
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css';
 
-import Button from "@mui/material/Button";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
+import { Button, Alert, AlertTitle } from "@mui/material";
+import useAppTheme from "../../hooks/useAppTheme";
+import { RxCross2 } from 'react-icons/rx'
+import { MdKeyboardBackspace } from "react-icons/md";
 
-import PropagateLoader from "react-spinners/PropagateLoader";
-import { useUpdateArticleMutation } from "./articlesApiSlice";
+const TAG_REGEX = /[^A-Za-z0-9.]/g;
 
-const UpdateArticle = () => {
+const CreateArticle = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([]);
+  const [tagline, setTagline] = useState('')
+  const [tagInput, setTagInput] = useState('')
+
+
+  const { dark } = useAppTheme();
 
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  const [updateArticle, { isLoading }] = useUpdateArticleMutation();
+  const navigate = useNavigate()
+  const { id } = useParams()
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const article = useSelector(selectCurrentArticle);
+  const [update, { isLoading }] = useUpdateArticleMutation();
+  const { data, isLoading: articleLoading, isSuccess: isArticleSuccess } = useGetArticleByIdQuery(id)
 
   useEffect(() => {
-    if (
-      article?.title === "" ||
-      article?.content === "" ||
-      article?.tags === ""
-    )
-      return navigate("/articles/myarticles");
-
-    let stringTags = article?.tags?.join(",");
-
-    setTitle(article.title || "");
-    setContent(article.content || "");
-    setTags(stringTags || "");
-  }, []);
+    if (data){
+      setTitle(data.title)
+      setContent(data.content)
+      setTagline(data.tagline)
+      setTags(data.tags)
+    }
+  }, [])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "title") setTitle(value);
     else if (name === "content") setContent(value);
     else if (name === "tags") setTags(value);
+    else if (name === "tagline") setTagline(value);
   };
 
-  const handleSaveClick = async (e) => {
+  // logic for tag entering
+  const handleTagInputchange = e => {
+    const { value } = e.target;
+
+    if (!value[value.length - 1]?.match(TAG_REGEX)) setTagInput(value);
+  }
+
+  const handleKeyDown = e => {
+    if (e.key === 'Enter' && e.target.value !== '') {
+      e.preventDefault();
+      setTags(prev => [...prev, `#${tagInput}`])
+      setTagInput('')
+      e.target.focus();
+    }
+
+    if (e.key === 'Backspace' && e.target.value === '') {
+      e.preventDefault();
+
+      const prevTag = tags.length >= 1 ? tags[tags.length - 1].slice(1) : ''
+      setTags(prev => prev.filter((tag, ind) => ind !== prev.length - 1))
+      setTagInput(prevTag)
+    }
+  }
+
+  const handleRemoveTag = (e, currentTag) => {
+    setTags(prev => prev.filter(tag => tag !== currentTag));
+  }
+
+  // submitting the article
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMsg("");
     setErrMsg("");
 
     const articleDetails = {
-      id: article.id,
       title,
+      tagline,
       content,
-      tags: tags
-        ? tags
-          .replace(/\s/g, "")
-          .split(",")
-          .filter((tag) => tag !== "")
-        : [],
+      tags,
     };
 
-    if (!title || !content)
-      return setErrMsg("You article must have title and content");
+    if (!title || !content || !tagline)
+      return setErrMsg("Title, content and tagline are mandatory");
 
     if (title.length < 15)
       return setErrMsg(
         "You title length is too short. Try something more relevant"
       );
 
-    if (content.length < 100)
+    if (content.length < 1000)
       return setErrMsg(
-        "Too short content. Minimun of 100 characters content is need to be posted."
+        "Too short content. Minimun of 1000 characters content is need to be posted."
       );
 
     try {
-      const response = await updateArticle(articleDetails);
-      //   console.log(response)
-      console.log(response.data.status)
+      const response = await update({ ...articleDetails, id });
+      
       if (response?.data?.status === 200) {
-        setSuccessMsg("Updated successfully.");
+        setSuccessMsg("You article has been posted successfully.");
         setTitle("");
         setContent("");
-        setTags("");
-        dispatch(resetCurrentArticle());
+        setTags([]);
 
         setTimeout(() => {
-          navigate("/articles/myarticles");
           setSuccessMsg("");
-        }, 1000);
+          navigate('/articles/myarticles')
+        }, 2000);
+      } else {
+        throw response.error
       }
-    } catch (error) {
-      console.log("error while saving");
-      if (error?.data?.message) return setErrMsg(error.data.message);
-      setErrMsg("Unable to save. Please report of any inconvinience");
+    } catch (e) {
+      setErrMsg(e?.data.message);
     }
-  };
-
-  const handleCancelClick = () => {
-    dispatch(resetCurrentArticle());
-    navigate("/articles/myarticles");
   };
 
   useEffect(() => {
     setErrMsg("");
-  }, [title, content, tags]);
+  }, [title, content, tags, tagline, tagInput]);
 
   useEffect(() => {
     document.title = "Update Article | ScribbleSphere";
   }, []);
 
-  const override = {
-    display: "block",
-    margin: "20px auto",
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }, { 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'color': [] }, { 'background': [] }], // To add text color and background color options
+      [{ 'align': ['right', 'center', ''] }], // To add alignment options with icons
+      [{ 'script': 'sub' }, { 'script': 'super' }], // To add subscript and superscript options
+      ['link', 'image'], // To add link, image, and video options
+      ['formula'], // To add formula option for mathematical equations
+      ['clean'],
+    ],
   };
+
+  const formats = [
+    'header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'font',
+    'list', 'ordered', 'bullet', 'check', 'indent', 'color', 'background',
+    'align', 'script', 'sub', 'super', 'link', 'image', 'formula', 'clean'
+  ];
+
   return (
-    <div className="create-article-main">
-      <header className="heading">
-        <h2>Edit Article</h2>
-      </header>
+    <>
+      <button className={`text-2xl mb-5 rounded-md  ${dark ? 'hover:bg-gray-500' : 'hover:bg-slate-300'} transition-all`} style={{ color: 'var(--text-200)' }} onClick={() => navigate(-1)} title="Back">
+        <MdKeyboardBackspace />
+      </button>
 
-      <form onSubmit={handleSaveClick} className="flex-center flex-column g-20">
-        <div className="form-field flex flex-column g-10">
-          <label htmlFor="title">Title for you article:</label>
-          <textarea
-            rows="1"
-            id={content}
-            placeholder="Minimum of 15 characters and maximum of 100 characters"
-            name="title"
-            value={title}
-            onChange={handleInputChange}
-            minLength={15}
-            maxLength={100}
-            required
-          />
-        </div>
-        <div className="form-field flex flex-column g-10">
-          <label htmlFor="content">Start your article here:</label>
-          <textarea
-            rows="15"
-            id={content}
-            name="content"
-            placeholder="This field is required"
-            value={content}
-            onChange={handleInputChange}
-            minLength={100}
-            maxLength={5000}
-            required
-          />
-        </div>
-        <div className="form-field flex flex-column g-10">
-          <label htmlFor="tags">Mention some tags (optional)</label>
+      <div className="create-article-main">
+        <header className="heading">
+          <h2>Edit Article</h2>
+          <p>
+            Easy creation, your language, your way, your style.
+          </p>
+        </header>
 
-          <textarea
-            placeholder="This field is required"
-            name="tags"
-            rows="1"
-            id="tags"
-            value={tags}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {errMsg && (
-          <div className="error">
-            <Alert severity="error">
-              <AlertTitle>Error</AlertTitle>
-              {errMsg}
-            </Alert>
+        <form onSubmit={handleSubmit} className="flex-center flex-column g-20 relative min-h-[300px]">
+          <div className={`form-field flex flex-col gap-5 mt-5`}>
+            <div className="flex flex-col">
+              <label htmlFor="title">Title for you article:</label>
+              <small className="text-xs font-light" style={{ color: 'var(--text-500)' }}>
+                Your title is the key to unlocking the full potential of your article
+              </small>
+              <small className="text-xs text-right font-light" style={{ color: 'var(--text-500)' }}>
+                {title.length} / 250
+              </small>
+            </div>
+            <textarea
+              rows="3"
+              id="title"
+              placeholder="Craft a Headline that Leaves a Mark.."
+              name="title"
+              value={articleLoading ? 'Loading...' : title}
+              onChange={handleInputChange}
+              minLength={15}
+              maxLength={250}
+              required
+            />
           </div>
-        )}
 
-        {successMsg && (
-          <div className="success">
-            <Alert severity="success">
-              <AlertTitle>Successfully Updated</AlertTitle>
-              {successMsg}
-            </Alert>
+          <div className={`form-field flex flex-col gap-5 mt-5`}>
+            <div className="flex flex-col">
+              <label htmlFor="article_content">Now start writing the content here:</label>
+              <small className="text-xs font-light" style={{ color: 'var(--text-500)' }}>
+                Your content is the beating heart of your article, where your thoughts take flight and your voice finds its true expression. It's the realm where imagination knows no bounds, and your ideas come alive.
+              </small>
+            </div>
+            <div id="#textEditor" className="rounded-lg" style={{ background: 'var(--text-editor-bg)' }}>
+              <ReactQuill id="article_content" className="content-textArea" theme="snow" value={articleLoading ? 'Loading...' : content} onChange={setContent}
+                modules={modules}
+                formats={formats}
+                placeholder="Let Your Words Dance Across the Pages..."
+              />
+            </div>
           </div>
-        )}
 
-        <PropagateLoader
-          // color="#0bbe64"
-          color="grey"
-          cssOverride={override}
-          loading={isLoading}
-        />
+          <div className={`form-field flex flex-col gap-5 mt-5`}>
+            <div className="flex flex-col">
+              <label htmlFor="tagline">
+                Write a short tagline for your article
+              </label>
+              <small className="text-xs font-light" style={{ color: 'var(--text-500)' }}>
+                Your tagline is the very first impression that entices readers to delve deeper into your story
+              </small>
+              <small className="text-xs text-right font-light" style={{ color: 'var(--text-500)' }}>
+                {tagline.length} / 1000
+              </small>
+            </div>
 
-        <div className="actionBtns flex g-10 flex-wrap">
-          <Button
-            onClick={handleCancelClick}
-            disabled={isLoading}
-            variant="contained"
-            sx={{
-              backgroundColor: "grey",
-              color: 'white',
-              "&:hover": { backgroundColor: "#787878" },
-              "&:disabled": {
-                opacity: 0.9,
-                backgroundColor: "#343434",
-              },
-            }}
-          >
-            <span>Cancel</span>
-          </Button>
-          <Button
-            disabled={isLoading}
-            type="submit"
-            variant="contained"
-            onClick={handleSaveClick}
-            sx={{ color: 'white' }}
-          >
-            Save
-          </Button>
-        </div>
-      </form>
-    </div>
+            <textarea
+              placeholder="A Snippet of Your Article's Brilliance..."
+              name="tagline"
+              rows="3"
+              id="tagline"
+              value={articleLoading ? 'Loading...' : tagline}
+              maxLength={1000}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className={`form-field flex flex-col gap-5 mt-5`}>
+            <div className="flex flex-col">
+              <label htmlFor="tags">
+                Finally write some tags <small className="text-xs" style={{ color: 'var(--text-300)' }}>(optional)</small>
+              </label>
+              <small className="text-xs font-light flex items-center justify-between" style={{ color: 'var(--text-500)' }}>
+                Tags are the silent heroes that wield incredible power within your article
+                <span>{tags.length} / 5</span>
+              </small>
+            </div>
+
+            <div className="textArea-wrapper flex flex-wrap">
+              <section className="m-2 flex gap-1 flex-wrap">
+                {
+                  tags.map(tag => (
+                    <span className="px-2 py-1 h-[32px] rounded-md flex items-center gap-1" key={uuidV4()}>{tag}
+                      <button type="button" title="Remove" onClick={(e) => handleRemoveTag(e, tag)}>
+                        <RxCross2 />
+                      </button>
+                    </span>))
+                }
+              </section>
+              {tags.length < 5 && <textarea
+                placeholder="Enter to add"
+                name="tags"
+                rows="1"
+                maxLength={15}
+                id="tags"
+                value={tagInput}
+                onKeyDown={handleKeyDown}
+                onChange={handleTagInputchange}
+              />}
+            </div>
+          </div>
+
+          {errMsg && (
+            <div className="error">
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                {errMsg}
+              </Alert>
+            </div>
+          )}
+
+          {successMsg && (
+            <div className="success">
+              <Alert severity="success">
+                <AlertTitle>Updated Successfully</AlertTitle>
+                {successMsg}
+              </Alert>
+            </div>
+          )}
+
+          <div className="flex flex-col gap-3">
+            {(!title || !content || !tagline) && <small className="text-xs text-center font-light" style={{ color: 'var(--text-500)' }}>
+              You can't leave the {!title ? 'title' : !content ? 'content' : 'tagline'} blank.
+            </small>}
+            <div className="flex items-center flex-wrap gap-2 justify-end">
+              <Button
+                type="button"
+                disabled={isLoading || (!title || !content || !tagline)}
+                onClick={() => navigate(-1)}
+                variant="outlined"
+                sx={{padding: '10px 25px'}}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                disabled={isLoading || (!title || !content || !tagline)}
+                type="submit"
+                variant="contained"
+                sx={{
+                  padding: '10px 25px',
+                  color: 'white',
+                  backgroundColor: "var(--primary-color)",
+                  "&:disabled": {
+                    color: 'white',
+                    backgroundColor: "var(--primary-color)",
+                    opacity: 0.5,
+                  },
+                }}
+              >
+                <span>
+                  {isLoading ? 'Updating...' : 'Update'}
+                </span>
+              </Button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 
-export default UpdateArticle;
+export default CreateArticle;

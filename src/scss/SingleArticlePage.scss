@@ -50,7 +50,8 @@ div.singleArtilePage-main {
       margin-top: 40px;
 
       div.content-wrapper {
-        & > *, & > * > *{
+        & > *,
+        & > * > * {
           font-family: var(--blog-font);
         }
 
@@ -71,9 +72,35 @@ div.singleArtilePage-main {
 
         p {
           font-size: 1.1rem;
-          line-height: 1.8rem;
-          // mix-blend-mode: difference;
-          // color: #f2f7f2;
+          line-height: 1.9rem;
+
+          &:has(code) {
+            background: var(--bg-secondary) !important;
+            line-height: 1.4rem;
+            font-size: 14px !important;
+            font-family: monospace !important;
+            padding-left: 18px;
+          }
+
+          &:has(br:only-child) + &:has(code) {
+            display: none !important;
+          }
+        }
+
+        .ql-align-center {
+          text-align: center !important;
+        }
+
+        .ql-align-justify {
+          text-align: justify !important;
+        }
+
+        .ql-align-right {
+          text-align: right !important;
+        }
+
+        a {
+          color: blue;
         }
 
         ul {

@@ -8,12 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useLoginMutation } from "./authApiSlice";
 
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import Alert from "@mui/material/Alert";
-import Button from "@mui/material/Button";
-import { FormHelperText } from "@mui/material";
+import { Button, Checkbox, FormHelperText, OutlinedInput, InputLabel, FormControl, Alert } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { setCredentials } from "./authSlice";
@@ -31,8 +26,8 @@ const Login = () => {
   const pwdRef = useRef();
 
   const dispatch = useDispatch();
-  const [login, {isLoading}] = useLoginMutation();
-  
+  const [login, { isLoading }] = useLoginMutation();
+
 
 
   const navigate = useNavigate();
@@ -258,12 +253,13 @@ const Login = () => {
             </FormControl>
           </ThemeProvider>
 
-          <div className="rememberMe">
-            <input
-              type="checkbox"
+          <div className="rememberMe flex items-center gap-1">
+            <Checkbox
               id="persistInput"
+              sx={{padding: 0}}
               checked={persist}
               onChange={() => setPersist(prev => !prev)}
+              inputProps={{ 'aria-label': 'controlled' }}
             />
             <label htmlFor="persistInput" title="Remember this device?">
               Remember Me?
@@ -290,8 +286,8 @@ const Login = () => {
             size="large"
             disabled={isLoading}
           >
-          {isLoading && <img src={loading} alt="loading spinner" className="w-[20px] h-[20px]" />}
-            {isLoading? 'Signing in...' : 'sign in'}
+            {isLoading && <img src={loading} alt="loading spinner" className="w-[20px] h-[20px]" />}
+            {isLoading ? 'Signing in...' : 'sign in'}
           </Button>
         </form>
 

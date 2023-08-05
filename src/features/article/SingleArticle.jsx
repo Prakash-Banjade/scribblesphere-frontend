@@ -3,7 +3,6 @@ import "../../scss/SingleArticle.scss";
 import ArticleDate from "./ArticleDateAgo";
 import { Link, useNavigate } from "react-router-dom";
 import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
-import { setCurrentArticle, resetCurrentArticle } from "./articleSlice";
 import { useDispatch } from "react-redux";
 import DeleteModal from "../../components/DeleteModal.jsx";
 
@@ -24,7 +23,6 @@ const SingleArticle = ({
 }) => {
   const { _id, title, content, tagline, tags, createdAt, author } = article;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [deleteArticle, { isLoading }] = useDeleteArticleMutation();
   const [errDeleteMsg, setErrDeleteMsg] = useState("");
@@ -44,7 +42,6 @@ const SingleArticle = ({
   const handleDelete = async () => {
     try {
       const response = await deleteArticle({ id: _id });
-      dispatch(resetCurrentArticle())
     } catch (e) {
       console.log(e.message);
       setErrDeleteMsg(e.message);
@@ -52,8 +49,7 @@ const SingleArticle = ({
   };
 
   const handleEditClick = () => {
-    dispatch(setCurrentArticle({ ...article }));
-    navigate("/articles/edit");
+    navigate(`/articles/${_id}/edit`);
   };
 
   return (
@@ -120,13 +116,14 @@ const SingleArticle = ({
             <Button
               variant="contained"
               size="small"
+              disabled={isLoading}
               startIcon={<DeleteIcon />}
               onClick={handleOpen}
               sx={{
                 color: 'white'
               }}
             >
-              Delete
+              {isLoading? 'Deleting...' : 'Delete'}
             </Button>
           </div>
         )}

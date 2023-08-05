@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidV4 } from 'uuid';
 import "../../scss/CreateArticle.scss";
 import { usePostArticleMutation } from "./articlesApiSlice";
 import ReactQuill, { Quill } from 'react-quill'
@@ -11,14 +12,18 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
 import PropagateLoader from "react-spinners/PropagateLoader";
 import useAppTheme from "../../hooks/useAppTheme";
+import { RxCross2 } from 'react-icons/rx'
 import { MdKeyboardBackspace } from "react-icons/md";
 // import TextEditor from "./TextEditor";
+
+const TAG_REGEX = /[^A-Za-z0-9.]/g;
 
 const CreateArticle = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([]);
   const [tagline, setTagline] = useState('')
+  const [tagInput, setTagInput] = useState('')
 
 
   const { dark } = useAppTheme();
@@ -40,6 +45,35 @@ const CreateArticle = () => {
     else if (name === "tagline") setTagline(value);
   };
 
+  // logic for tag entering
+  const handleTagInputchange = e => {
+    const { value } = e.target;
+
+    if (!value[value.length - 1]?.match(TAG_REGEX)) setTagInput(value);
+  }
+
+  const handleKeyDown = e => {
+    if (e.key === 'Enter' && e.target.value !== '') {
+      e.preventDefault();
+      setTags(prev => [...prev, `#${tagInput}`])
+      setTagInput('')
+      e.target.focus();
+    }
+
+    if (e.key === 'Backspace' && e.target.value === '') {
+      e.preventDefault();
+
+      const prevTag = tags.length >= 1 ? tags[tags.length - 1].slice(1) : ''
+      setTags(prev => prev.filter((tag, ind) => ind !== prev.length - 1))
+      setTagInput(prevTag)
+    }
+  }
+
+  const handleRemoveTag = (e, currentTag) => {
+    setTags(prev => prev.filter(tag => tag !== currentTag));
+  }
+
+  // submitting the article
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMsg("");
@@ -49,12 +83,7 @@ const CreateArticle = () => {
       title,
       tagline,
       content,
-      tags: tags
-        ? tags
-          .replace(/\s/g, "")
-          .split(",")
-          .filter((tag) => tag !== "")
-        : [],
+      tags,
     };
 
     if (!title || !content || !tagline)
@@ -76,7 +105,7 @@ const CreateArticle = () => {
         setSuccessMsg("You article has been posted successfully.");
         setTitle("");
         setContent("");
-        setTags("");
+        setTags([]);
 
         setTimeout(() => {
           setSuccessMsg("");
@@ -92,7 +121,7 @@ const CreateArticle = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [title, content, tags, tagline]);
+  }, [title, content, tags, tagline, tagInput]);
 
   useEffect(() => {
     document.title = "Create Article | ScribbleSphere";
@@ -101,21 +130,21 @@ const CreateArticle = () => {
   const modules = {
     toolbar: [
       [{ 'header': [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code'],
       [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }, { 'indent': '-1' }, { 'indent': '+1' }],
       [{ 'color': [] }, { 'background': [] }], // To add text color and background color options
       [{ 'align': ['right', 'center', ''] }], // To add alignment options with icons
       [{ 'script': 'sub' }, { 'script': 'super' }], // To add subscript and superscript options
-      ['link', 'image', 'video'], // To add link, image, and video options
+      ['link', 'image'], // To add link, image, and video options
       ['formula'], // To add formula option for mathematical equations
       ['clean'],
     ],
   };
 
   const formats = [
-    'header', 'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code',
     'list', 'ordered', 'bullet', 'check', 'indent', 'color', 'background',
-    'align', 'script', 'sub', 'super', 'link', 'image', 'video', 'formula', 'clean'
+    'align', 'script', 'sub', 'super', 'link', 'image', 'formula', 'clean',
   ];
 
   return (
@@ -163,7 +192,7 @@ const CreateArticle = () => {
                 Your content is the beating heart of your article, where your thoughts take flight and your voice finds its true expression. It's the realm where imagination knows no bounds, and your ideas come alive.
               </small>
             </div>
-            <div className="rounded-lg" style={{ background: 'var(--text-editor-bg)' }}>
+            <div id="#textEditor" className="rounded-lg" style={{ background: 'var(--text-editor-bg)' }}>
               <ReactQuill id="article_content" className="content-textArea" theme="snow" value={content} onChange={setContent}
                 modules={modules}
                 formats={formats}
@@ -181,7 +210,7 @@ const CreateArticle = () => {
                 Your tagline is the very first impression that entices readers to delve deeper into your story
               </small>
               <small className="text-xs text-right font-light" style={{ color: 'var(--text-500)' }}>
-                {tagline.length} / 250
+                {tagline.length} / 1000
               </small>
             </div>
 
@@ -191,6 +220,7 @@ const CreateArticle = () => {
               rows="3"
               id="tagline"
               value={tagline}
+              maxLength={1000}
               onChange={handleInputChange}
             />
           </div>
@@ -198,22 +228,36 @@ const CreateArticle = () => {
           <div className={`form-field flex flex-col gap-5 ${activeTab === 4 ? 'opacity-100 pointer-events-auto static' : 'opacity-0 pointer-events-none absolute'}`}>
             <div className="flex flex-col">
               <label htmlFor="tags">
-                Finally write some tags,
-                (Comma separared) <small className="text-xs" style={{ color: 'var(--text-300)' }}>(optional)</small>
+                Finally write some tags <small className="text-xs" style={{ color: 'var(--text-300)' }}>(optional)</small>
               </label>
-              <small className="text-xs font-light" style={{ color: 'var(--text-500)' }}>
+              <small className="text-xs font-light flex items-center justify-between" style={{ color: 'var(--text-500)' }}>
                 Tags are the silent heroes that wield incredible power within your article
+                <span>{tags.length} / 5</span>
               </small>
             </div>
 
-            <textarea
-              placeholder="Max 5 tags allowed"
-              name="tags"
-              rows="1"
-              id="tags"
-              value={tags}
-              onChange={handleInputChange}
-            />
+            <div className="textArea-wrapper flex flex-wrap">
+              <section className="m-2 flex gap-1 flex-wrap">
+                {
+                  tags.map(tag => (
+                    <span className="px-2 py-1 h-[32px] rounded-md flex items-center gap-1" key={uuidV4()}>{tag}
+                      <button type="button" title="Remove" onClick={(e) => handleRemoveTag(e, tag)}>
+                        <RxCross2 />
+                      </button>
+                    </span>))
+                }
+              </section>
+              {tags.length < 5 && <textarea
+                placeholder="Enter to add"
+                name="tags"
+                rows="1"
+                maxLength={15}
+                id="tags"
+                value={tagInput}
+                onKeyDown={handleKeyDown}
+                onChange={handleTagInputchange}
+              />}
+            </div>
           </div>
 
           {errMsg && (
@@ -258,9 +302,9 @@ const CreateArticle = () => {
           </div>
 
           {activeTab === 4 && <div className="flex flex-col gap-3">
-            <small className="text-xs text-center font-light" style={{ color: 'var(--text-500)' }}>
+            {(!title || !content || !tagline) && <small className="text-xs text-center font-light" style={{ color: 'var(--text-500)' }}>
               You can't leave the {!title ? 'title' : !content ? 'content' : 'tagline'} blank.
-            </small>
+            </small>}
             <Button
               onClick={handleSubmit}
               disabled={isLoading || (!title || !content || !tagline)}

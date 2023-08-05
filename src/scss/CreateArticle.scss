@@ -35,6 +35,30 @@ div.create-article-main {
         }
       }
 
+      .textArea-wrapper {
+        border-radius: 8px;
+        border: 1px solid var(--line-color);
+        background-color: var(--text-editor-bg);
+        &:focus-within {
+          outline: 1px solid var(--primary-color);
+        }
+
+        span {
+          background: var(--bg-primary);
+          color: var(--text-200);
+        }
+
+        textarea {
+          resize: none;
+          border: none;
+          padding: 12px 8px;
+          flex-grow: 1;
+          &:is(:focus, :active) {
+            outline: none;
+          }
+        }
+      }
+
       #article_content {
         border-radius: 8px;
         .ql-toolbar.ql-snow,
@@ -47,11 +71,18 @@ div.create-article-main {
           background: var(--text-editor-toolbar);
           border-bottom-left-radius: 0;
           border-bottom-right-radius: 0;
+          position: sticky;
+          top: -8px;
+          z-index: 1;
+          box-shadow: 0 5px 25px rgb(0 0 0 / .1);
         }
 
         .ql-container.ql-snow {
           border-top-left-radius: 0 !important;
           border-top-right-radius: 0 !important;
+          .ql-editor {
+            min-height: 600px;
+          }
         }
       }
     }

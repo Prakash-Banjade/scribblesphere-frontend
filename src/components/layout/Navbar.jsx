@@ -233,6 +233,7 @@ const Navbar = ({ open, small, setShowSideBar }) => {
                   className={`${dark ? 'hover:bg-darkBg' : 'hover:bg-slate-100'} whitespace-nowrap transition-colors grow py-3 pl-3 pr-[60px] flex items-center gap-3`}
                   onClick={() => {
                     toggleTheme();
+                    localStorage.setItem('dark', !dark)
                     setIsProfileDropdownOpen(false);
                   }}
                 >

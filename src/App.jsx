@@ -102,9 +102,12 @@ const App = () => {
                     <Route index element={<ArticlesList />} />
                     <Route path="myarticles" element={<MyArticles />} />
                     <Route path="create" element={<CreateArticle />} />
-                    <Route path="edit" element={<UpdateArticle />} />
                     <Route path="search" element={<SearchArticles />} />
-                    <Route path=":id" element={<SingleArticlePage />} />
+                    <Route path=":id">
+                      <Route index element={<SingleArticlePage />} />
+                      <Route path="edit" element={<UpdateArticle />} />
+                    </Route>
+
                   </Route>
                   <Route path="/profile" element={<MyProfile />} />
 

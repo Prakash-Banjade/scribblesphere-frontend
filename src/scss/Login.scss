@@ -14,6 +14,8 @@ main.signup-main{
     padding: 20px;
     border-radius: 8px;
     border: 1px solid var(--line-color);
+    background: var(--bg-secondary);
+
 
     @media screen and (max-width: 670px){
         margin: 0;
@@ -59,14 +61,8 @@ main.signup-main{
 
     div.rememberMe{
         width: 100%;
-
-        input{
-            cursor: pointer;
-            accent-color: var(--primary-color);
-        }
         label{
             color: var(--text-200);
-            margin-left: 8px;
             cursor: pointer;
         }
     }
