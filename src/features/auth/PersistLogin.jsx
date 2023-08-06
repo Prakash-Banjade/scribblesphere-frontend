@@ -54,10 +54,10 @@ const PersistLogin = () => {
     content = <Loader />;
   } else if (isError) {
     //persist: yes, token: no
-    console.log("error");
+
 
     content = (
-      <LoginExpire message={error.data?.message} /> // there is no message from the backend
+      error.originalStatus === 401 || error.originalStatus === 403 ? <Outlet /> : <LoginExpire /> // there is no message from the backend
     );
   } else if (isSuccess && success) {
     //persist: yes, token: yes

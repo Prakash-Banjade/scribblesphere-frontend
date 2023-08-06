@@ -6,7 +6,7 @@ import loading from '../../assets/signInLoading.gif'
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
-import { useLoginMutation } from "./authApiSlice";
+import { useLoginMutation, useOAuthMutation } from "./authApiSlice";
 
 import { Button, Checkbox, FormHelperText, OutlinedInput, InputLabel, FormControl, Alert } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { setCredentials } from "./authSlice";
 import useInternetConnection from "../../hooks/useInternetConnection";
 import usePersist from "../../hooks/usePersist";
+import GoogleOAuth from "./GoogleOAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -35,6 +36,7 @@ const Login = () => {
   const isOnline = useInternetConnection();
   const [persist, setPersist] = usePersist();
 
+  // submit logic when done through email and pwd
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -256,7 +258,7 @@ const Login = () => {
           <div className="rememberMe flex items-center gap-1">
             <Checkbox
               id="persistInput"
-              sx={{padding: 0}}
+              sx={{ padding: 0 }}
               checked={persist}
               onChange={() => setPersist(prev => !prev)}
               inputProps={{ 'aria-label': 'controlled' }}
@@ -289,12 +291,17 @@ const Login = () => {
             {isLoading && <img src={loading} alt="loading spinner" className="w-[20px] h-[20px]" />}
             {isLoading ? 'Signing in...' : 'sign in'}
           </Button>
+
         </form>
 
         <section className="needAccount flex-center" >
           <p>Need an account? &nbsp;</p>
           <Link to="/signup" className="hover:underline">Sign Up</Link>
         </section>
+
+        <span className="text-center text-xs" style={{ color: 'var(--text-300)' }}>Or,</span>
+
+        <GoogleOAuth setErrMsg={setErrMsg} />
       </div>
     </main>
   );

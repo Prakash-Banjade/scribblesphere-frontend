@@ -1,70 +1,76 @@
-main.login-main{
-    min-height: 100vh;
-    padding: 20px;
+main.login-main {
+  min-height: 100vh;
+  padding: 20px;
 }
 
-main.signup-main{
-    min-height: 100vh;
-    padding: 20px;
+main.signup-main {
+  min-height: 100vh;
+  padding: 20px;
 }
 
-.form-wrapper{
-    width: 90%;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid var(--line-color);
-    background: var(--bg-secondary);
+main.signup-main,
+main.login-main {
+  iframe {
+    margin: 0 !important;
+  }
+}
 
+.form-wrapper {
+  width: 90%;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--line-color);
+  background: var(--bg-secondary);
 
-    @media screen and (max-width: 670px){
-        margin: 0;
-        width: 100%;
-        border: none;
-        padding: 0;
+  @media screen and (max-width: 670px) {
+    margin: 0;
+    width: 100%;
+    border: none;
+    padding: 5px;
+    background: transparent;
+  }
+
+  header {
+    margin-bottom: 20px;
+    img {
+      display: block;
+      width: 60px;
     }
 
-    header{
-        margin-bottom: 20px;
-        img{
-            display: block;
-            width: 60px;
-        }
+    h2 {
+      font-weight: 300;
+      color: var(--text-200);
+      font-size: 1.4rem;
+    }
+  }
 
-        h2{
-            font-weight: 300;
-            color: var(--text-200);
-            font-size: 1.4rem;
-        }
+  form {
+    width: 100%;
+    max-width: 500px;
+    a.forgetPwd {
+      color: dodgerblue;
+      width: fit-content;
+      margin-top: 5px;
+      align-self: flex-end;
+    }
+  }
+
+  section.needAccount {
+    p {
+      color: var(--text-200);
     }
 
-    form{
-        width: 100%;
-        max-width: 500px;
-        a.forgetPwd{
-            color: dodgerblue;
-            width: fit-content;
-            margin-top: 5px;
-            align-self: flex-end;
-        }
+    a {
+      color: dodgerblue;
     }
+  }
 
-    section.needAccount{
-        p{
-            color: var(--text-200);
-        }
-
-        a{
-            color: dodgerblue;
-        }
+  div.rememberMe {
+    width: 100%;
+    label {
+      color: var(--text-200);
+      cursor: pointer;
     }
-
-    div.rememberMe{
-        width: 100%;
-        label{
-            color: var(--text-200);
-            cursor: pointer;
-        }
-    }
-
+  }
 }

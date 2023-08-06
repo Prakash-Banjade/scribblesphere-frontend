@@ -22,6 +22,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import useInternetConnection from "../../hooks/useInternetConnection";
 import useAppTheme from "../../hooks/useAppTheme";
+import GoogleOAuth from "./GoogleOAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -36,7 +37,7 @@ const Login = () => {
   const [success, setSuccess] = useState(false);
 
   const [open, setOpen] = useState(true);
-  const {dark} = useAppTheme();
+  const { dark } = useAppTheme();
 
   const emailRef = useRef();
   const pwdRef = useRef();
@@ -287,12 +288,12 @@ const Login = () => {
             onClick={() => {
               setOpen(false);
             }}
-            sx={{color: '#232323', '&:hover': {color: '#f2f2f2'}}}
+            sx={{ color: '#232323', '&:hover': { color: '#f2f2f2' } }}
           >
             <CloseIcon fontSize="inherit" />
           </IconButton>
         }
-        sx={{ mb: 2, background: dark? '' : 'lightgreen' }}
+        sx={{ mb: 2, background: dark ? '' : 'lightgreen' }}
       >
         <AlertTitle>Registration Success!</AlertTitle>
         You can head to login —{" "}
@@ -324,81 +325,83 @@ const Login = () => {
             </Alert>
           )}
           {success && successAlert}
-          <ThemeProvider theme={fullnameInputTheme}>
-            <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
-              <InputLabel
-                htmlFor="outlined-adornment-fullname"
-                error={Boolean(fullnameErrMsg)}
-              >
-                Full name
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-fullname"
-                inputRef={fullnameRef}
-                type="text"
-                autoFocus
-                value={fullname}
-                onChange={handleFullnameChange}
-                required
-                error={Boolean(fullnameErrMsg)}
-                autoComplete="false"
-                autoCorrect="false"
-                sx={{
-                  color: "var(--text-200)",
-                }}
-                label="Full name"
-              />
-              {fullnameErrMsg && (
-                <FormHelperText
-                  sx={{
-                    marginLeft: 0,
-                    marginTop: "5px",
-                    color: "var(--error-text-color)",
-                    fontFamily: "var(--primary-text-font)",
-                  }}
+          <div className="flex gap-5 w-full flex-wrap">
+            <ThemeProvider theme={fullnameInputTheme}>
+              <FormControl sx={{ alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, flexBasis: '200px' }} variant="outlined">
+                <InputLabel
+                  htmlFor="outlined-adornment-fullname"
+                  error={Boolean(fullnameErrMsg)}
                 >
-                  {fullnameErrMsg}
-                </FormHelperText>
-              )}
-            </FormControl>
-          </ThemeProvider>
-          <ThemeProvider theme={emailInputTheme}>
-            <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
-              <InputLabel
-                htmlFor="outlined-adornment-email"
-                error={Boolean(emailErrMsg)}
-              >
-                Email
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-email"
-                inputRef={emailRef}
-                type="email"
-                error={Boolean(emailErrMsg)}
-                value={email}
-                onChange={handleEmailChange}
-                required
-                autoComplete="false"
-                autoCorrect="false"
-                sx={{
-                  color: "var(--text-200)",
-                }}
-                label="Email"
-              />
-              {emailErrMsg && (
-                <FormHelperText
+                  Full name
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-fullname"
+                  inputRef={fullnameRef}
+                  type="text"
+                  autoFocus
+                  value={fullname}
+                  onChange={handleFullnameChange}
+                  required
+                  error={Boolean(fullnameErrMsg)}
+                  autoComplete="false"
+                  autoCorrect="false"
                   sx={{
-                    marginLeft: 0,
-                    marginTop: "5px",
-                    color: "var(--error-text-color)",
-                    fontFamily: "var(--primary-text-font)",
+                    color: "var(--text-200)",
                   }}
+                  label="Full name"
+                />
+                {fullnameErrMsg && (
+                  <FormHelperText
+                    sx={{
+                      marginLeft: 0,
+                      marginTop: "5px",
+                      color: "var(--error-text-color)",
+                      fontFamily: "var(--primary-text-font)",
+                    }}
+                  >
+                    {fullnameErrMsg}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </ThemeProvider>
+            <ThemeProvider theme={emailInputTheme}>
+              <FormControl sx={{ alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, flexBasis: '200px'  }} variant="outlined">
+                <InputLabel
+                  htmlFor="outlined-adornment-email"
+                  error={Boolean(emailErrMsg)}
                 >
-                  {emailErrMsg}
-                </FormHelperText>
-              )}
-            </FormControl>
-          </ThemeProvider>
+                  Email
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-email"
+                  inputRef={emailRef}
+                  type="email"
+                  error={Boolean(emailErrMsg)}
+                  value={email}
+                  onChange={handleEmailChange}
+                  required
+                  autoComplete="false"
+                  autoCorrect="false"
+                  sx={{
+                    color: "var(--text-200)",
+                  }}
+                  label="Email"
+                />
+                {emailErrMsg && (
+                  <FormHelperText
+                    sx={{
+                      marginLeft: 0,
+                      marginTop: "5px",
+                      color: "var(--error-text-color)",
+                      fontFamily: "var(--primary-text-font)",
+                    }}
+                  >
+                    {emailErrMsg}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </ThemeProvider>
+          </div>
 
           <ThemeProvider theme={pwdInputTheme}>
             <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
@@ -505,6 +508,8 @@ const Login = () => {
           <p>Already have an account? &nbsp;</p>
           <Link to="/login" className="hover:underline">Sign In</Link>
         </section>
+
+        <GoogleOAuth />
       </div>
     </main>
   );

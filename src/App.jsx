@@ -76,7 +76,7 @@ const App = () => {
             color: 'var(--text-100)',
           }
         }
-      }
+      },
     },
   });
 

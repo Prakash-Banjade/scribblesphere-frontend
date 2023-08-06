@@ -135,7 +135,7 @@ const CreateArticle = () => {
   const modules = {
     toolbar: [
       [{ 'header': [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code'],
       [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }, { 'indent': '-1' }, { 'indent': '+1' }],
       [{ 'color': [] }, { 'background': [] }], // To add text color and background color options
       [{ 'align': ['right', 'center', ''] }], // To add alignment options with icons
@@ -147,7 +147,7 @@ const CreateArticle = () => {
   };
 
   const formats = [
-    'header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'font',
+    'header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code',
     'list', 'ordered', 'bullet', 'check', 'indent', 'color', 'background',
     'align', 'script', 'sub', 'super', 'link', 'image', 'formula', 'clean'
   ];

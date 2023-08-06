@@ -14,6 +14,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks//useAuth";
 import useAppTheme from "../../hooks/useAppTheme";
 import { useLogoutMutation } from "../../features/auth/authApiSlice";
+import { googleLogout } from '@react-oauth/google';
+
 import ProfilePicture from "../../features/user/ProfilePicture";
 
 const Navbar = ({ open, small, setShowSideBar }) => {
@@ -67,6 +69,7 @@ const Navbar = ({ open, small, setShowSideBar }) => {
   const handleLogOut = async () => {
     try {
       await logout();
+      googleLogout();
       if (!isError) navigate("/login");
     } catch (e) {
       console.log(e)
