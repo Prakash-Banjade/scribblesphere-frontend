@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, useGoogleLogin, useGoogleOneTapLogin } from '@react-oauth/google';
 import { setCredentials } from "./authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom'
@@ -7,68 +7,57 @@ import { useOAuthMutation } from "./authApiSlice";
 import loading from '../../assets/signInLoading.gif'
 import { Button } from '@mui/material'
 import { FcGoogle } from 'react-icons/fc'
-import jwtDecode from 'jwt-decode';
-import axios from '../../app/api/axios'
+import axios from 'axios'
 
 const GoogleOAuth = ({ setErrMsg }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [user, setUser] = useState(null);
-
-
     // google oauth implementation
-    const [oAuth, {isLoading}] = useOAuthMutation();
+    const [oAuth, { isLoading }] = useOAuthMutation();
 
     const handleOAuthSuccess = async (response) => {
-        const { code } = response;
-        try {
-            const response = await oAuth({ code }).unwrap();
-            console.log(response)
-            dispatch(setCredentials({ token: response.accessToken }));
+        console.log(response)
+        const { code, credential } = response;
 
-            navigate('/dash')
+        if (code) {
+            try {
+                const response = await oAuth({ code, credential }).unwrap();
+                dispatch(setCredentials({ token: response.accessToken }));
 
-        } catch (e) {
-            console.log(e);
-            if (e.data?.message) return setErrMsg(e.data.message)
-            setErrMsg(e.message);
+                navigate('/dash')
+
+            } catch (e) {
+                console.log(e);
+                if (e.data?.message) return setErrMsg(e.data.message)
+                setErrMsg(e.message);
+            }
         }
 
     };
     const handleOAuthError = (error) => {
         console.log(error);
+        if (error.data?.message) return setErrMsg(error.data.message);
+        setErrMsg(error.message)
     };
-
 
     const googleLogin = useGoogleLogin({
         flow: 'auth-code',
         onSuccess: handleOAuthSuccess,
-        onError: errorResponse => console.log(errorResponse),
+        onError: handleOAuthError,
     });
 
-    // useEffect(
-    //     () => {
-    //         if (user) {
-    //             axios
-    //                 .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-    //                     headers: {
-    //                         Authorization: `Bearer ${user.access_token}`,
-    //                         Accept: 'application/json'
-    //                     }
-    //                 })
-    //                 .then((res) => {
-    //                     console.log(res.data)
-    //                 })
-    //                 .catch((err) => console.log(err));
-    //         }
-    //     },
-    //     [user]
-    // );
+    // one tap login implementation
+    useGoogleOneTapLogin({
+        flow: 'auth-code',
+        auto_select: true,
+        onSuccess: handleOAuthSuccess,
+        onError: handleOAuthError,
+    });
 
     return (
         <div className="wrapper flex flex-col items-center justify-center gap-1 w-full max-w-[500px]">
-            {/* <GoogleLogin onSuccess={handleOAuthSuccess} onError={handleOAuthError} size="large" text="continue_with"  /> */}
+            {/* <GoogleLogin onSuccess={handleOAuthSuccess} onError={handleOAuthError} size="large" text="continue_with" /> */}
 
             <Button
                 variant="contained"
@@ -76,13 +65,17 @@ const GoogleOAuth = ({ setErrMsg }) => {
                 sx={{
                     fontWeight: "500",
                     width: "100%",
+                    maxWidth: '500px',
+                    maxHeight: '54px',
+                    whiteSpace: 'nowrap',
                     display: 'flex',
                     alignItems: 'center',
                     padding: '14px',
                     gap: '8px',
                     background: '#f9f9f7',
+                    border: '1px solid var(--line-color)',
                     color: '#232323',
-                    boxShadow: '0 2px 2px rgb(0 0 0 / .2)',
+                    boxShadow: '0 0',
                     '&:hover': {
                         background: '#f9f9f7',
                     },

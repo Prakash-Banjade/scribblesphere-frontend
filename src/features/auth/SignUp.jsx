@@ -311,7 +311,7 @@ const Login = () => {
       <div className="form-wrapper flex-center-column g-20">
         <header className="flex-center-column g-20">
           <img src={logo} alt="ScribbleSphere Logo" />
-          <h2>Sign Up to ScribbleSphere</h2>
+          <h2 className="text-center">Sign Up to ScribbleSphere</h2>
         </header>
         <PropagateLoader
           color="#0bbe64"
@@ -365,7 +365,7 @@ const Login = () => {
               </FormControl>
             </ThemeProvider>
             <ThemeProvider theme={emailInputTheme}>
-              <FormControl sx={{ alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, flexBasis: '200px'  }} variant="outlined">
+              <FormControl sx={{ alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, flexBasis: '200px' }} variant="outlined">
                 <InputLabel
                   htmlFor="outlined-adornment-email"
                   error={Boolean(emailErrMsg)}
@@ -504,9 +504,15 @@ const Login = () => {
           </Button>
         </form>
 
-        <section className="needAccount flex-center">
-          <p>Already have an account? &nbsp;</p>
-          <Link to="/login" className="hover:underline">Sign In</Link>
+        <section className="needAccount flex-center gap-1">
+          <p className="text-sm">Already have an accout?</p>
+          <Button component={Link} to="/login" sx={{padding: 0}} variant="text">Sign In</Button>
+        </section>
+
+        <section className="flex gap-1.5 items-center w-full max-w-[500px]">
+          <hr className=" grow" style={{ borderColor: 'var(--text-500)' }} />
+          <span className="text-center text-xs" style={{ color: 'var(--text-300)' }}>Or,</span>
+          <hr className=" grow" style={{ borderColor: 'var(--text-500)' }} />
         </section>
 
         <GoogleOAuth />

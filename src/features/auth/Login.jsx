@@ -167,7 +167,7 @@ const Login = () => {
       <div className="form-wrapper flex-center-column g-20">
         <header className="flex-center-column g-20">
           <img src={logo} alt="ScribbleSphere Logo" />
-          <h2>Sign in to ScribbleSphere</h2>
+          <h2 className="text-center">Sign in to ScribbleSphere</h2>
         </header>
         <form onSubmit={handleSubmit} className="flex-center-column g-10">
           {errMsg && (
@@ -257,12 +257,13 @@ const Login = () => {
           <div className="rememberMe flex items-center gap-1">
             <Checkbox
               id="persistInput"
-              sx={{ padding: 0 }}
+              sx={{ padding: 0, color: 'var(--text-400)' }}
               checked={persist}
+              size="small"
               onChange={() => setPersist(prev => !prev)}
               inputProps={{ 'aria-label': 'controlled' }}
             />
-            <label htmlFor="persistInput" title="Remember this device?">
+            <label htmlFor="persistInput" className='text-sm' title="Remember this device?">
               Remember Me?
             </label>
           </div>
@@ -293,9 +294,9 @@ const Login = () => {
 
         </form>
 
-        <section className="needAccount flex-center" >
-          <p>Need an account? &nbsp;</p>
-          <Link to="/signup" className="hover:underline">Sign Up</Link>
+        <section className="needAccount flex-center gap-1">
+          <p className="text-sm">Need an account?</p>
+          <Button component={Link} to="/signup" sx={{padding: 0}} variant="text">Sign up</Button>
         </section>
 
         <section className="flex gap-1.5 items-center w-full max-w-[500px]">

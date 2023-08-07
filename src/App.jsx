@@ -57,6 +57,14 @@ const App = () => {
               opacity: 1,
               background: 'rgb(0 0 0 / 0.05)',
             }
+          },
+          text: {
+            background: 'transparent',
+            border: 'none',
+            '&:hover': {
+              background: 'transparent',
+              border: 'none',
+            }
           }
         },
       },
