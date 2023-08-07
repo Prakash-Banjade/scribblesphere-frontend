@@ -20,7 +20,7 @@ const GoogleOAuth = ({ setErrMsg }) => {
         console.log(response)
         const { code, credential } = response;
 
-        if (code) {
+        if (code || credential) {
             try {
                 const response = await oAuth({ code, credential }).unwrap();
                 dispatch(setCredentials({ token: response.accessToken }));
