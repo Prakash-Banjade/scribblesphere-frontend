@@ -251,7 +251,7 @@ const CreateArticle = () => {
                 placeholder="Enter to add"
                 name="tags"
                 rows="1"
-                maxLength={15}
+                maxLength={25}
                 id="tags"
                 value={tagInput}
                 onKeyDown={handleKeyDown}

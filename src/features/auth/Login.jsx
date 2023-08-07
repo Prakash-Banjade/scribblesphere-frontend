@@ -187,7 +187,6 @@ const Login = () => {
                 id="outlined-adornment-email"
                 inputRef={emailRef}
                 type="email"
-                autoFocus
                 error={Boolean(emailErrMsg)}
                 value={email}
                 onChange={handleEmailChange}
@@ -299,7 +298,11 @@ const Login = () => {
           <Link to="/signup" className="hover:underline">Sign Up</Link>
         </section>
 
-        <span className="text-center text-xs" style={{ color: 'var(--text-300)' }}>Or,</span>
+        <section className="flex gap-1.5 items-center w-full max-w-[500px]">
+          <hr className=" grow" style={{borderColor: 'var(--text-500)'}} />
+          <span className="text-center text-xs" style={{ color: 'var(--text-300)' }}>Or,</span>
+          <hr className=" grow" style={{borderColor: 'var(--text-500)'}} />
+        </section>
 
         <GoogleOAuth setErrMsg={setErrMsg} />
       </div>
