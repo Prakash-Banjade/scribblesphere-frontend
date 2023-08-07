@@ -17,7 +17,6 @@ const GoogleOAuth = ({ setErrMsg }) => {
     const [oAuth, { isLoading }] = useOAuthMutation();
 
     const handleOAuthSuccess = async (response) => {
-        console.log(response)
         const { code, credential } = response;
 
         if (code || credential) {
