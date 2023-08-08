@@ -47,16 +47,8 @@ const Layout = () => {
 
   useEffect(() => {
     if (!getProfilePic.isLoading && !getProfilePic.isError) {
-
-      const buffer = getProfilePic.data?.data?.data
-      const type = getProfilePic.data?.type
-
-      if (buffer) {
-        const base64String = btoa(
-          new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
-        );
-
-        dispatch(setProfilePicture(`data:${type};base64,${base64String}`));
+      if (getProfilePic?.data) {
+        dispatch(setProfilePicture(getProfilePic.data));
       }
     }
   }, [getProfilePic.isLoading, getProfilePic.isSuccess, getProfilePic])
