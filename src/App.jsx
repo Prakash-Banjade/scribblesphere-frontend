@@ -46,6 +46,7 @@ const App = () => {
         styleOverrides: {
           root: {
             backgroundColor: '#0bbe64',
+            color: 'white',
             '&:hover': {
               backgroundColor: '#0bbe64',
               opacity: .9

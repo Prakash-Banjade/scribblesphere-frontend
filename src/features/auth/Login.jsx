@@ -277,9 +277,8 @@ const Login = () => {
               width: "100%",
               display: 'flex',
               alignItems: 'center',
-              padding: '14px',
               gap: '8px',
-              color: 'white',
+              padding: '14px',
               '&:disabled': {
                 backgroundColor: '#686868',
                 color: '#aaa',

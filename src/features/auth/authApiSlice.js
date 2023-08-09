@@ -24,6 +24,16 @@ export const authApiSlice = apiSlice.injectEndpoints({
         },
       }),
     }),
+    generateOtp: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/generateOtp",
+        method: "POST",
+        body: { ...credentials },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    }),
     logout: builder.mutation({
       query: () => ({
         url: "/auth/logout",
@@ -85,4 +95,5 @@ export const {
   useLogoutMutation,
   useRefreshMutation,
   useOAuthMutation,
+  useGenerateOtpMutation,
 } = authApiSlice;

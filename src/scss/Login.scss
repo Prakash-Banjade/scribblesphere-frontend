@@ -10,12 +10,13 @@ main.signup-main {
 
 main.signup-main,
 main.login-main {
-  iframe {
-    margin: 0 !important;
+  @media screen and (max-width: 500px) {
+    background: var(--bg-secondary);
   }
 }
 
-.form-wrapper {
+.form-wrapper,
+.opt-wrapper {
   width: 90%;
   margin: 20px;
   padding: 20px;
@@ -23,12 +24,19 @@ main.login-main {
   border: 1px solid var(--line-color);
   background: var(--bg-secondary);
 
+  &.opt-wrapper {
+    margin: 0 !important;
+  }
+
   @media screen and (max-width: 670px) {
     margin: 0;
     width: 100%;
     border: none;
-    padding: 5px;
-    background: transparent;
+    padding: 15px 5px;
+  }
+
+  @media screen and (max-width: 500px) {
+    padding: 0 !important;
   }
 
   header {
@@ -71,6 +79,18 @@ main.login-main {
     label {
       color: var(--text-200);
       cursor: pointer;
+    }
+  }
+}
+
+.opt-inputs {
+  input[type="number"] {
+    border-color: var(--line-color);
+    background: var(--bg-secondary);
+    color: var(--text-200);
+
+    &:hover {
+      border-color: black;
     }
   }
 }

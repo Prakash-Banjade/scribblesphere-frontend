@@ -3,28 +3,19 @@ import "../../scss/Login.scss";
 import logo from "../../assets/logo.svg";
 
 import { Link, useNavigate } from "react-router-dom";
+import { useGenerateOtpMutation } from "./authApiSlice";
 
-import { useDispatch } from "react-redux";
-import { useRegisterMutation } from "./authApiSlice";
-
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import Button from "@mui/material/Button";
-import { FormHelperText } from "@mui/material";
+import { Collapse, IconButton, Button, FormHelperText, AlertTitle, OutlinedInput, Alert, InputLabel, FormControl } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import IconButton from "@mui/material/IconButton";
-import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 
 import PropagateLoader from "react-spinners/PropagateLoader";
 import useInternetConnection from "../../hooks/useInternetConnection";
 import useAppTheme from "../../hooks/useAppTheme";
 import GoogleOAuth from "./GoogleOAuth";
+import OtpInput from "./OtpInput";
 
-const Login = () => {
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [conPwd, setConPwd] = useState('')
@@ -43,9 +34,10 @@ const Login = () => {
   const pwdRef = useRef();
   const fullnameRef = useRef();
   const conPwdRef = useRef()
-  const [register, { isLoading }] = useRegisterMutation();
+  const [generateOtp, { isLoading }] = useGenerateOtpMutation();
 
   const isOnline = useInternetConnection();
+  const [isOTP, setIsOTP] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,23 +48,16 @@ const Login = () => {
       );
 
     if (pwd !== conPwd) {
-      console.log('confirm Pwd err')
       return setConPwdErr(true)
     }
 
     try {
       setSuccess(false);
-      const userData = await register({ email, pwd, fullname }).unwrap();
-      setEmail("");
-      setPwd("");
-      setFullname("");
-      setConPwd('')
+      const response = await generateOtp({ email, pwd, fullname }).unwrap();
+      if (response?.status === 'success') {
+        setIsOTP(true);
+      }
 
-      fullnameRef.current.blur();
-      emailRef.current.blur();
-      pwdRef.current.blur();
-      conPwdRef.current.blur();
-      setSuccess(true);
     } catch (e) {
       console.log(e);
       if (e?.data) {
@@ -112,6 +97,16 @@ const Login = () => {
     setFullNameErrMsg("");
 
   }, [email, pwd, fullname]);
+
+  useEffect(() => {
+    if (success) {
+      setIsOTP(false)
+      setFullname('')
+      setEmail('')
+      setPwd('')
+      setConPwd('')
+    }
+  }, [success])
 
   useEffect(() => {
     if (pwd !== conPwd) return setConPwdErr(true)
@@ -318,39 +313,117 @@ const Login = () => {
           cssOverride={override}
           loading={isLoading}
         />
-        <form onSubmit={handleSubmit} className="flex-center-column g-20">
+        <div className="alerts w-full max-w-[500px]">
           {errMsg && (
             <Alert severity="error" sx={{ width: "100%", mb: 1 }}>
               {errMsg}
             </Alert>
           )}
           {success && successAlert}
-          <div className="flex gap-5 w-full flex-wrap">
-            <ThemeProvider theme={fullnameInputTheme}>
-              <FormControl sx={{ alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, flexBasis: '200px' }} variant="outlined">
+        </div>
+        {!isOTP ? <section className="formDetailsSubmit flex items-center justify-center flex-col gap-5">
+          <form onSubmit={handleSubmit} className="flex-center-column g-20">
+            <div className="flex gap-5 w-full flex-wrap">
+              <ThemeProvider theme={fullnameInputTheme}>
+                <FormControl sx={{ alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, flexBasis: '200px' }} variant="outlined">
+                  <InputLabel
+                    htmlFor="outlined-adornment-fullname"
+                    error={Boolean(fullnameErrMsg)}
+                  >
+                    Full name
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-fullname"
+                    inputRef={fullnameRef}
+                    type="text"
+                    value={fullname}
+                    onChange={handleFullnameChange}
+                    required
+                    error={Boolean(fullnameErrMsg)}
+                    autoComplete="false"
+                    autoCorrect="false"
+                    sx={{
+                      color: "var(--text-200)",
+                    }}
+                    label="Full name"
+                  />
+                  {fullnameErrMsg && (
+                    <FormHelperText
+                      sx={{
+                        marginLeft: 0,
+                        marginTop: "5px",
+                        color: "var(--error-text-color)",
+                        fontFamily: "var(--primary-text-font)",
+                      }}
+                    >
+                      {fullnameErrMsg}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </ThemeProvider>
+              <ThemeProvider theme={emailInputTheme}>
+                <FormControl sx={{ alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, flexBasis: '200px' }} variant="outlined">
+                  <InputLabel
+                    htmlFor="outlined-adornment-email"
+                    error={Boolean(emailErrMsg)}
+                  >
+                    Email
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-email"
+                    inputRef={emailRef}
+                    type="email"
+                    error={Boolean(emailErrMsg)}
+                    value={email}
+                    onChange={handleEmailChange}
+                    required
+                    autoComplete="false"
+                    autoCorrect="false"
+                    sx={{
+                      color: "var(--text-200)",
+                    }}
+                    label="Email"
+                  />
+                  {emailErrMsg && (
+                    <FormHelperText
+                      sx={{
+                        marginLeft: 0,
+                        marginTop: "5px",
+                        color: "var(--error-text-color)",
+                        fontFamily: "var(--primary-text-font)",
+                      }}
+                    >
+                      {emailErrMsg}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </ThemeProvider>
+            </div>
+
+            <ThemeProvider theme={pwdInputTheme}>
+              <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
                 <InputLabel
-                  htmlFor="outlined-adornment-fullname"
-                  error={Boolean(fullnameErrMsg)}
+                  htmlFor="outlined-adornment-password"
+                  error={Boolean(pwdErrMsg)}
                 >
-                  Full name
+                  Password
                 </InputLabel>
                 <OutlinedInput
-                  id="outlined-adornment-fullname"
-                  inputRef={fullnameRef}
-                  type="text"
-                  autoFocus
-                  value={fullname}
-                  onChange={handleFullnameChange}
-                  required
-                  error={Boolean(fullnameErrMsg)}
+                  id="outlined-adornment-password"
+                  type="password"
+                  inputRef={pwdRef}
+                  value={pwd}
+                  onChange={handlePwdChange}
                   autoComplete="false"
                   autoCorrect="false"
+                  required
+                  error={Boolean(pwdErrMsg)}
+                  label="Password"
                   sx={{
                     color: "var(--text-200)",
                   }}
-                  label="Full name"
                 />
-                {fullnameErrMsg && (
+                {pwdErrMsg && (
                   <FormHelperText
                     sx={{
                       marginLeft: 0,
@@ -359,35 +432,35 @@ const Login = () => {
                       fontFamily: "var(--primary-text-font)",
                     }}
                   >
-                    {fullnameErrMsg}
+                    {pwdErrMsg}
                   </FormHelperText>
                 )}
               </FormControl>
             </ThemeProvider>
-            <ThemeProvider theme={emailInputTheme}>
-              <FormControl sx={{ alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, flexBasis: '200px' }} variant="outlined">
+            <ThemeProvider theme={conPwdInputTheme}>
+              <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
                 <InputLabel
-                  htmlFor="outlined-adornment-email"
-                  error={Boolean(emailErrMsg)}
+                  htmlFor="outlined-adornment-confirmPassword"
+                  error={Boolean(conPwdErr)}
                 >
-                  Email
+                  Confirm Password
                 </InputLabel>
                 <OutlinedInput
-                  id="outlined-adornment-email"
-                  inputRef={emailRef}
-                  type="email"
-                  error={Boolean(emailErrMsg)}
-                  value={email}
-                  onChange={handleEmailChange}
-                  required
+                  id="outlined-adornment-confirmPassword"
+                  type="password"
+                  inputRef={conPwdRef}
+                  value={conPwd}
+                  onChange={handleConPwdChange}
                   autoComplete="false"
                   autoCorrect="false"
+                  required
+                  error={Boolean(conPwdErr)}
+                  label="Confirm Password"
                   sx={{
                     color: "var(--text-200)",
                   }}
-                  label="Email"
                 />
-                {emailErrMsg && (
+                {conPwdErr && (
                   <FormHelperText
                     sx={{
                       marginLeft: 0,
@@ -396,129 +469,57 @@ const Login = () => {
                       fontFamily: "var(--primary-text-font)",
                     }}
                   >
-                    {emailErrMsg}
+                    Confirm Password do not match
                   </FormHelperText>
                 )}
               </FormControl>
             </ThemeProvider>
-          </div>
-
-          <ThemeProvider theme={pwdInputTheme}>
-            <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
-              <InputLabel
-                htmlFor="outlined-adornment-password"
-                error={Boolean(pwdErrMsg)}
-              >
-                Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type="password"
-                inputRef={pwdRef}
-                value={pwd}
-                onChange={handlePwdChange}
-                autoComplete="false"
-                autoCorrect="false"
-                required
-                error={Boolean(pwdErrMsg)}
-                label="Password"
-                sx={{
-                  color: "var(--text-200)",
-                }}
-              />
-              {pwdErrMsg && (
-                <FormHelperText
-                  sx={{
-                    marginLeft: 0,
-                    marginTop: "5px",
-                    color: "var(--error-text-color)",
-                    fontFamily: "var(--primary-text-font)",
-                  }}
-                >
-                  {pwdErrMsg}
-                </FormHelperText>
-              )}
-            </FormControl>
-          </ThemeProvider>
-          <ThemeProvider theme={conPwdInputTheme}>
-            <FormControl sx={{ alignSelf: 'stretch' }} variant="outlined">
-              <InputLabel
-                htmlFor="outlined-adornment-confirmPassword"
-                error={Boolean(conPwdErr)}
-              >
-                Confirm Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-confirmPassword"
-                type="password"
-                inputRef={conPwdRef}
-                value={conPwd}
-                onChange={handleConPwdChange}
-                autoComplete="false"
-                autoCorrect="false"
-                required
-                error={Boolean(conPwdErr)}
-                label="Confirm Password"
-                sx={{
-                  color: "var(--text-200)",
-                }}
-              />
-              {conPwdErr && (
-                <FormHelperText
-                  sx={{
-                    marginLeft: 0,
-                    marginTop: "5px",
-                    color: "var(--error-text-color)",
-                    fontFamily: "var(--primary-text-font)",
-                  }}
-                >
-                  Confirm Password do not match
-                </FormHelperText>
-              )}
-            </FormControl>
-          </ThemeProvider>
 
 
 
-          <Button
-            variant="contained"
-            onClick={handleSubmit}
-            type="submit"
-            sx={{
-              fontWeight: "600",
-              width: "100%",
-              display: 'flex',
-              alignItems: 'center',
-              padding: '14px',
-              gap: '8px',
-              color: 'white',
-              '&:disabled': {
-                backgroundColor: '#686868',
-                color: '#aaa',
-              }
-            }}
-            size="large"
-            disabled={isLoading}
-          >
-            {isLoading ? 'signing up...' : 'Sign up'}
-          </Button>
-        </form>
+            <Button
+              variant="contained"
+              onClick={handleSubmit}
+              type="submit"
+              sx={{
+                fontWeight: "600",
+                width: "100%",
+                display: 'flex',
+                alignItems: 'center',
+                padding: '14px',
+                gap: '8px',
+                color: 'white',
+                '&:disabled': {
+                  backgroundColor: '#686868',
+                  color: '#aaa',
+                }
+              }}
+              size="large"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Verifying...' : 'Sign up'}
+            </Button>
+          </form>
 
-        <section className="needAccount flex-center gap-1">
-          <p className="text-sm">Already have an accout?</p>
-          <Button component={Link} to="/login" sx={{padding: 0}} variant="text">Sign In</Button>
-        </section>
+          <section className="needAccount flex-center gap-1">
+            <p className="text-sm">Already have an accout?</p>
+            <Button component={Link} to="/login" sx={{ padding: 0 }} variant="text">Sign In</Button>
+          </section>
 
-        <section className="flex gap-1.5 items-center w-full max-w-[500px]">
-          <hr className=" grow" style={{ borderColor: 'var(--text-500)' }} />
-          <span className="text-center text-xs" style={{ color: 'var(--text-300)' }}>Or,</span>
-          <hr className=" grow" style={{ borderColor: 'var(--text-500)' }} />
-        </section>
+          <section className="flex gap-1.5 items-center w-full max-w-[500px]">
+            <hr className=" grow" style={{ borderColor: 'var(--text-500)' }} />
+            <span className="text-center text-xs" style={{ color: 'var(--text-300)' }}>Or,</span>
+            <hr className=" grow" style={{ borderColor: 'var(--text-500)' }} />
+          </section>
 
-        <GoogleOAuth />
+          <GoogleOAuth />
+        </section> : !isLoading &&
+        <OtpInput email={email} setSuccess={setSuccess} setErrMsg={setErrMsg} fullname={fullname} pwd={pwd} setIsOTP={setIsOTP} />}
       </div>
+
+
     </main>
   );
 };
 
-export default Login;
+export default SignUp;
