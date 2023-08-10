@@ -54,6 +54,7 @@ const App = () => {
           },
           outlined: {
             background: 'transparent',
+            color: '#0bbe64',
             '&:hover': {
               opacity: 1,
               background: 'rgb(0 0 0 / 0.05)',

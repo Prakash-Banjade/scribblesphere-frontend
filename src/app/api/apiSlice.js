@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCredentials, userLogout } from "../../features/auth/authSlice";
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:3500",
+  baseUrl: "http://192.168.1.13:3500",
   // baseUrl: "https://scribblesphere-backend.vercel.app",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
