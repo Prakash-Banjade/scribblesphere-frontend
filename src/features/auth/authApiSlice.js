@@ -21,6 +21,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credentials },
         headers: {
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': true
+
         },
       }),
     }),
@@ -31,6 +33,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credentials },
         headers: {
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': true
         },
       }),
     }),
