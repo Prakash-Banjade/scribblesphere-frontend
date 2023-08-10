@@ -54,6 +54,7 @@ const SignUp = () => {
     try {
       setSuccess(false);
       const response = await generateOtp({ email, pwd, fullname }).unwrap();
+      console.log(response)
       if (response?.status === 'success') {
         setIsOTP(true);
       }
