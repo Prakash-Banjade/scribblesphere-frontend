@@ -181,9 +181,6 @@ const OtpInput = ({ email, pwd, fullname, setSuccess, setErrMsg, setIsOTP }) => 
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    '&:disabled': {
-                        color: 'var(--text-500)'
-                    }
                 }}>
                     {isLoading && <img src={loading} alt="loading spinner" className="w-[20px] h-[20px]" />}
                     {isLoading ? 'Verifying...' : 'Verify'}
@@ -195,7 +192,7 @@ const OtpInput = ({ email, pwd, fullname, setSuccess, setErrMsg, setIsOTP }) => 
                     <p>Resend In: </p>
                     <span>{formatTime(seconds)}</span>
                 </div>}
-                <Button disabled={seconds > 0} sx={{ color: '#1e90ff', fontWeight: 500, '&:disabled': {color: 'var(--text-500)'} }} onClick={resend}>{generateOtpState.isLoading? 'Sending' : 'Resend'}</Button>
+                <Button disabled={seconds > 0} sx={{ color: '#1e90ff', fontWeight: 500, '&:disabled': {color: 'var(--text-500)'} }} onClick={resend}>{generateOtpState.isLoading? 'Sending...' : 'Resend'}</Button>
             </section>
 
             {sentMsg && <p className="text-center text-xs mt-5 text-primary font-semibold">A new OTP has been sent successfully.</p>}

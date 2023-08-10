@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../scss/Login.scss";
 import logo from "../../assets/logo.svg";
+import loading from '../../assets/signInLoading.gif'
+
 
 import { Link, useNavigate } from "react-router-dom";
 import { useGenerateOtpMutation } from "./authApiSlice";
@@ -497,6 +499,8 @@ const SignUp = () => {
               size="large"
               disabled={isLoading}
             >
+              {isLoading && <img src={loading} alt="loading spinner" className="w-[20px] h-[20px]" />}
+
               {isLoading ? 'Verifying...' : 'Sign up'}
             </Button>
           </form>
