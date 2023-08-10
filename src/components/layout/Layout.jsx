@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import "./Layout.css";
 import Navbar from "./Navbar";
 import { Outlet, useLocation } from "react-router-dom";
@@ -8,7 +8,9 @@ import { setProfilePicture } from "../../features/user/userSlice";
 import { useDispatch } from "react-redux";
 import { useGetProfilePicQuery } from "../../features/user/userApiSlice";
 import useAuth from "../../hooks/useAuth";
-
+import Loader from "../Loader";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorComponent from "./ErrorComponent";
 
 const Layout = () => {
   const [open, setOpen] = useState(true)
@@ -90,8 +92,12 @@ const Layout = () => {
           />
         </header>
 
-        <main className={`w-full max-w-full xl:p-5 lg:p-4 md:p-3 p-2 ${dark ? 'bg-darkBg' : 'bg-lightBg'}`}>
-          <Outlet />
+        <main className={`w-full max-w-full relative xl:p-5 lg:p-4 md:p-3 p-2 ${dark ? 'bg-darkBg' : 'bg-lightBg'}`}>
+          <ErrorBoundary fallback={<ErrorComponent />}>
+            <Suspense fallback={<Loader />}>
+              <Outlet />
+            </Suspense>
+          </ErrorBoundary>
         </main>
       </div>
     </div>

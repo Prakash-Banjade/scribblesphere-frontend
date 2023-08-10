@@ -3,16 +3,16 @@ import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import RequireAuth from "./features/auth/RequireAuth";
 import PersistLogin from "./features/auth/PersistLogin";
 
+import SignUp from "./features/auth/SignUp"
+import Login from "./features/auth/Login"
+
 const Dash = lazy(() => import("./features/user/Dash"));
 const PublicHome = lazy(() => import("./components/PublicHome"));
-const SignUp = lazy(() => import("./features/auth/SignUp"));
-const Login = lazy(() => import("./features/auth/Login"));
 const Layout = lazy(() => import("./components/layout/Layout"));
 const SingleArticlePage = lazy(() => import("./features/article/SingleArticlePage"))
 const ArticlesList = lazy(() => import("./features/article/ArticlesList"));
 const MyProfile = lazy(() => import("./features/user/MyProfile"));
 
-import Loader from "./components/Loader";
 const MyArticles = lazy(() => import("./features/article/MyArticles"));
 const CreateArticle = lazy(() => import("./features/article/CreateArticle"));
 import NotFound from "./components/404";
@@ -93,43 +93,41 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <SnackbarProvider maxSnack={3}>
-        <Suspense fallback={<Loader />}>
-          <Routes path="/*">
-            {/* public routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+        <Routes path="/*">
+          {/* public routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
 
-            {/* private routes */}
-            <Route element={<PersistLogin />}>
-              <Route
-                path="/"
-                element={!token ? <PublicHome /> : <Navigate to="/dash" />}
-              />
-              <Route element={<RequireAuth authorizedRoles={[2059]} />}>
-                <Route element={<Layout />}>
-                  <Route index path="/dash" element={<Dash />} />
-                  <Route path="/articles">
-                    <Route index element={<ArticlesList />} />
-                    <Route path="myarticles" element={<MyArticles />} />
-                    <Route path="create" element={<CreateArticle />} />
-                    <Route path="search" element={<SearchArticles />} />
-                    <Route path=":id">
-                      <Route index element={<SingleArticlePage />} />
-                      <Route path="edit" element={<UpdateArticle />} />
-                    </Route>
-
+          {/* private routes */}
+          <Route element={<PersistLogin />}>
+            <Route
+              path="/"
+              element={!token ? <PublicHome /> : <Navigate to="/dash" />}
+            />
+            <Route element={<RequireAuth authorizedRoles={[2059]} />}>
+              <Route element={<Layout />}>
+                <Route index path="/dash" element={<Dash />} />
+                <Route path="/articles">
+                  <Route index element={<ArticlesList />} />
+                  <Route path="myarticles" element={<MyArticles />} />
+                  <Route path="create" element={<CreateArticle />} />
+                  <Route path="search" element={<SearchArticles />} />
+                  <Route path=":id">
+                    <Route index element={<SingleArticlePage />} />
+                    <Route path="edit" element={<UpdateArticle />} />
                   </Route>
-                  <Route path="/profile" element={<MyProfile />} />
 
-                  <Route path="*" element={<NotFound />} />
                 </Route>
-              </Route>
-              {/* </Route> */}
-            </Route>
+                <Route path="/profile" element={<MyProfile />} />
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </Route>
+            {/* </Route> */}
+          </Route>
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </SnackbarProvider>
     </ThemeProvider>
   );

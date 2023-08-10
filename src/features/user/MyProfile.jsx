@@ -319,7 +319,7 @@ const MyProfile = () => {
                     </span>
                     <a href={media.link} className="font-sm">{media.network[0]?.toUpperCase() + media.network?.slice(1)}</a>
 
-                    <Button variant="outlined" color="error" sx={{ fontSize: '.7rem !important', padding: '5px 2px' }} onClick={() => handleRemoveSocialLink(media.network)}>Remove</Button>
+                    <Button variant="outlined" color="error" sx={{ fontSize: '.7rem !important', padding: '5px 2px', color: 'var(--error-text-color)' }} onClick={() => handleRemoveSocialLink(media.network)}>Remove</Button>
                   </div>
                 ))}
               </section>
