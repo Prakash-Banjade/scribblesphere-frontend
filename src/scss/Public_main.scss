@@ -1,0 +1,57 @@
+nav.public_nav {
+  backdrop-filter: blur(8px);
+  background: #21222299;
+}
+
+main.public_main {
+  overflow: hidden;
+
+  .background {
+    img {
+      @media screen and (max-width: 800px) {
+        max-width: 65%;
+      }
+      @media screen and (max-width: 500px) {
+        max-width: 80%;
+      }
+    }
+  }
+
+  header {
+    min-height: calc(100vh - 80px);
+
+    h1 {
+      background: linear-gradient(
+        to bottom right,
+        var(--text-100),
+        var(--text-500)
+      );
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+      font-size: clamp(2.1rem, 4vw, 5rem);
+    }
+
+    p {
+      color: var(--text-400);
+      font-size: clamp(1.3rem, 3vw, 1.5rem);
+
+      span {
+        color: var(--text-100);
+      }
+    }
+  }
+}
+
+.trustAndVerified-wrapper {
+  header {
+    h2 {
+      color: var(--text-100);
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+    }
+
+    p {
+      color: var(--text-300);
+    }
+  }
+}

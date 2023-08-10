@@ -5,9 +5,11 @@ import PersistLogin from "./features/auth/PersistLogin";
 
 import SignUp from "./features/auth/SignUp"
 import Login from "./features/auth/Login"
+import Public_main from "./components/Public_home/Public_main";
+import NotFound from "./components/404";
+
 
 const Dash = lazy(() => import("./features/user/Dash"));
-const PublicHome = lazy(() => import("./components/PublicHome"));
 const Layout = lazy(() => import("./components/layout/Layout"));
 const SingleArticlePage = lazy(() => import("./features/article/SingleArticlePage"))
 const ArticlesList = lazy(() => import("./features/article/ArticlesList"));
@@ -15,9 +17,8 @@ const MyProfile = lazy(() => import("./features/user/MyProfile"));
 
 const MyArticles = lazy(() => import("./features/article/MyArticles"));
 const CreateArticle = lazy(() => import("./features/article/CreateArticle"));
-import NotFound from "./components/404";
+const UpdateArticle = lazy(() => import("./features/article/UpdateArticle"));
 import SearchArticles from "./features/article/SearchArticles";
-import UpdateArticle from "./features/article/UpdateArticle";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "./features/auth/authSlice";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -45,20 +46,15 @@ const App = () => {
       MuiButton: {
         styleOverrides: {
           root: {
-            backgroundColor: '#0bbe64',
+
+          },
+          contained: {
             color: 'white',
             '&:hover': {
-              backgroundColor: '#0bbe64',
-              opacity: .9
+              opacity: .8
             }
           },
           outlined: {
-            background: 'transparent',
-            color: '#0bbe64',
-            '&:hover': {
-              opacity: 1,
-              background: 'rgb(0 0 0 / 0.05)',
-            }
           },
           text: {
             background: 'transparent',
@@ -102,7 +98,7 @@ const App = () => {
           <Route element={<PersistLogin />}>
             <Route
               path="/"
-              element={!token ? <PublicHome /> : <Navigate to="/dash" />}
+              element={!token ? <Public_main /> : <Navigate to="/dash" />}
             />
             <Route element={<RequireAuth authorizedRoles={[2059]} />}>
               <Route element={<Layout />}>

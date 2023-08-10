@@ -43,8 +43,6 @@ const Navbar = ({ open, small, setShowSideBar }) => {
     };
   }, []);
 
-
-
   const handleDropdownToggle = (event) => {
     event.stopPropagation();
     setIsProfileDropdownOpen((prev) => !prev);

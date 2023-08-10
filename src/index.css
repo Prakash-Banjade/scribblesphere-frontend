@@ -52,7 +52,7 @@ body {
   overflow-x: hidden !important;
 }
 
-main{
+main:not(.public_main){
   overflow-x: hidden;
   max-height: calc(100dvh - 60px);
   height: calc(100vh - 60px);
