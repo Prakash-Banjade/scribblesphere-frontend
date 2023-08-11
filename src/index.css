@@ -58,6 +58,10 @@ main:not(.public_main){
   height: calc(100vh - 60px);
 }
 
+button{
+  white-space: nowrap !important;
+}
+
 header.heading {
   margin-bottom: 27px;
   overflow: hidden;

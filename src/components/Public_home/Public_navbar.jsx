@@ -8,7 +8,7 @@ const Public_navbar = () => {
     const { dark, toggleTheme } = useAppTheme();
 
     return (
-        <nav className="public_nav px-3 py-1 z-50 border-b flex items-center justify-between sticky top-0" style={{ borderColor: 'var(--line-color)' }}>
+        <nav className="public_nav px-3 py-1 z-50 border-b flex items-center justify-between sticky top-0" style={{ borderColor: 'var(--line-color)', background: dark? '#21222299' : '#f2f4f799' }}>
             <section className="left-section flex items-center gap-12">
                 <a href="#" className="flex items-center gap-2">
                     <img src={logo} alt="Brand logo" className="block w-[40px]" />

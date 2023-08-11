@@ -19,7 +19,7 @@ const Public_hero = () => {
           <span>ScribbleSphere</span>: Unleash Your Writing Potential
         </p>
 
-        <Button component={Link} to="/" variant="contained" sx={{padding: '15px 25px', textTransform: 'none', borderRadius: '500px', margin: '3rem auto 1rem auto', display: 'flex', alignItems: 'center', gap: '5px', width: 'fit-content', fontWeight: '600', fontSize:'1rem'}}>Start Writing
+        <Button component={Link} to="/login" variant="contained" sx={{padding: '15px 25px', textTransform: 'none', borderRadius: '500px', margin: '3rem auto 1rem auto', display: 'flex', alignItems: 'center', gap: '5px', width: 'fit-content', fontWeight: '600', fontSize:'1rem'}}>Start Writing
         <span className="text-xl">
         <IoIosArrowForward />
         </span>
