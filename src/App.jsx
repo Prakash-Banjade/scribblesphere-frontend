@@ -41,6 +41,9 @@ const App = () => {
         // main: "#be0b44", // red primary
         main: '#0bbe64', // green primary
       },
+      secondary: {
+        main: dark? '#f2f2f2' : '#232323'
+      }
     },
     components: {
       MuiButton: {
@@ -71,7 +74,7 @@ const App = () => {
           root: {
             color: dark ? "white" : "#343434",
             "&:hover": {
-              backgroundColor: dark ? "rgb(35, 35, 35)" : "rgb(0 0 10 / .1)",
+              backgroundColor: dark ? "rgb(55, 55, 55)" : "rgb(0 0 10 / .1)",
             },
           },
         },

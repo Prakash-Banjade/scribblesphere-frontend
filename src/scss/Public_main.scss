@@ -17,18 +17,30 @@ main.public_main {
   }
 
   header {
-    min-height: calc(100vh - 80px);
-
     h1 {
       background: linear-gradient(
         to bottom right,
         var(--text-100),
-        var(--text-500)
+        rgb(30 144 255 / 0.5)
       );
       color: transparent;
+      background-size: 200%;
+      font-weight: 900;
       background-clip: text;
       -webkit-background-clip: text;
-      font-size: clamp(2.1rem, 4vw, 5rem);
+      // font-size: clamp(2.1rem, 5vw, 6rem);
+      // font-size: 3rem;
+      line-height: 1.2;
+      animation: backgroundAnimate 3s ease infinite;
+      @keyframes backgroundAnimate {
+        0%,
+        100% {
+          background-position: left;
+        }
+        50% {
+          background-position: right;
+        }
+      }
     }
 
     p {
@@ -39,6 +51,39 @@ main.public_main {
         color: var(--text-100);
       }
     }
+
+    a {
+      padding: 15px 25px;
+      text-transform: none;
+      border-radius: 500px;
+      margin: 3rem auto 1rem auto;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      width: fit-content;
+      font-weight: 600;
+      font-size: 1rem;
+      background-color: transparent;
+      border: 2px solid dodgerblue;
+      animation: buttonFade 5s ease-in-out infinite;
+
+      @keyframes buttonFade {
+        0%,
+        100% {
+          box-shadow: 0 0 0 10px rgb(30 144 255 / 0.5);
+        }
+
+        50% {
+          box-shadow: 3px 0px 25px 10px rgb(30 144 255 / 0.5), inset 3px 0px 25px 10px rgb(30 144 255 / 0.5);
+        }
+      }
+
+      &:hover {
+        opacity: 0.9;
+        background-color: dodgerblue;
+        animation: none;
+      }
+    }
   }
 }
 
@@ -46,7 +91,7 @@ main.public_main {
   header {
     h2 {
       color: var(--text-100);
-      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-size: clamp(1.5rem, 3vw, 2rem);
     }
 
     p {
