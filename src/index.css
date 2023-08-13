@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -20,10 +21,11 @@
   --text-editor-bg: #f2f2f2;
 }
 
-:root{
+:root {
   --primary-text-font: "Poppins", sans-serif;
   --secondary-text-font: "Lora", serif;
   --blog-font: "IBM Plex Sans", sans-serif;
+  --secondary-text-font-2: "Inter", sans-serif;
   --primary-color: #0bbe64;
   --error-text-color: #d32f2f;
 
@@ -52,13 +54,13 @@ body {
   overflow-x: hidden !important;
 }
 
-main:not(.public_main){
+main:not(.public_main) {
   overflow-x: hidden;
   max-height: calc(100dvh - 60px);
   height: calc(100vh - 60px);
 }
 
-button{
+button {
   white-space: nowrap !important;
 }
 
@@ -79,11 +81,11 @@ header.heading p {
   font-family: var(--primary-font);
 }
 
-.MuiAlert-message{
+.MuiAlert-message {
   width: 100% !important;
 }
 
-a.activeNavTab{
+a.activeNavTab {
   /* color: red; */
   background-color: rgb(25, 25, 25);
 }
@@ -106,7 +108,6 @@ input[type="number"] {
     padding: 10px !important;
   }
 }
-
 
 select {
   appearance: none;

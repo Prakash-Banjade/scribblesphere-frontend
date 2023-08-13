@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import logo from '../../assets/logo.svg'
+import logo from '../../assets/logo-watermark.svg'
 import { Link } from 'react-router-dom'
 import { Button, IconButton, Switch } from '@mui/material'
 import useAppTheme from '../../hooks/useAppTheme'
@@ -39,28 +39,28 @@ const Public_navbar = () => {
                 <div className="flex items-center gap-1">
                     <a href="#" className="flex items-center gap-2">
                         <img src={logo} alt="Brand logo" className="block w-[40px]" />
-                        {!xs && <h1 className="font-semibold text-lg text-primary">ScribbleSphere</h1>}
+                        {!xs && <h1 className="font-semibold text-lg text-white">ScribbleSphere</h1>}
                     </a>
                 </div>
 
-                <ul className={`gap-6 items-center flex ${small ? `flex-col absolute top-full min-w-[200px] right-[10px] items-stretch px-0 py-2 rounded-md border gap-0 transition-transform shadow-lg ${!open ? '-translate-y-[10px] pointer-events-none opacity-0' : 'translate-y-0 pointer-events-auto opacity-100'}` : ''}`} style={{ color: 'var(--text-300)', borderColor: small ? 'var(--line-color)' : '', background: small ? 'var(--bg-secondary)' : '' }}>
+                <ul className={`gap-6 items-center flex ${small ? `flex-col absolute top-full min-w-[200px] right-[10px] items-stretch px-0 py-2 rounded-md border gap-0 transition-transform shadow-lg ${!open ? '-translate-y-[10px] pointer-events-none opacity-0' : 'translate-y-0 pointer-events-auto opacity-100'}` : ''}`} style={{ color: 'var(--text-300)', borderColor: small ? 'var(--line-color)' : '', background: small ? 'var(--bg-secondary)' : '', gap: open? '0' : '24px' }}>
                     <li className={small ? `${dark ? 'hover:bg-[#454545]' : 'hover:bg-slate-100'}` : ''}>
-                        <Link to="/" className={`hover:text-primary block transition-all ${small ? 'py-2 px-3' : ''}`}>
+                        <Link to="/" className={`hover:text-primary block transition-all ${small ? 'p-3' : ''}`}>
                             About
                         </Link>
                     </li>
                     <li className={small ? `${dark ? 'hover:bg-[#454545]' : 'hover:bg-slate-100'}` : ''}>
-                        <Link to="/" className={`hover:text-primary block transition-all ${small ? 'py-2 px-3' : ''}`}>
+                        <Link to="/" className={`hover:text-primary block transition-all ${small ? 'p-3' : ''}`}>
                             Pricings
                         </Link>
                     </li>
                     <li className={small ? `${dark ? 'hover:bg-[#454545]' : 'hover:bg-slate-100'}` : ''}>
-                        <Link to="/" className={`hover:text-primary block transition-all ${small ? 'py-2 px-3' : ''}`}>
+                        <Link to="/" className={`hover:text-primary block transition-all ${small ? 'p-3' : ''}`}>
                             Partners
                         </Link>
                     </li>
                     <li className={small ? `${dark ? 'hover:bg-[#454545]' : 'hover:bg-slate-100'}` : ''}>
-                        <Link to="/" className={`hover:text-primary block transition-all ${small ? 'py-2 px-3' : ''}`}>
+                        <Link to="/" className={`hover:text-primary block transition-all ${small ? 'p-3' : ''}`}>
                             Services
                         </Link>
                     </li>

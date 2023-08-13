@@ -1,18 +1,11 @@
-main.login-main {
-  min-height: 100vh;
+main.login-main, main.signup-main {
+  min-height: 100svh;
   padding: 20px;
-}
 
-main.signup-main {
-  min-height: 100vh;
-  padding: 20px;
-}
-
-main.signup-main,
-main.login-main {
   @media screen and (max-width: 500px) {
     background: var(--bg-secondary);
   }
+  
 }
 
 .form-wrapper,

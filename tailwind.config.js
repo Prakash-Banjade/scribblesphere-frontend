@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         primary: ['Poppins', 'sans-serif'],
         blog: ['IBM Plex Sans', 'sans-serif'],
+        secondary: ["Inter", 'sans-serif'],
       },
       colors: {
         primary: '#0bbe64',
@@ -23,7 +24,7 @@ export default {
 
 
         darkLight: '#2a2a2a',
-        
+
         lineColorDark: '#434343',
         lineColorLight: '#ced3da',
         error: '#d32f2f',
