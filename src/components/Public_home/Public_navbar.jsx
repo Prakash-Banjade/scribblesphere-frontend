@@ -74,7 +74,7 @@ const Public_navbar = () => {
                     {small && <li className={small ? `${dark ? 'hover:bg-[#454545]' : 'hover:bg-slate-100'}` : ''}>
                         <div className="flex gap-1 items-center px-3">
                             <span>Dark</span>
-                            <Switch />
+                            <Switch checked={!dark} onChange={toggleTheme} />
                             <span>Light</span>
                         </div>
                     </li>}
