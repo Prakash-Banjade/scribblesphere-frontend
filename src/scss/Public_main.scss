@@ -5,34 +5,23 @@ nav.public_nav {
 main.public_main {
   overflow: hidden;
 
-  // .background {
-  //   img {
-  //     @media screen and (max-width: 800px) {
-  //       max-width: 65%;
-  //     }
-  //     @media screen and (max-width: 500px) {
-  //       max-width: 80%;
-  //     }
-  //   }
-  // }
-
   header.main_head {
+    animation: fade-down 450ms ease-out;
+    animation-delay: 150ms;
     h1 {
       font-family: var(--secondary-text-font-2);
       line-height: 1.2;
-      animation: backgroundAnimate 3s ease infinite;
 
       span {
         font-family: var(--secondary-text-font-2);
         color: transparent;
-        // color: #f2f2f2;
         line-height: 1.1;
         font-weight: 900;
         background-clip: text !important;
         -webkit-background-clip: text !important;
         -webkit-text-fill-color: transparent !important;
         transition: all ease-in-out 200ms;
-        background: #f7f7f7;
+        background: var(--text-100);
       }
 
       span:first-child {
@@ -64,7 +53,7 @@ main.public_main {
         }
         33%,
         66% {
-          background: #f7f7f7;
+          background: var(--text-100);
         }
       }
 
@@ -88,8 +77,10 @@ main.public_main {
 
     .actions {
       margin-top: 3rem;
+
+      
       a {
-        padding: 8px 18px;
+        padding: 8px 22px;
         min-width: 170px;
         text-transform: none;
         border-radius: 10px;
@@ -101,7 +92,8 @@ main.public_main {
         font-weight: 600;
         font-size: 1rem;
         border: 2px solid;
-        transition: all 150ms ease-out;
+        transition: all 250ms ease-out;
+       
       }
 
       a:first-child {
@@ -111,7 +103,7 @@ main.public_main {
       }
 
       a:nth-child(2) {
-        color: #f9f9f9;
+        color: var(--text-100);
         animation: animate-btn 6s ease-in-out infinite;
 
         @keyframes animate-btn {
@@ -142,6 +134,16 @@ main.public_main {
         a {
           width: 100%;
         }
+      }
+    }
+
+    @keyframes fade-down{
+      from{
+        transform: translateY(-15px);
+        opacity: 0;
+      }to{
+        transform: translateY(0);
+        opacity: 1;
       }
     }
   }

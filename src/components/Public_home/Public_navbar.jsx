@@ -39,7 +39,7 @@ const Public_navbar = () => {
                 <div className="flex items-center gap-1">
                     <a href="#" className="flex items-center gap-2">
                         <img src={logo} alt="Brand logo" className="block w-[40px]" />
-                        {!xs && <h1 className="font-semibold text-lg text-white">ScribbleSphere</h1>}
+                        {!xs && <h1 className="font-semibold text-lg" style={{color: 'var(--text-100)'}}>ScribbleSphere</h1>}
                     </a>
                 </div>
 

@@ -20,8 +20,6 @@ const featuresDesc = {
         "Gain insights into your articles' impact with view counts, likes, and comments metrics for better audience engagement.",
 };
 
-const icons = [<SentimentSatisfiedAltOutlinedIcon />, <EmojiObjectsOutlinedIcon />, <Groups2OutlinedIcon />, <RecommendOutlinedIcon />, <AssuredWorkloadOutlinedIcon />]
-
 const headings = Array.from(Object.keys(featuresDesc));
 const Features = () => {
     useEffect(() => {
@@ -40,7 +38,7 @@ const Features = () => {
     const { dark } = useAppTheme();
 
     return (
-        <div className="features-container dflex dflex-column dflex-wrap lg:mt-[170px] mt-12">
+        <div className="features-container dflex dflex-column dflex-wrap lg:mt-[170px] sm:mt-[150px] mt-[120px]">
             <header className="heading">
                 <h2 className='text-center font-semibold'>Key Features</h2>
                 <p className="text-center text-xs mt-1">A perfect platform to show your writing creativity</p>
@@ -52,13 +50,10 @@ const Features = () => {
                             return (
                                 <div className="card border" style={{borderColor: 'var(--line-color) !important'}}>
                                     <div className={`card-content ${dark ? "dark" : "light"}`}>
-                                        <div className="card-image">
-                                            {icons[ind]}
-                                        </div>
                                         <div className="card-info-wrapper">
                                             <div className="card-info">
                                                 <div className="card-info-title">
-                                                    <h3 className="text-center text-xl font-semibold" style={{ color: 'var(--text-200)' }}>{heading}</h3>
+                                                    <h3 className="text-center lg:text-2xl text-xl font-semibold" style={{ color: 'var(--text-200)' }}>{heading}</h3>
                                                     <p className="text-center" style={{ color: 'var(--text-400)' }}>{featuresDesc[heading]}</p>
                                                 </div>
                                             </div>
