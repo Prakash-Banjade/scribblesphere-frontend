@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   useGetArticleByIdQuery,
   usePostCommentMutation,
 } from "./articlesApiSlice";
-import profile from '../../assets/profileHolder.webp'
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { v4 as uuid } from "uuid";
 import Loader from "../../components/Loader";
+import Profile from '../../assets/profileHolder.webp'
 import "../../scss/SingleArticlePage.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import useCalculateReadingTime from "../../hooks/useCalculateReadingTime";
@@ -16,6 +16,7 @@ import useAppTheme from "../../hooks/useAppTheme";
 import DOMPurify from 'dompurify';
 import { MdKeyboardBackspace } from 'react-icons/md'
 import ProfilePicture from "../user/ProfilePicture";
+import { useGetProfilePicQuery } from "../user/userApiSlice";
 
 const SingleArticlePage = () => {
   const { id } = useParams();
@@ -40,22 +41,15 @@ const SingleArticlePage = () => {
 
 
   // components that returns author image
-  const AuthorImg = () => {
-    const buffer = data?.author?.profile.data.data
-    const type = data?.author?.profile.type
-    let imgUrl = ''
-    if (buffer) {
-      const base64String = btoa(
-        new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
-      );
 
-      imgUrl = `data:${type};base64,${base64String}`
-    }
+  const AuthorImg = useCallback(
+    () => {
+      const imgUrl = data?.author?.profile?.url || Profile;
 
-    return (
-      <ProfilePicture width={70} profilePic={imgUrl} />
-    )
-  }
+      return (
+        <ProfilePicture width={70} profilePic={imgUrl} />
+      )
+    }, [id, data])
 
   const articleDate = data ? new Date(data?.createdAt) : new Date();
 

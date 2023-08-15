@@ -10,11 +10,9 @@ import { Button, Alert, AlertTitle, IconButton } from "@mui/material";
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
-import PropagateLoader from "react-spinners/PropagateLoader";
 import useAppTheme from "../../hooks/useAppTheme";
 import { RxCross2 } from 'react-icons/rx'
 import { MdKeyboardBackspace } from "react-icons/md";
-// import TextEditor from "./TextEditor";
 
 const TAG_REGEX = /[^A-Za-z0-9.]/g;
 
