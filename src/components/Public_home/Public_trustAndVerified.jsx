@@ -5,7 +5,7 @@ import retool from '../../assets/brands/retool.webp'
 const Public_trustAndVerified = ({ styles }) => {
     return (
         <section className={`trustAndVerified-wrapper overflow-hidden max-w-full ${styles}`}>
-            <header className="heading">
+            <header className="pub_heading">
                 <h2 className='text-center font-semibold'>Trusted And Verified By</h2>
                 <p className="text-center text-xs mt-1">Trusted by world's leading organizations</p>
             </header>

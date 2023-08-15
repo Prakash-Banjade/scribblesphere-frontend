@@ -149,14 +149,14 @@ main.public_main {
   }
 }
 
-header.heading {
+header.pub_heading {
   h2 {
-    color: var(--text-100);
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--text-100) !important;
+    font-size: clamp(1.5rem, 3vw, 2rem) !important;
   }
 
   p {
-    color: var(--text-300);
+    color: var(--text-300) !important;
     font-size: 12px !important;
   }
 }
@@ -194,7 +194,7 @@ header.heading {
       }
 
       .organizations {
-        animation: circularHorizontalScroll 20s linear infinite;
+        animation: circularHorizontalScroll 10s linear infinite;
         .duplicate {
           display: flex;
         }
