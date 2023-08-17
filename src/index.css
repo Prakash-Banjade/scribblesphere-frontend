@@ -40,6 +40,16 @@
 
   --text-editor-bg: white;
   --text-editor-toolbar: #e4ede4;
+
+  --gradient-variant-1-primary: #007cf0;
+  --gradient-variant-1-secondary: #00dfd8;
+
+  --gradient-variant-2-primary: #ff0080;
+  --gradient-variant-2-secondary: #7928ca;
+
+  --gradient-variant-3-primary: #ff4d4f;
+  --gradient-variant-3-secondary: #f9cb28;
+
 }
 
 * {

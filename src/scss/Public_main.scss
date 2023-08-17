@@ -20,24 +20,24 @@ main.public_main {
         background-clip: text !important;
         -webkit-background-clip: text !important;
         -webkit-text-fill-color: transparent !important;
-        transition: all ease-in-out 200ms;
+        transition: all ease-out 200ms;
         background: var(--text-100);
       }
 
       span:first-child {
-        --start-color: #007cf0;
-        --end-color: #00dfd8;
+        --start-color: var(--gradient-variant-1-primary);
+        --end-color: var(--gradient-variant-1-secondary);
         animation: bg-animate 6s ease-in-out infinite;
       }
       span:nth-child(2) {
-        --start-color: #7928ca;
-        --end-color: #ff0080;
+        --start-color: var(--gradient-variant-2-primary);
+        --end-color: var(--gradient-variant-2-secondary);
         animation: bg-animate 6s ease-in-out infinite;
         animation-delay: 2s;
       }
       span:last-child {
-        --start-color: #ff4d4f;
-        --end-color: #f9cb28;
+        --start-color: var(--gradient-variant-3-primary);
+        --end-color: var(--gradient-variant-3-secondary);
         animation: bg-animate 6s ease-in-out infinite;
         animation-delay: 4s;
       }
@@ -78,7 +78,6 @@ main.public_main {
     .actions {
       margin-top: 3rem;
 
-      
       a {
         padding: 8px 22px;
         min-width: 170px;
@@ -93,7 +92,6 @@ main.public_main {
         font-size: 1rem;
         border: 2px solid;
         transition: all 250ms ease-out;
-       
       }
 
       a:first-child {
@@ -137,11 +135,12 @@ main.public_main {
       }
     }
 
-    @keyframes fade-down{
-      from{
+    @keyframes fade-down {
+      from {
         transform: translateY(-15px);
         opacity: 0;
-      }to{
+      }
+      to {
         transform: translateY(0);
         opacity: 1;
       }
@@ -149,15 +148,40 @@ main.public_main {
   }
 }
 
-header.pub_heading {
-  h2 {
-    color: var(--text-100) !important;
-    font-size: clamp(1.5rem, 3vw, 2rem) !important;
+.page_section {
+  header.pub_heading {
+    h2 {
+      color: var(--text-100) !important;
+      font-size: clamp(1.5rem, 3vw, 2rem) !important;
+    }
+
+    p {
+      color: var(--text-300) !important;
+      font-size: 12px !important;
+    }
   }
 
-  p {
-    color: var(--text-300) !important;
-    font-size: 12px !important;
+  .background {
+    width: 65%;
+    aspect-ratio: 1 / 1;
+    position: absolute;
+    border-radius: 50%;
+    left: -10%;
+    top: -10%;
+    filter: blur(35px);
+    opacity: 0.05 !important;
+    z-index: -1;
+    // box-shadow: 0 0 35px 100px rgb(0 255 0 / 0.1);
+  }
+}
+
+#counter {
+  margin: 110px 0 30px 0;
+  @media screen and (min-width: 1024px) {
+    margin: 170px 0 50px 0;
+  }
+  @media screen and (min-width: 640px) {
+    margin-top: 140px 0 40px 0;
   }
 }
 

@@ -8,13 +8,6 @@ import cardImg4 from "../../assets/features_card/card_img4.webp"
 import cardImg5 from "../../assets/features_card/card_img5.webp"
 import cardImg6 from "../../assets/features_card/card_img6.webp"
 
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-// ..
-AOS.init({
-    offset: 150,
-});
-
 const featuresDesc = {
     "Article Creation":
         "Easily craft and share your ideas using our user-friendly article editor.",
@@ -51,13 +44,13 @@ const Features = () => {
     const { dark } = useAppTheme();
 
     return (
-        <div className="features-container lg:mt-[170px] sm:mt-[150px] mt-[120px]">
-            <header className="pub_heading" data-aos="fade up">
+        <section className="features-container page_section">
+            <header className="pub_heading" data-aos="fade up" data-aos-offset="150">
                 <h2 className='text-center font-semibold'>Key Features</h2>
                 <p className="text-center text-xs mt-1" style={{ color: 'red !important' }}>A perfect platform to show your writing creativity</p>
             </header>
             <div className="features-cards dflex wrap">
-                <div id="cards" data-aos="fade up">
+                <div id="cards" data-aos="fade up" data-aos-offset="150">
                     {
                         headings.map((heading, ind) => {
                             return (
@@ -77,9 +70,13 @@ const Features = () => {
                             )
                         })
                     }
+
+                    <div className="background" data-aos="zoom-in">
+                        {/* a lighten shadow - manipulated using css */}
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

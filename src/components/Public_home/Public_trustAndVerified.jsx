@@ -2,9 +2,9 @@ import React from 'react'
 import vercel from '../../assets/brands/vercel.webp'
 import retool from '../../assets/brands/retool.webp'
 
-const Public_trustAndVerified = ({ styles }) => {
+const Public_trustAndVerified = () => {
     return (
-        <section className={`trustAndVerified-wrapper overflow-hidden max-w-full ${styles}`}>
+        <section className={`trustAndVerified-wrapper page_section overflow-hidden max-w-full lg:mt-[170px] md:mt-[150px] mt-[120px]`}>
             <header className="pub_heading">
                 <h2 className='text-center font-semibold'>Trusted And Verified By</h2>
                 <p className="text-center text-xs mt-1">Trusted by world's leading organizations</p>

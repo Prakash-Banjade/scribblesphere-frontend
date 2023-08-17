@@ -1,5 +1,4 @@
 import React from "react";
-import Logo from "../../assets/logo-watermark.svg";
 import { Link } from "react-router-dom";
 import { Button } from '@mui/material'
 import { IoIosArrowForward } from 'react-icons/io'
@@ -16,22 +15,22 @@ const Public_hero = () => {
         <img src={Logo} className="sm:w-[70%] w-full block mx-auto opacity-10" draggable="false" alt="Logo" />
       </div> */}
       <header className="main_head pt-[10%]">
-        <h1 className=" text-center md:text-7xl flex items-center justify-center text-4xl max-w-[30ch] mx-auto font-secondary" >
+        <h1 className=" text-center xl:text-8xl md:text-7xl flex items-center justify-center text-4xl max-w-[30ch] mx-auto font-secondary" >
           <span>Connect.</span><span>Explore.</span><span>Enrich.</span>
         </h1>
-        <p className="text-center mt-5 mx-auto">
+        <p className="text-center mt-7 mx-auto">
           Your portal to captivating articles<br />
           <span>ScribbleSphere</span>: Unleash Your Writing Potential
         </p>
 
         <div className="actions flex items-center gap-5 justify-center">
-          <Button component={Link} to="/login" variant="contained" sx={{ color: '#1e90ff' }}>Explore
+          <Button component={Link} to="/login" variant="contained">Explore
           <span className="text-xl">
             <SiAzuredataexplorer />
           </span>
           </Button>
 
-          <Button component={Link} to="/login" variant="contained" sx={{ color: '#1e90ff' }}>Start Writing
+          <Button component={Link} to="/login" variant="contained">Start Writing
             <span className="text-xl">
               <IoIosArrowForward />
             </span>
@@ -39,7 +38,7 @@ const Public_hero = () => {
         </div>
       </header>
 
-      <Public_trustAndVerified styles="md:mt-[200px] mt-[100px]" />
+      <Public_trustAndVerified />
 
     </main>
   );
