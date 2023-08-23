@@ -20,6 +20,7 @@ const SingleArticle = ({
   smallHeading,
   background,
   crud,
+  showTags
 }) => {
   const { _id, title, content, tagline, tags, createdAt, author } = article;
   const navigate = useNavigate();
@@ -75,9 +76,9 @@ const SingleArticle = ({
             {readingTime} read
           </p>
         </div>
-        <h4 className="tags flex flex-wrap" style={{ gap: "8px" }}>
+        {showTags && <h4 className="tags flex flex-wrap" style={{ gap: "8px" }}>
           {tagsComponent}
-        </h4>
+        </h4>}
       </header>
 
       {showContent && <p className="tagline">{tagline}</p>
@@ -123,7 +124,7 @@ const SingleArticle = ({
                 color: 'white'
               }}
             >
-              {isLoading? 'Deleting...' : 'Delete'}
+              {isLoading ? 'Deleting...' : 'Delete'}
             </Button>
           </div>
         )}

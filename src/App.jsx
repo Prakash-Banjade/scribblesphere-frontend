@@ -9,7 +9,7 @@ import Public_main from "./components/Public_home/Public_main";
 import NotFound from "./components/404";
 
 
-const Dash = lazy(() => import("./features/user/Dash"));
+const Dash = lazy(() => import("./features/user/Dash/Dash"));
 const Layout = lazy(() => import("./components/layout/Layout"));
 const SingleArticlePage = lazy(() => import("./features/article/SingleArticlePage"))
 const ArticlesList = lazy(() => import("./features/article/ArticlesList"));
@@ -24,6 +24,8 @@ import { selectCurrentToken } from "./features/auth/authSlice";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useAppTheme from "./hooks/useAppTheme";
 import { SnackbarProvider } from 'notistack';
+const SingleUserPage = lazy(() => import("./features/user/SingleUserPage"));
+const AllUsers = lazy(() => import("./features/user/AllUsers"));
 
 const App = () => {
   const location = useLocation();
@@ -42,7 +44,7 @@ const App = () => {
         main: '#0bbe64', // green primary
       },
       secondary: {
-        main: dark? '#f2f2f2' : '#232323'
+        main: dark ? '#f2f2f2' : '#232323'
       }
     },
     components: {
@@ -118,6 +120,10 @@ const App = () => {
 
                 </Route>
                 <Route path="/profile" element={<MyProfile />} />
+                <Route path="/authors">
+                  <Route index element={<AllUsers />} />
+                  <Route path=":id" element={<SingleUserPage />} />
+                </Route>
 
                 <Route path="*" element={<NotFound />} />
               </Route>

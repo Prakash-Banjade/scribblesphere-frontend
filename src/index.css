@@ -83,12 +83,14 @@ header.heading h2 {
   font-size: clamp(1.4rem, 3vw, 3rem);
   color: var(--text-200);
   overflow: hidden;
+  text-transform: capitalize;
 }
 
 header.heading p {
   color: var(--text-300);
   overflow: hidden;
   font-family: var(--primary-font);
+  font-size: 14px;
 }
 
 .MuiAlert-message {

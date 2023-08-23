@@ -47,7 +47,7 @@ const SingleArticlePage = () => {
       const imgUrl = data?.author?.profile?.url || Profile;
 
       return (
-        <ProfilePicture width={70} profilePic={imgUrl} />
+        <ProfilePicture width={70} src={imgUrl} />
       )
     }, [id, data])
 
@@ -121,10 +121,7 @@ const SingleArticlePage = () => {
     return (
       <div className="comments flex g-20">
         <div className="comment-profile-icon">
-          <AccountCircleIcon
-            sx={{ fontSize: "2rem", color: "var(--text-300)" }}
-            title={comment?.author?.fullname || 'unknown'}
-          />
+          <ProfilePicture width="60" src={comment?.author?.profile?.url} />
         </div>
 
         <div className="comment-details">

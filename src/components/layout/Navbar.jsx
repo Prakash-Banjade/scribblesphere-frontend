@@ -17,6 +17,8 @@ import { useLogoutMutation } from "../../features/auth/authApiSlice";
 import { googleLogout } from '@react-oauth/google';
 
 import ProfilePicture from "../../features/user/ProfilePicture";
+import { useSelector } from "react-redux";
+import { selectProfilePicture } from "../../features/user/userSlice";
 
 const Navbar = ({ open, small, setShowSideBar }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -24,6 +26,7 @@ const Navbar = ({ open, small, setShowSideBar }) => {
 
   const { dark, toggleTheme } = useAppTheme();
   const { fullname, email } = useAuth();
+  const profilePic = useSelector(selectProfilePicture)
 
 
   const [logout, { isLoading, isError }] = useLogoutMutation();
@@ -88,10 +91,10 @@ const Navbar = ({ open, small, setShowSideBar }) => {
           </IconButton>
         )}
         {
-          !open && <div className="flex items-center gap-2">
+          !open && <Link to="/" className="flex items-center gap-2">
             <img src={logo} alt="Brand logo" className="block w-[40px]" />
             <h1 className="font-semibold text-lg text-primary">ScribbleSphere</h1>
-          </div>
+          </Link>
         }
         <form
           className={` absolute -left-[5px] w-full flex items-center gap-1 ${searchOpen
@@ -163,7 +166,7 @@ const Navbar = ({ open, small, setShowSideBar }) => {
           onClick={handleDropdownToggle}
         >
           <button type="button" className="flex gap-2 items-center">
-            <ProfilePicture width={42} />
+            <ProfilePicture width={42} src={profilePic} />
 
             <div className="profile sm:flex flex-col hidden">
               <h3 className=" font-medium text-base flex items-center gap-1 leading-4 whitespace-nowrap" style={{ color: 'var(--text-100)' }}>

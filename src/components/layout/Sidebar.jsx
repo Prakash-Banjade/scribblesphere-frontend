@@ -3,8 +3,9 @@ import logo from '../../assets/logo.svg'
 import { IconButton } from "@mui/material";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { MdOutlineSpaceDashboard, MdOutlineCreate, MdSpaceDashboard, MdOutlineArrowBackIosNew, MdOutlineArticle, MdArticle } from "react-icons/md";
+import { PiUsersFourDuotone, PiUsersFourFill } from 'react-icons/pi'
 import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
-import { PiNotebookBold} from "react-icons/pi";
+import { PiNotebookBold } from "react-icons/pi";
 import useAppTheme from "../../hooks/useAppTheme";
 import { AiOutlineAccountBook } from "react-icons/ai";
 
@@ -16,13 +17,13 @@ const Sidebar = ({ open, setOpen, small, setShowSideBar, showSideBar }) => {
   const { dark } = useAppTheme();
 
   const navLinkDefault =
-    `px-5 py-3 w-full sm:text-base text-sm flex items-center gap-4 ${dark ? 'hover:bg-darkBg' : 'hover:bg-slate-100'} transition-colors`
+    `px-5 py-3 w-full sm:text-base text-sm flex items-center gap-4 ${dark ? 'hover:bg-darkBg' : 'hover:bg-slate-100'} transition-all`
     ;
   const navLinkClass = ({ isActive, isPending }) =>
     isPending
       ? "pending"
       : isActive
-        ? `text-primary ${dark ? 'bg-darkBg' : 'bg-slate-100'} ${navLinkDefault}`
+        ? `text-white ${open ? 'ml-3 rounded-tl-[100px] rounded-bl-[100px]' : ''} bg-primary ${navLinkDefault} hover:bg-primary `
         : `${dark ? 'text-text-100' : 'text-text-900'} ${navLinkDefault}`;
 
   const location = useLocation();
@@ -109,6 +110,14 @@ const Sidebar = ({ open, setOpen, small, setShowSideBar, showSideBar }) => {
               <MdOutlineCreate />
             </span>
             {open && "Create"}
+          </NavLink>
+        </li>
+        <li className="flex items-center">
+          <NavLink to="/authors" className={navLinkClass}>
+            <span className="lg:text-2xl sm:text-xl text-lg">
+              {location.pathname.includes("/authors") ? <PiUsersFourFill /> : <PiUsersFourDuotone />}
+            </span>
+            {open && "My Network"}
           </NavLink>
         </li>
       </ul>

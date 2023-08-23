@@ -213,7 +213,7 @@ const MyProfile = () => {
         </header>
 
         <section className="flex gap-3 mt-8 flex-wrap">
-          <ProfilePicture width={80} />
+          <ProfilePicture width={80} src={currentProfilePicture} />
 
           <div className="flex flex-col sm:gap-2">
             <h1 className="sm:text-2xl text-xl" style={{ color: 'var(--text-200)' }}>{fullname}</h1>
@@ -222,8 +222,8 @@ const MyProfile = () => {
         </section>
 
         <section className="followers flex items-center gap-8 font-light mt-6">
-          <p style={{ color: 'var(--text-300)' }}><strong className="font-medium">{profileDetails?.followers}</strong> followers</p>
-          <p style={{ color: 'var(--text-300)' }}><strong className="font-medium">{profileDetails?.following}</strong> following</p>
+          <p style={{ color: 'var(--text-300)' }}><strong className="font-medium">{profileDetails?.followers?.length}</strong> followers</p>
+          <p style={{ color: 'var(--text-300)' }}><strong className="font-medium">{profileDetails?.following?.length}</strong> following</p>
         </section>
 
         <section className="tabs mt-4">
@@ -249,7 +249,7 @@ const MyProfile = () => {
         </div>
 
         <section className="flex gap-3 mt-5 flex-wrap">
-          <ProfilePicture width={80} />
+          <ProfilePicture width={80} src={currentProfilePicture} />
 
           <div className="flex gap-3 items-center">
             <form onSubmit={handleProfilePicSubmit} encType="multipart/form-data">

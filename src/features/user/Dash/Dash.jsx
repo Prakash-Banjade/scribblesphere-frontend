@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-import "../../scss/Dash.scss";
-import { useGetMyArticlesQuery } from "../article/articlesApiSlice";
+import "../../../scss/Dash.scss";
+import { useGetMyArticlesQuery } from "../../article/articlesApiSlice";
 import { Link } from "react-router-dom";
-import SpinnerLoader from "../../components/SpinnerLoader";
-import SingleArticle from "../article/SingleArticle";
-import { useGetMyDetailsQuery } from "./userApiSlice";
+import SpinnerLoader from "../../../components/SpinnerLoader";
+import { SiAzuredataexplorer } from 'react-icons/si'
+import SingleArticle from "../../article/SingleArticle";
+import { useGetMyDetailsQuery } from "../userApiSlice";
 
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import Collapse from "@mui/material/Collapse";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 import { AiOutlinePlus } from "react-icons/ai";
-import useAppTheme from "../../hooks/useAppTheme";
+import useAppTheme from "../../../hooks/useAppTheme";
+import FollowedUsersNotification from "./FollowedUsersNotification";
 
 const Dash = () => {
-  const {dark} = useAppTheme();
+  const { dark } = useAppTheme();
   const [greeting, setGreeting] = useState("Good morning!");
   const { email, fullname } = useAuth();
   const [open, setOpen] = useState(true);
@@ -77,7 +79,7 @@ const Dash = () => {
 
   const alertProfiling = (
     <Collapse in={open}>
-      <Alert severity="info" sx={{backgroundColor: dark? '#e5f6fd' : '#c7e9f6'}}>
+      <Alert severity="info" sx={{ backgroundColor: dark ? '#e5f6fd' : '#c7e9f6' }}>
         <div
           className="profile-alert-wrapper flex flex-wrap justify-between gap-3"
           style={{ minWidth: "100%" }}
@@ -103,27 +105,36 @@ const Dash = () => {
   return (
     <div className="dash-section-main">
       {needProfiling && !myDetails.isLoading && alertProfiling}
-      <section className={`greeting-section section flex flex-column ${open ? 'mt-5' : ''}`}>
-        <header>
-          <h3 style={{color: 'var(--text-200)'}}>
-            {greeting}, {fullname}
-          </h3>
-        </header>
-        <p className="message font-light">
-          <span className="highlight">Unleash your creativity</span> and
-          captivate readers with your{" "}
-          <span className="highlight">amazing articles</span>.
-          <br />
-          <span className="highlight">Dive into a world of knowledge</span> as
-          you explore, learn, and inspire.
-        </p>
+      <section className={`flex flex-wrap gap-10 ${open ? 'mt-5' : ''}`}>
+        <section className={`greeting-section section flex flex-column grow shrink basis-[500px]`}>
+          <header>
+            <h3 style={{ color: 'var(--text-200)' }}>
+              {greeting}, {fullname}
+            </h3>
+          </header>
+          <p className="message font-light">
+            <span className="highlight">Unleash your creativity</span> and
+            captivate readers with your{" "}
+            <span className="highlight">amazing articles</span>.
+            <br />
+            <span className="highlight">Dive into a world of knowledge</span> as
+            you explore, learn, and inspire.
+          </p>
 
-        <Link to="/articles/create" className="flex items-center gap-1 px-5 py-3 rounded-md bg-primary text-white w-fit mt-5 font-medium text-lg hover:shadow-xl transition-all">
-          Create <span className="text-2xl"><AiOutlinePlus /></span>
-        </Link>
+          <section className="actions mt-5 flex items-center gap-3">
+            <Link to="/articles/create" className="flex items-center gap-1 px-5 py-3 rounded-md border border-primary text-primary w-fit font-medium text-lg hover:shadow-xl transition-all">
+              Explore <span className="text-2xl"><SiAzuredataexplorer /></span>
+            </Link>
+            <Link to="/articles" className="flex items-center gap-1 px-5 py-3 rounded-md bg-primary text-white w-fit font-medium text-lg hover:shadow-xl transition-all">
+              Create <span className="text-2xl"><AiOutlinePlus /></span>
+            </Link>
+          </section>
+        </section>
+
+        <FollowedUsersNotification userDetails={myDetails?.data} />
       </section>
 
-      <section className="section myArticles-section">
+      <section className="section myArticles-section mt-10">
         <header className="heading">
           <h2>Recent Articles Posted</h2>
         </header>

@@ -1,20 +1,18 @@
 import React from 'react'
 import profile from '../../assets/profileHolder.webp'
-import { useSelector } from 'react-redux'
-import { selectProfilePicture } from './userSlice'
 
 
-const ProfilePicture = ({ width, smallWidth, profilePic }) => {
+const ProfilePicture = ({ width, smallWidth, src }) => {
 
-    const profilePicture = profilePic || useSelector(selectProfilePicture);
+    const profilePicture = src || profile;
 
     let imgWidth = width || 50;
 
     return (
 
-        profilePicture ? <img
+        <img
             src={profilePicture}
-            alt="profile image" className={`rounded-[50%] aspect-square object-cover block`} style={{width: imgWidth + 'px'}} /> : <img src={profile} alt="profile image" className={`aspect-square object-cover block`} style={{width: imgWidth + 'px'}} />
+            alt="profile image" className={`rounded-[50%] aspect-square object-cover block`} style={{ width: imgWidth + 'px' }} />
     )
 }
 

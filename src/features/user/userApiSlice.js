@@ -2,6 +2,26 @@ import { apiSlice } from "../../app/api/apiSlice";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getAllUsers: builder.query({
+      query: () => ({
+        url: "/users",
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+      providesTags: ["Users"],
+    }),
+    getUserById: builder.query({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+      providesTags: ["Users"],
+    }),
     getMyDetails: builder.query({
       query: () => ({
         url: "/users/getmydetails",
@@ -51,4 +71,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation } = userApiSlice;
+export const { useGetAllUsersQuery, useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation, useGetUserByIdQuery } = userApiSlice;
