@@ -12,16 +12,6 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Articles"],
     }),
-    getMyArticles: builder.query({
-      query: (limit) => ({
-        url: `articles/myarticles?limit=${Number(limit)}`,
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }),
-      providesTags: ["Articles"],
-    }),
     getArticleById: builder.query({
       query: (id) => ({
         url: `/articles/${id}`,
@@ -91,7 +81,6 @@ export const articlesApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetArticlesQuery,
-  useGetMyArticlesQuery,
   useGetArticleByIdQuery,
   usePostCommentMutation,
   usePostArticleMutation,

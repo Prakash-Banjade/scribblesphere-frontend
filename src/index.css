@@ -93,6 +93,13 @@ header.heading p {
   font-size: 14px;
 }
 
+.box{
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line-color);
+  background: var(--bg-secondary);
+}
+
 .MuiAlert-message {
   width: 100% !important;
 }

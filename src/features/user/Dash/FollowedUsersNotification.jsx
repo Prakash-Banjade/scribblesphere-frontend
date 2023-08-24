@@ -1,18 +1,21 @@
 import { Button } from '@mui/material';
 import React from 'react'
 import {Link} from 'react-router-dom'
+import SpinnerLoader from '../../../components/SpinnerLoader';
 
-const FollowedUsersNotification = ({ userDetails }) => {
+const FollowedUsersNotification = ({ userDetails, isLoading }) => {
     // console.log(userDetails)
     const following = userDetails?.following;
     // console.log(following?.length)
+
+    if (isLoading) return <SpinnerLoader />
     return (
         <div className="wrapper grow shrink basis-[500px]">
             <header className="heading">
                 <h2>Your interests</h2>
             </header>
 
-            <section className="interest-container border p-3 rounded-lg" style={{ background: 'var(--bg-secondary)', borderColor: 'var(--line-color)' }}>
+            <section className="interest-container  p-3 rounded-lg" style={{ background: '#0bbe641e' }}>
                 {
                     following?.length === 0 ? (
                         <div className="flex flex-col gap-2" style={{color: 'var(--text-200)'}}>

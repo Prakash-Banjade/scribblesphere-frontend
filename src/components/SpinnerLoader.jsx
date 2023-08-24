@@ -7,7 +7,7 @@ const SpinnerLoader = () => {
         margin: '20px auto',
     }
 
-  return <FadeLoader color="#999" cssOverride={overRide} />
+  return <div className="flex items-center justify-center"><FadeLoader color="#777" cssOverride={overRide} /></div>
 }
 
 export default SpinnerLoader

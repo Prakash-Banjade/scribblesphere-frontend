@@ -17,14 +17,14 @@ const Sidebar = ({ open, setOpen, small, setShowSideBar, showSideBar }) => {
   const { dark } = useAppTheme();
 
   const navLinkDefault =
-    `px-5 py-3 w-full sm:text-base text-sm flex items-center gap-4 ${dark ? 'hover:bg-darkBg' : 'hover:bg-slate-100'} transition-all`
+    `px-5 py-3 w-full sm:text-base text-sm flex items-center gap-4 transition-all`
     ;
   const navLinkClass = ({ isActive, isPending }) =>
     isPending
       ? "pending"
       : isActive
-        ? `text-white ${open ? 'ml-3 rounded-tl-[100px] rounded-bl-[100px]' : ''} bg-primary ${navLinkDefault} hover:bg-primary `
-        : `${dark ? 'text-text-100' : 'text-text-900'} ${navLinkDefault}`;
+        ? `text-white ${open ? 'ml-3 rounded-tl-[100px] rounded-bl-[100px]' : ''} bg-primary hover:bg-primary ${navLinkDefault}`
+        : `${dark ? 'text-text-100' : 'text-text-900'} ${dark ? 'hover:bg-darkBg' : 'hover:bg-slate-100'} ${navLinkDefault}`;
 
   const location = useLocation();
 

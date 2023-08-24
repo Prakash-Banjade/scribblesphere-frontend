@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useGetMyArticlesQuery } from "./articlesApiSlice";
+import { useGetUserArticlesQuery } from "../user/userApiSlice";
 import SingleArticle from "./SingleArticle";
 import Loader from "../../components/Loader";
 import "../../scss/ArticlesList.scss";
@@ -11,7 +11,8 @@ import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 const MyArticles = () => {
-  const { data, isLoading } = useGetMyArticlesQuery(0);
+  const { fullname, userId } = useAuth();
+  const { data, isLoading } = useGetUserArticlesQuery({userId, limit: 0});
 
   const articles = data?.map((data) => {
     return <div className="myArticle" key={data._id}>
@@ -19,7 +20,6 @@ const MyArticles = () => {
     </div>;
   });
 
-  const { fullname } = useAuth();
 
   useEffect(() => {
     document.title = "My Articles | ScribbleSphere"

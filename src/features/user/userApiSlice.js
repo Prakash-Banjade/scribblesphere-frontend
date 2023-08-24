@@ -22,6 +22,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Users"],
     }),
+    getUserArticles: builder.query({
+      query: (params) => ({
+        url: `/users/${params.userId}/articles?limit=${Number(params.limit)}`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+      providesTags: ["Articles"],
+    }),
     getMyDetails: builder.query({
       query: () => ({
         url: "/users/getmydetails",
@@ -71,4 +81,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetAllUsersQuery, useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation, useGetUserByIdQuery } = userApiSlice;
+export const { useGetAllUsersQuery, useGetUserArticlesQuery, useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation, useGetUserByIdQuery } = userApiSlice;

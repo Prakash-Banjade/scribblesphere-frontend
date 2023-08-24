@@ -30,7 +30,7 @@ const info = [
 const SingleInfoContent = (data) => {
     return (
         <div className="flex flex-col gap-2">
-            <span className="p-2 rounded-md bg-gray-400 text-xl text-gray-800 w-fit">
+            <span className="p-2 rounded-md bg-gray-300 text-xl border text-gray-800 w-fit" style={{borderColor: 'var(--line-color)'}}>
                 {data.info.icon}
             </span>
 

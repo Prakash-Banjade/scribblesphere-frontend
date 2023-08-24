@@ -4,7 +4,8 @@ import Loader from '../../components/Loader'
 import useAppTheme from '../../hooks/useAppTheme'
 import ProfilePicture from './ProfilePicture'
 import { Button } from '@mui/material'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { RiUserFollowLine } from 'react-icons/ri'
 
 const AllUsers = () => {
     const { dark } = useAppTheme();
@@ -52,7 +53,7 @@ const AllUsers = () => {
                     />
                 </div>
 
-                <Button type="submit" sx={{borderRadius: '8px'}} variant="contained">Search</Button>
+                <Button type="submit" sx={{ borderRadius: '8px' }} variant="contained">Search</Button>
             </form>
         </section>
     )
@@ -68,8 +69,10 @@ const AllUsers = () => {
                         <p className="text-xs mt-1" style={{ color: 'var(--text-400)' }}>{user?.details?.writesOn.join(' | ')}</p>
                     </div>
                 </Link>
-                <section className="actions">
-                    <Button variant="contained">Follow</Button>
+                <section className="actions space-x-1">
+                    <Button variant="outlined" size="small" sx={{ padding: '5px 15px', borderRadius: '100px' }} startIcon={<RiUserFollowLine />}>
+                        Follow
+                    </Button>
                 </section>
             </article>
         )

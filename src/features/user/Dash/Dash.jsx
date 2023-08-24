@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../../../scss/Dash.scss";
-import { useGetMyArticlesQuery } from "../../article/articlesApiSlice";
 import { Link } from "react-router-dom";
 import SpinnerLoader from "../../../components/SpinnerLoader";
 import { SiAzuredataexplorer } from 'react-icons/si'
 import SingleArticle from "../../article/SingleArticle";
-import { useGetMyDetailsQuery } from "../userApiSlice";
+import { useGetMyDetailsQuery, useGetUserArticlesQuery } from "../userApiSlice";
 
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
@@ -15,15 +14,17 @@ import { AiOutlinePlus } from "react-icons/ai";
 import useAppTheme from "../../../hooks/useAppTheme";
 import FollowedUsersNotification from "./FollowedUsersNotification";
 
+const LIMIT = 3;
+
 const Dash = () => {
   const { dark } = useAppTheme();
   const [greeting, setGreeting] = useState("Good morning!");
-  const { email, fullname } = useAuth();
+  const { email, fullname, userId } = useAuth();
   const [open, setOpen] = useState(true);
   const [needProfiling, setNeedProfiling] = useState(false);
 
   const myDetails = useGetMyDetailsQuery();
-  const { data, isLoading } = useGetMyArticlesQuery(3);
+  const { data, isLoading } = useGetUserArticlesQuery({ userId, limit: LIMIT });
 
   useEffect(() => {
     if (!myDetails.isLoading) {
@@ -131,7 +132,7 @@ const Dash = () => {
           </section>
         </section>
 
-        <FollowedUsersNotification userDetails={myDetails?.data} />
+        <FollowedUsersNotification userDetails={myDetails?.data} isLoading={isLoading} />
       </section>
 
       <section className="section myArticles-section mt-10">
