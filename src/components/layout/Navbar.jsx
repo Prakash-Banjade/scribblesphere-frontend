@@ -25,7 +25,7 @@ const Navbar = ({ open, small, setShowSideBar }) => {
   const dropdownRef = useRef();
 
   const { dark, toggleTheme } = useAppTheme();
-  const { fullname, email } = useAuth();
+  const { fullname, email, userId } = useAuth();
   const profilePic = useSelector(selectProfilePicture)
 
 
@@ -182,7 +182,7 @@ const Navbar = ({ open, small, setShowSideBar }) => {
           </button>
 
           <div
-            className={`dropdown-container absolute right-1 top-[120%] z-[100] border rounded-md py-2 shadow-lg cursor-default transition-all ${isProfileDropdownOpen
+            className={`dropdown-container absolute right-1 top-[120%] z-[100] min-w-[250px] border rounded-md py-2 shadow-lg cursor-default transition-all ${isProfileDropdownOpen
               ? "translate-y-0 opacity-100 pointer-events-auto"
               : "translate-y-[-10px] opacity-0 pointer-events-none"
               }`}
@@ -190,9 +190,9 @@ const Navbar = ({ open, small, setShowSideBar }) => {
             ref={dropdownRef}
             onClick={handleDropdownClick}
           >
-            <header className="flex gap-1 flex-col mb-3 px-3">
+            <header className="flex gap-1 flex-col mb-3 px-3 cursor-pointer" title="Public profile" onClick={() => {navigate(`/authors/${userId}`)}}>
               <h2 className="font-medium" style={{ color: 'var(--text-100)' }}>
-                {email.slice(0, 12)}...
+                {email.length > 25? email.slice(0, 25) + '...' : email}
               </h2>
               <p className="text-[12px]" style={{ color: 'var(--text-400)' }}>{fullname}</p>
             </header>

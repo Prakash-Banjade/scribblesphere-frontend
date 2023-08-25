@@ -1,18 +1,17 @@
-import React from 'react'
-import { useGetAllUsersQuery } from './userApiSlice'
+import React, { useState, useEffect } from 'react'
+import { useGetAllUsersQuery, } from './userApiSlice'
 import Loader from '../../components/Loader'
 import useAppTheme from '../../hooks/useAppTheme'
 import ProfilePicture from './ProfilePicture'
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { RiUserFollowLine } from 'react-icons/ri'
+import useAuth from '../../hooks/useAuth'
+import FollowBtn from './FollowBtn'
 
 const AllUsers = () => {
     const { dark } = useAppTheme();
 
     const { data: users, isLoading, isSuccess, isError } = useGetAllUsersQuery()
-    // console.log(users)
-
 
     const UserSearchBar = () => (
         <section className="userSearchBar">
@@ -70,17 +69,15 @@ const AllUsers = () => {
                     </div>
                 </Link>
                 <section className="actions space-x-1">
-                    <Button variant="outlined" size="small" sx={{ padding: '5px 15px', borderRadius: '100px' }} startIcon={<RiUserFollowLine />}>
-                        Follow
-                    </Button>
+                    <FollowBtn user={user} color="info" />
                 </section>
             </article>
         )
     }
 
     const usersCards = (
-        <div className="users-list flex flex-col gap-4 mt-10">
-            {users?.map(user => <SingleUserCard key={user.id} user={user} />)}
+        <div className="users-list flex flex-col xl:gap-5 lg:gap-4 md:gap-3 gap-2 mt-10">
+            {users?.map(user => <SingleUserCard key={user._id} user={user} />)}
         </div>
     )
 

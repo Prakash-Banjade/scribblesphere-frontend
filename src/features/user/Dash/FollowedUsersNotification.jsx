@@ -10,7 +10,7 @@ const FollowedUsersNotification = ({ userDetails, isLoading }) => {
 
     if (isLoading) return <SpinnerLoader />
     return (
-        <div className="wrapper grow shrink basis-[500px]">
+        <div className="wrapper grow shrink basis-[500px] min-w-[300px]">
             <header className="heading">
                 <h2>Your interests</h2>
             </header>
@@ -21,9 +21,9 @@ const FollowedUsersNotification = ({ userDetails, isLoading }) => {
                         <div className="flex flex-col gap-2" style={{color: 'var(--text-200)'}}>
                             <h3 className="sm:text-xl text-lg mb-3">You aren't following any authors!</h3>
                             <p>Explore the creativity of other users.</p>
-                            <p className="flex items-center gap-1">See active users <Button variant="text" component={Link} to="/authors" sx={{ '&:hover': { textDecoration: 'underline' } }}>here!</Button> </p>
+                            <p className="flex items-center">See active users<Button variant="text" component={Link} to="/authors" sx={{ '&:hover': { textDecoration: 'underline' } }}>here!</Button> </p>
                         </div>
-                    ) : ''
+                    ) : <p>Now you are following someone</p>
                 }
             </section>
         </div>

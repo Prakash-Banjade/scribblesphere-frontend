@@ -41,7 +41,7 @@ const MyArticles = () => {
         </>
       ) : (
         <div className="noArticles-msg flex-center flex-column g-10" style={{ padding: '10px' }}>
-          <p className="color-text-white font-500 font-blog" style={{ fontSize: '1.3rem' }}>You haven't created any articles.</p>
+          <p className="text-lg" style={{ color: 'var(--text-200)' }}>You haven't created any articles.</p>
           <Button
             variant="contained"
             type="button"

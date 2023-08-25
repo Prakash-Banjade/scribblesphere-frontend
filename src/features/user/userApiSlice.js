@@ -78,7 +78,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Users"],
     }),
+    toggleFollow: builder.mutation({
+      query: (id) => ({
+        url: '/users/follower',
+        method: 'PATCH',
+        body: { id }
+      }),
+      invalidatesTags: ['Users']
+    }),
   }),
 });
 
-export const { useGetAllUsersQuery, useGetUserArticlesQuery, useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation, useGetUserByIdQuery } = userApiSlice;
+export const { useGetAllUsersQuery, useGetUserArticlesQuery, useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation, useGetUserByIdQuery, useToggleFollowMutation } = userApiSlice;

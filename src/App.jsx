@@ -45,6 +45,9 @@ const App = () => {
       },
       secondary: {
         main: dark ? '#f2f2f2' : '#232323'
+      },
+      info: {
+        main: '#0a66c2'
       }
     },
     components: {
@@ -55,9 +58,6 @@ const App = () => {
           },
           contained: {
             color: 'white',
-            '&:hover': {
-              opacity: .8
-            }
           },
           outlined: {
           },

@@ -13,7 +13,7 @@ import { BsFacebook, BsInstagram, BsTwitter, BsLinkedin } from 'react-icons/bs'
 import { useDispatch, useSelector } from "react-redux";
 import { setProfilePicture, selectProfilePicture } from "./userSlice";
 import ProfilePicture from "./ProfilePicture";
-import PPRemoveModal from "./PPRemoveModal";
+import DeleteModal from "../../components/DeleteModal";
 
 const MyProfile = () => {
   const { fullname, email } = useAuth();
@@ -97,16 +97,6 @@ const MyProfile = () => {
     network: 'facebook',
     link: '',
   })
-
-  const WritesOn = ({ tags }) => {
-    return (
-      <li>
-        {tags?.map((tag) => (
-          <span key={tag}>#{tag}</span>
-        ))}
-      </li>
-    );
-  };
 
   const { dark } = useAppTheme();
 
@@ -261,7 +251,7 @@ const MyProfile = () => {
           </div>
         </section>
 
-        <PPRemoveModal open={open} handleClose={handleClose} handleRemove={handleProfilePicRemove} />
+        <DeleteModal open={open} handleClose={handleClose} func={handleProfilePicRemove} message={"Are you sure you want to remove your profile picture?"} note={"Removing your profile picture will revert to the default avatar."} title="Profile Picture Removal" />
 
 
         <form className="flex flex-wrap gap-7 font-blog mt-6" style={{ color: 'var(--text-200)' }}>

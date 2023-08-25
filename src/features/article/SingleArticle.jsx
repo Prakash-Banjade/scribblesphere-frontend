@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Alert from "@mui/material/Alert";
 import { useDeleteArticleMutation } from "./articlesApiSlice";
+import useSnackbarShow from "../../hooks/useSnackbarShow";
 
 const SingleArticle = ({
   article,
@@ -25,7 +26,7 @@ const SingleArticle = ({
   const { _id, title, content, tagline, tags, createdAt, author } = article;
   const navigate = useNavigate();
 
-  const [deleteArticle, { isLoading }] = useDeleteArticleMutation();
+  const [deleteArticle, { isLoading, isSuccess, isError }] = useDeleteArticleMutation();
   const [errDeleteMsg, setErrDeleteMsg] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -40,11 +41,15 @@ const SingleArticle = ({
     </span>
   ));
 
+  const showSnackbar = useSnackbarShow()
+
   const handleDelete = async () => {
     try {
       const response = await deleteArticle({ id: _id });
+      if (isSuccess || !isError) showSnackbar('Article deleted successfully', 'success')
     } catch (e) {
       console.log(e.message);
+      showSnackbar(e.message, 'error')
       setErrDeleteMsg(e.message);
     }
   };
@@ -99,6 +104,9 @@ const SingleArticle = ({
           open={open}
           handleClose={handleClose}
           func={handleDelete}
+          message={'Are you sure want to delete this article?'}
+          note={'This process is irreversible'}
+          title={'Article Delete'}
         />
 
         {crud && (

@@ -10,6 +10,7 @@ import { Button, Alert, AlertTitle } from "@mui/material";
 import useAppTheme from "../../hooks/useAppTheme";
 import { RxCross2 } from 'react-icons/rx'
 import { MdKeyboardBackspace } from "react-icons/md";
+import useSnackbarShow from "../../hooks/useSnackbarShow";
 
 const TAG_REGEX = /[^A-Za-z0-9.]/g;
 
@@ -33,7 +34,7 @@ const CreateArticle = () => {
   const { data, isLoading: articleLoading, isSuccess: isArticleSuccess } = useGetArticleByIdQuery(id)
 
   useEffect(() => {
-    if (data){
+    if (data) {
       setTitle(data.title)
       setContent(data.content)
       setTagline(data.tagline)
@@ -77,6 +78,8 @@ const CreateArticle = () => {
     setTags(prev => prev.filter(tag => tag !== currentTag));
   }
 
+  const showSnackbar = useSnackbarShow()
+
   // submitting the article
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -105,13 +108,14 @@ const CreateArticle = () => {
 
     try {
       const response = await update({ ...articleDetails, id });
-      
+
       if (response?.data?.status === 200) {
         setSuccessMsg("You article has been posted successfully.");
         setTitle("");
         setContent("");
         setTags([]);
 
+        showSnackbar('Article updated successfully', 'success')
         setTimeout(() => {
           setSuccessMsg("");
           navigate('/articles/myarticles')
@@ -121,6 +125,7 @@ const CreateArticle = () => {
       }
     } catch (e) {
       setErrMsg(e?.data.message);
+      showSnackbar(e.data.message, 'error')
     }
   };
 
@@ -293,7 +298,7 @@ const CreateArticle = () => {
                 disabled={isLoading || (!title || !content || !tagline)}
                 onClick={() => navigate(-1)}
                 variant="outlined"
-                sx={{padding: '10px 25px'}}
+                sx={{ padding: '10px 25px' }}
               >
                 Cancel
               </Button>
