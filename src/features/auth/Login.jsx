@@ -16,6 +16,7 @@ import useInternetConnection from "../../hooks/useInternetConnection";
 import usePersist from "../../hooks/usePersist";
 import GoogleOAuth from "./GoogleOAuth";
 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
@@ -28,8 +29,6 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
-
-
 
   const navigate = useNavigate();
 
@@ -51,7 +50,7 @@ const Login = () => {
       setEmail("");
       setPwd("");
 
-
+      // socket.connect();
       navigate("/dash");
     } catch (e) {
       if (e?.data) {
@@ -295,13 +294,13 @@ const Login = () => {
 
         <section className="needAccount flex-center gap-1">
           <p className="text-sm">Need an account?</p>
-          <Button component={Link} to="/signup" sx={{padding: 0}} variant="text">Sign up</Button>
+          <Button component={Link} to="/signup" sx={{ padding: 0 }} variant="text">Sign up</Button>
         </section>
 
         <section className="flex gap-1.5 items-center w-full max-w-[500px]">
-          <hr className=" grow" style={{borderColor: 'var(--text-500)'}} />
+          <hr className=" grow" style={{ borderColor: 'var(--text-500)' }} />
           <span className="text-center text-xs" style={{ color: 'var(--text-300)' }}>Or,</span>
-          <hr className=" grow" style={{borderColor: 'var(--text-500)'}} />
+          <hr className=" grow" style={{ borderColor: 'var(--text-500)' }} />
         </section>
 
         <GoogleOAuth setErrMsg={setErrMsg} />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useGetAllUsersQuery, useGetUserArticlesQuery, useGetUserByIdQuery } from './userApiSlice';
 import Loader from '../../components/Loader';
@@ -11,10 +11,12 @@ import { BsFacebook, BsInstagram, BsTwitter, BsLinkedin, BsPersonAdd } from 'rea
 import { AiOutlineMessage } from 'react-icons/ai'
 import useAuth from '../../hooks/useAuth';
 import FollowBtn from './FollowBtn';
-
+import { useSocket } from '../../context/SocketProvider';
 
 const SingleUserPage = () => {
     const { id } = useParams();
+    const { socket } = useSocket();
+
     const { data: user, isLoading, isSuccess, isError } = useGetUserByIdQuery(id);
     const { data: articles, isLoading: articlesLoading, isError: articlesError } = useGetUserArticlesQuery({ userId: id, limit: 0 })
 
@@ -63,11 +65,11 @@ const SingleUserPage = () => {
 
     const userInterests = user?.following?.length !== 0 ? (
         <div className="flex flex-wrap xl:gap-5 lg:gap-4 md:gap-3 gap-2">
-            {user?.following?.map(user => <SingleUserCard user={user} view />)}
+            {user?.following?.map(user => <SingleUserCard user={user} key={user._id} view />)}
         </div>
     ) : <p className="text-sm p-3" style={{ color: 'var(--text-300)' }}>{user?.fullname} currently has no interests </ p>
 
-    const otherUsers = allUsersLoading ? <SpinnerLoader /> : allUsersError ? <p className="text-sm p-3" style={{ color: 'var(--text-300)' }}>Failed to fetch other users</ p> : allUsers?.length > 0 && allUsers?.filter(otherUser => (otherUser._id !== id && otherUser._id !== userId && !user?.following?.some(follower => follower._id === otherUser._id))).sort((a, b) => 0.5 - Math.random()).map(user => <SingleUserCard key={user._id} user={user} />)
+    const otherUsers = allUsersLoading ? <SpinnerLoader /> : allUsersError ? <p className="text-sm p-3" style={{ color: 'var(--text-300)' }}>Failed to fetch other users</ p> : allUsers?.length > 0 && allUsers?.filter(otherUser => (otherUser._id !== id && otherUser._id !== userId && !user?.following?.some(follower => follower._id === otherUser._id))).sort((a, b) => 0.5 - Math.random()).map((user, ind) => <SingleUserCard key={ind} user={user} />)
 
     // social media setup
     const mediaLogo = {
@@ -88,6 +90,27 @@ const SingleUserPage = () => {
             color: '#1DA1F2',
         }
     }
+
+    useEffect(() => {
+        const onReqFailed = msg => {
+            console.log(msg);
+        }
+
+        socket.on('connect_request_failed', onReqFailed)
+
+        return () => {
+            socket.off('connect_request_failed', onReqFailed);
+        }
+    }, [])
+
+
+    const handleConnectClick = () => {
+        socket.emit('send_connect_req', id, (data) => {
+            console.log(data.status + data.message)
+        })
+    }
+
+
 
     if (isError) return <h3 className="text-xl p-3" style={{ color: 'var(--text-200)' }}>The requested user can't be fetched.</h3>
     if (isLoading) return <Loader />
@@ -134,7 +157,7 @@ const SingleUserPage = () => {
                     <section className="flex gap-4 px-3 sm:px-5 py-1 mb-2 sm:text-base text-xs font-light" >
                         <div className="border p-3 rounded-lg flex gap-3 items-center" style={{ borderColor: 'var(--line-color)', background: 'var(--bg-primary)' }} >
                             <p className="" style={{ color: 'var(--text-200)' }}>Connect if you know each other</p>
-                            <Button variant="outlined" size="small" sx={{ padding: '5px 15px', borderRadius: '100px', borderWidth: '3px', '&:hover': { borderWidth: '3px' } }} startIcon={<BsPersonAdd />}>
+                            <Button variant="outlined" size="small" sx={{ padding: '5px 15px', borderRadius: '100px', borderWidth: '3px', '&:hover': { borderWidth: '3px' } }} startIcon={<BsPersonAdd />} onClick={handleConnectClick}>
                                 Connect
                             </Button>
                         </div>
@@ -155,9 +178,9 @@ const SingleUserPage = () => {
                     </section>
                 </div>
                 <div className="profile-interests box" style={{ padding: 0 }}>
-                    <section className="sm:p-5 p-3 font-semibold">
-                        <h3 className="text-2xl mb-4" style={{ color: 'var(--text-200)' }}>Interests</h3>
-
+                    <section className="sm:p-5 p-3">
+                        <h3 className="text-2xl font-semibold" style={{ color: 'var(--text-200)' }}>Interests</h3>
+                        <p className="sm:text-sm text-xs mb-4" style={{ color: 'var(--text-300)' }}>Total {user?.following?.length}</p>
                         {userInterests}
                     </section>
                 </div>

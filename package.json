@@ -32,6 +32,7 @@
     "react-router-dom": "^6.13.0",
     "react-spinners": "^0.13.8",
     "sass": "^1.63.4",
+    "socket.io-client": "^4.7.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

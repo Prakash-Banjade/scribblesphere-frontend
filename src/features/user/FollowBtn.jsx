@@ -23,7 +23,7 @@ const FollowBtn = ({ user, color }) => {
                 {user.isFollowing ? 'Following' : 'Follow'}
             </Button>
 
-            <DeleteModal open={open} handleClose={handleClose} func={handleToggleFollow} title={"Unfollow"} note={`You will no longer receive updates from ${user.fullname}`} message={"Are you sure to unfollow?"} />
+            <DeleteModal open={open} handleClose={handleClose} func={handleToggleFollow} title={"Unfollow"} note={`You will no longer receive updates from ${user.fullname}`} message={`Unfollow ${user.fullname}?`} />
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useGetAllUsersQuery, } from './userApiSlice'
+import { useGetAllUsersQuery, useGetMyDetailsQuery, } from './userApiSlice'
 import Loader from '../../components/Loader'
 import useAppTheme from '../../hooks/useAppTheme'
 import ProfilePicture from './ProfilePicture'
@@ -7,11 +7,37 @@ import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import FollowBtn from './FollowBtn'
+import { useSocket } from '../../context/SocketProvider'
 
 const AllUsers = () => {
     const { dark } = useAppTheme();
-
+    const { data: details, isLoading: detailsLoading, isError: detailsError } = useGetMyDetailsQuery();
     const { data: users, isLoading, isSuccess, isError } = useGetAllUsersQuery()
+
+    const {socket} = useSocket();
+    const [connections, setConnections] = useState()
+    console.log(connections)
+
+    // console.log(data)
+    useEffect(() => {
+        if (!detailsLoading && !detailsError) {
+            setConnections(details?.connections)
+        }
+    }, [details])
+
+    useEffect(() => {
+        const onReceiveConnectRequest = newReq => {
+            setConnections(prev => [...prev, newReq])
+        }
+        
+        socket.on('receive_connect_req', onReceiveConnectRequest)
+
+        return () => {
+            socket.off('receive_connect_req', onReceiveConnectRequest)
+        }
+        
+    }, [])
+
 
     const UserSearchBar = () => (
         <section className="userSearchBar">
@@ -59,17 +85,19 @@ const AllUsers = () => {
 
     const SingleUserCard = ({ user }) => {
         return (
-            <article className="user-card rounded-md border flex items-center justify-between p-3" style={{ borderColor: 'var(--line-color)', background: 'var(--bg-secondary)' }}>
-                <Link to={user._id} className="user-info flex items-center gap-3">
+            <article className="user-card rounded-md border flex p-3 gap-3" style={{ borderColor: 'var(--line-color)', background: 'var(--bg-secondary)' }}>
+                <Link to={user._id} className="user-info items-center flex gap-3">
                     <ProfilePicture width={80} src={user?.profile?.url} />
-                    <div className="user-details">
+                </Link>
+                <section className='right-section flex gap-2 justify-between items-center flex-wrap flex-1'>
+                    <Link to={user._id} className="user-details">
                         <h2 style={{ color: 'var(--text-200)' }} className="font-semibold hover:underline">{user?.fullname}</h2>
                         <h3 style={{ color: 'var(--text-300)' }}>{user?.details?.profession}</h3>
                         <p className="text-xs mt-1" style={{ color: 'var(--text-400)' }}>{user?.details?.writesOn.join(' | ')}</p>
-                    </div>
-                </Link>
-                <section className="actions space-x-1">
-                    <FollowBtn user={user} color="info" />
+                    </Link>
+                    <section className="actions space-x-1">
+                        <FollowBtn user={user} color="info" />
+                    </section>
                 </section>
             </article>
         )
@@ -88,6 +116,15 @@ const AllUsers = () => {
                 <h2 style={{ color: 'var(--primary-color)' }}>active users network</h2>
                 <p>Connect with fellow users who are currently active and engaging. Discover their interests, follow their updates, and foster meaningful connections within our vibrant community.</p>
             </header>
+
+            {
+                connections?.map(connect => {
+                    return <div className="mb-2">
+                        <h2 className="text-xl font-semibold" style={{color: 'var(--text-100)'}}>{connect?.user?.fullname}</h2>
+                    </div>
+                })
+            }
+
             <UserSearchBar />
 
             {usersCards}
