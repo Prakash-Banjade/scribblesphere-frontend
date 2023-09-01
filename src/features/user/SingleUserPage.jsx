@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useGetAllUsersQuery, useGetUserArticlesQuery, useGetUserByIdQuery } from './userApiSlice';
 import Loader from '../../components/Loader';
@@ -8,10 +8,11 @@ import { formatDistanceToNow } from "date-fns";
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom'
 import { BsFacebook, BsInstagram, BsTwitter, BsLinkedin, BsPersonAdd } from 'react-icons/bs'
-import { AiOutlineMessage } from 'react-icons/ai'
+import { AiOutlineMessage, AiOutlineClockCircle } from 'react-icons/ai'
 import useAuth from '../../hooks/useAuth';
 import FollowBtn from './FollowBtn';
 import { useSocket } from '../../context/SocketProvider';
+import DeleteModal from '../../components/DeleteModal';
 
 const SingleUserPage = () => {
     const { id } = useParams();
@@ -22,6 +23,9 @@ const SingleUserPage = () => {
 
     const { userId } = useAuth();
     // console.log(user)
+    const [open, setOpen] = useState(false)
+    const [connReqStatus, setConnReqStatus] = useState(null);
+
 
     const { data: allUsers, isLoading: allUsersLoading, isError: allUsersError } = useGetAllUsersQuery();
 
@@ -44,6 +48,7 @@ const SingleUserPage = () => {
             </article>
         )
     }
+
 
     const userArticles = (articlesLoading || isLoading) ? <SpinnerLoader /> : articles?.length !== 0 ? (
         articles.map(article => <SingleArticle key={article._id} article={article} />)
@@ -96,21 +101,50 @@ const SingleUserPage = () => {
             console.log(msg);
         }
 
+        const refreshConnectStatus = data => {
+            console.log(data)
+            setConnReqStatus(data)
+        }
+
+        const onConnectRemove = data => {
+            if (data.status === 200) {
+                setConnReqStatus('not-connected')
+            }
+        }
+
         socket.on('connect_request_failed', onReqFailed)
+        socket.on('refresh_connect_status', refreshConnectStatus)
+        socket.on('remove_connect_req', onConnectRemove)
 
         return () => {
             socket.off('connect_request_failed', onReqFailed);
+            socket.off('refresh_connect_status', refreshConnectStatus)
+            socket.off('remove_connect_req', onConnectRemove)
         }
     }, [])
 
+    useEffect(() => {
+        socket.emit('get_connect_status', id, (data) => {
+            if (data.status === 200) {
+                setConnReqStatus(data.data)
+                console.log(data.data)
+            }
+        })
+    }, [id])
 
     const handleConnectClick = () => {
         socket.emit('send_connect_req', id, (data) => {
-            console.log(data.status + data.message)
+            if (data.status === 200) {
+                console.log(data.status + data.message)
+                if (data.action === 'DELETE') {
+                    setConnReqStatus('not-connected')
+                } else {
+                    setConnReqStatus('pending')
+                }
+                // console.log(data.message)
+            }
         })
     }
-
-
 
     if (isError) return <h3 className="text-xl p-3" style={{ color: 'var(--text-200)' }}>The requested user can't be fetched.</h3>
     if (isLoading) return <Loader />
@@ -135,13 +169,13 @@ const SingleUserPage = () => {
                     </section>}
                     <section className="flex gap-5 px-3 sm:px-5 py-1 mb-2 sm:text-sm text-xs font-light text-[#1e90ff]">
                         <p>{user.followers?.length} {user?.followers?.length > 1 ? 'followers' : 'follower'}</p>
-                        <p>{user.connections?.length} {user?.connections?.length > 1 ? 'connections' : 'connection'}</p>
+                        <p>{user.connections?.filter(conn => conn.status !== 'pending')?.length} {user?.connections?.length > 1 ? 'connections' : 'connection'}</p>
                     </section>
                     <section className="flex flex-col gap-5 px-3 sm:px-5 py-1 mb-2 font-light sm:text-sm text-xs">
                         <div className="font-medium" style={{ color: 'var(--text-300)' }}>{user?.details?.address}</div>
                         {
                             user?.details?.socialLinks?.map(socialLink => (
-                                <a href={socialLink.link} rel="noopener noreferrer" key={socialLink.network} target="_blank" className="flex items-center gap-2" style={{ color: 'var(--text-300)' }}>
+                                <a href={socialLink.link} rel="noopener noreferrer" key={socialLink.network} target="_blank" className="flex items-center gap-2 w-fit" style={{ color: 'var(--text-300)' }}>
                                     <span className="text-xl" style={{ color: mediaLogo[socialLink.network].color }}>{mediaLogo[socialLink.network].logo}</span>
                                     {user.fullname}
                                 </a>
@@ -155,12 +189,21 @@ const SingleUserPage = () => {
                         </Button>
                     </section>
                     <section className="flex gap-4 px-3 sm:px-5 py-1 mb-2 sm:text-base text-xs font-light" >
-                        <div className="border p-3 rounded-lg flex gap-3 items-center" style={{ borderColor: 'var(--line-color)', background: 'var(--bg-primary)' }} >
+                        {connReqStatus === 'not-connected' ? <div className="border p-3 rounded-lg flex gap-3 items-center" style={{ borderColor: 'var(--line-color)', background: 'var(--bg-primary)' }} >
                             <p className="" style={{ color: 'var(--text-200)' }}>Connect if you know each other</p>
                             <Button variant="outlined" size="small" sx={{ padding: '5px 15px', borderRadius: '100px', borderWidth: '3px', '&:hover': { borderWidth: '3px' } }} startIcon={<BsPersonAdd />} onClick={handleConnectClick}>
                                 Connect
                             </Button>
-                        </div>
+                        </div> : connReqStatus === 'pending' ? (
+                            <Button variant="outlined" size="small" sx={{ padding: '5px 15px', borderRadius: '100px', borderWidth: '3px', '&:hover': { borderWidth: '3px' } }} startIcon={<AiOutlineClockCircle />} onClick={handleConnectClick}>
+                                Pending
+                            </Button>
+                        ) : (
+                            <Button variant="contained" size="small" sx={{ padding: '5px 15px', borderRadius: '100px', borderWidth: '3px', '&:hover': { borderWidth: '3px' } }} startIcon={<BsPersonAdd />} onClick={() => setOpen(true)}>
+                                Connected
+                            </Button>
+                        )}
+                        {/* user?.connections?.find(conn => conn.) */}
                     </section>
 
                 </div>
@@ -178,7 +221,7 @@ const SingleUserPage = () => {
                     </section>
                 </div>
                 <div className="profile-interests box" style={{ padding: 0 }}>
-                    <section className="sm:p-5 p-3">
+                    <section className="sm:p-5 p-3">o
                         <h3 className="text-2xl font-semibold" style={{ color: 'var(--text-200)' }}>Interests</h3>
                         <p className="sm:text-sm text-xs mb-4" style={{ color: 'var(--text-300)' }}>Total {user?.following?.length}</p>
                         {userInterests}
@@ -193,6 +236,8 @@ const SingleUserPage = () => {
                         {otherUsers}
                     </section>
                 </div>
+
+                <DeleteModal open={open} handleClose={() => setOpen(false)} func={handleConnectClick} message={"Remove from connection?"} note={"Your existing conversations will also be removed."} title="Delete connection" />
 
             </section>
         </div>
