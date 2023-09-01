@@ -110,7 +110,7 @@ const AllUsers = () => {
 
     const SingleUserCard = ({ user, connectRequest, connectId, box }) => {
         return box ? (
-            <article className="shrink grow basis-[180px] p-3 rounded-md border flex flex-col gap-1.5 items-center justify-center" style={{ borderColor: 'var(--line-color)', background: 'var(--bg-secondary)' }}>
+            <article className="shrink grow basis-[180px] p-3 rounded-md border flex flex-col gap-1.5 items-center justify-between" style={{ borderColor: 'var(--line-color)', background: 'var(--bg-secondary)' }}>
                 <Link to={`/authors/${user._id}`} className='flex flex-col items-center justify-center gap-1.5' title={user?.fullname}>
                     <ProfilePicture src={user?.profile?.url} width={50} />
                     <h2 className="text-lg text-center hover:underline" style={{ color: 'var(--text-200)' }}>{user?.fullname}</h2>
@@ -125,7 +125,7 @@ const AllUsers = () => {
                 </Link>
                 <section className='right-section flex gap-2 justify-between items-center flex-wrap flex-1'>
                     <Link to={user?._id} className="user-details">
-                        <h2 style={{ color: 'var(--text-200)' }} className="font-semibold hover:underline">{user?.fullname}
+                        <h2 style={{ color: 'var(--text-200)' }} className="font-semibold hover:underline sm:text-base text-sm">{user?.fullname}
                             {connectRequest && <span className="font-light" style={{ color: 'var(--text-300)' }}> follows you and is inviting you to connect</span>}
                         </h2>
                         <h3 style={{ color: 'var(--text-300)' }}>{user?.details?.profession}</h3>
@@ -151,12 +151,12 @@ const AllUsers = () => {
     if (isLoading) return <Loader />
     if (isError) return <h1>Something went wrong</h1>
     return (
-        <div className="wrapper max-w-[800px] mx-auto my-5">
+        <div className="wrapper max-w-[800px] mx-auto">
 
 
             {/* <UserSearchBar /> */}
 
-            <section className="connection-request-list border rounded-md flex flex-col mt-5" style={{ background: 'var(--bg-secondary', borderColor: 'var(--line-color)' }}>
+            {details?.connections?.filter(conn => conn.status === 'pending').length > 0 && <section className="connection-request-list border rounded-md flex flex-col mt-5 mb-12" style={{ background: 'var(--bg-secondary', borderColor: 'var(--line-color)' }}>
                 <header>
                     <h2 className="sm:text-base text-lg font-light p-3" style={{ color: 'var(--text-200)' }}>Invitations <strong> ({details?.connections?.filter(conn => conn.status === 'pending').length})</strong></h2>
                     <hr style={{ borderColor: 'var(--line-color)' }} />
@@ -170,10 +170,10 @@ const AllUsers = () => {
                         </>
                     })
                 }
-            </section>
+            </section>}
 
 
-            <header className="mt-12 mb-4">
+            <header className=" mb-4">
                 <h2 className="sm:text-lg text-base mb-1" style={{ color: 'var(--text-200)' }}>Top emerging creators to follow</h2>
                 <p className='text-xs font-light' style={{ color: 'var(--text-500)' }}>Connect with fellow users who are currently active and engaging. Discover their interests, follow their updates, and foster meaningful connections within our vibrant community.</p>
             </header>

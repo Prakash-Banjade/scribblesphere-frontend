@@ -86,7 +86,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Users']
     }),
+    addToConversation: builder.mutation({
+      query: (id) => ({
+        url: '/users/addToConversation',
+        method: 'POST',
+        body: { id }
+      }),
+      invalidatesTags: ['Users']
+    })
   }),
 });
 
-export const { useGetAllUsersQuery, useGetUserArticlesQuery, useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation, useGetUserByIdQuery, useToggleFollowMutation } = userApiSlice;
+export const { useGetAllUsersQuery, useGetUserArticlesQuery, useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation, useGetUserByIdQuery, useToggleFollowMutation, useAddToConversationMutation } = userApiSlice;

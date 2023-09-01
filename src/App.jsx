@@ -18,6 +18,8 @@ const MyProfile = lazy(() => import("./features/user/MyProfile"));
 const MyArticles = lazy(() => import("./features/article/MyArticles"));
 const CreateArticle = lazy(() => import("./features/article/CreateArticle"));
 const UpdateArticle = lazy(() => import("./features/article/UpdateArticle"));
+import UserConversation from "./features/messaging/UserConversation";
+
 import SearchArticles from "./features/article/SearchArticles";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "./features/auth/authSlice";
@@ -139,6 +141,7 @@ const App = () => {
 
                   <Route path="/messaging">
                     <Route index element={<Messaging_main />} />
+                    <Route path=":id" element={<UserConversation />} />
                   </Route>
 
                   <Route path="*" element={<NotFound />} />

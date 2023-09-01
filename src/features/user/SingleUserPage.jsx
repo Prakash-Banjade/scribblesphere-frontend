@@ -56,7 +56,7 @@ const SingleUserPage = () => {
 
     const SingleUserCard = ({ user, view }) => {
         return (
-            <article className="shrink grow basis-[180px] p-3 rounded-md border flex flex-col gap-1.5 items-center justify-center" style={{ borderColor: 'var(--line-color)' }}>
+            <article className="shrink grow basis-[180px] p-3 rounded-md border flex flex-col gap-1.5 items-center justify-between" style={{ borderColor: 'var(--line-color)' }}>
                 <Link to={`/authors/${user._id}`} className='flex flex-col items-center justify-center gap-1.5' title={user?.fullname}>
                     <ProfilePicture src={user?.profile?.url} width={50} />
                     <h2 className="text-lg text-center hover:underline" style={{ color: 'var(--text-200)' }}>{user?.fullname}</h2>
@@ -188,7 +188,7 @@ const SingleUserPage = () => {
                             Message
                         </Button>
                     </section>
-                    <section className="flex gap-4 px-3 sm:px-5 py-1 mb-2 sm:text-base text-xs font-light" >
+                    <section className="flex gap-4 px-3 sm:px-5 py-1 mb-2 sm:text-base text-sm font-light" >
                         {connReqStatus === 'not-connected' ? <div className="border p-3 rounded-lg flex gap-3 items-center" style={{ borderColor: 'var(--line-color)', background: 'var(--bg-primary)' }} >
                             <p className="" style={{ color: 'var(--text-200)' }}>Connect if you know each other</p>
                             <Button variant="outlined" size="small" sx={{ padding: '5px 15px', borderRadius: '100px', borderWidth: '3px', '&:hover': { borderWidth: '3px' } }} startIcon={<BsPersonAdd />} onClick={handleConnectClick}>
@@ -221,7 +221,7 @@ const SingleUserPage = () => {
                     </section>
                 </div>
                 <div className="profile-interests box" style={{ padding: 0 }}>
-                    <section className="sm:p-5 p-3">o
+                    <section className="sm:p-5 p-3">
                         <h3 className="text-2xl font-semibold" style={{ color: 'var(--text-200)' }}>Interests</h3>
                         <p className="sm:text-sm text-xs mb-4" style={{ color: 'var(--text-300)' }}>Total {user?.following?.length}</p>
                         {userInterests}
