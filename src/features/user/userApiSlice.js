@@ -88,13 +88,20 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     addToConversation: builder.mutation({
       query: (id) => ({
-        url: '/users/addToConversation',
+        url: '/users/conversation/add',
         method: 'POST',
         body: { id }
       }),
       invalidatesTags: ['Users']
+    }),
+    getConversation: builder.query({
+      query: (id) => ({
+        url: `/users/conversation/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ["Users"],
     })
   }),
 });
 
-export const { useGetAllUsersQuery, useGetUserArticlesQuery, useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation, useGetUserByIdQuery, useToggleFollowMutation, useAddToConversationMutation } = userApiSlice;
+export const { useGetAllUsersQuery, useGetUserArticlesQuery, useGetMyDetailsQuery, useSetMyDetailsMutation, useSetProfilePicMutation, useGetProfilePicQuery, useRemoveProfilePicMutation, useGetUserByIdQuery, useToggleFollowMutation, useAddToConversationMutation, useGetConversationQuery } = userApiSlice;

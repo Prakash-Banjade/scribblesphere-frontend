@@ -16,7 +16,6 @@ const Messaging_main = () => {
     const navigate = useNavigate();
 
     const handleAddToConversationClick = async () => {
-        console.log(selectedUser)
         try {
             console.log('hey')
             const response = await addToConversation(selectedUser).unwrap();

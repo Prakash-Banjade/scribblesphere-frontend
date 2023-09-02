@@ -7,10 +7,11 @@ export const LayoutProvider = ({ children }) => {
     const toggleChatSidebar = () => setChatSidebar(prev => !prev)
     const [activeTab, setActiveTab] = useState(1);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [bgWhite, setBgWhite] = useState(false)
 
 
     return (
-        <LayoutContext.Provider value={{ chatSidebar, toggleChatSidebar, setChatSidebar, activeTab, setActiveTab, selectedUser, setSelectedUser }}>
+        <LayoutContext.Provider value={{ chatSidebar, toggleChatSidebar, setChatSidebar, activeTab, setActiveTab, selectedUser, setSelectedUser, bgWhite, setBgWhite }}>
             {children}
         </LayoutContext.Provider>
     );

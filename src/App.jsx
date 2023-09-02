@@ -37,14 +37,16 @@ const AllUsers = lazy(() => import("./features/user/AllUsers"));
 const App = () => {
   const location = useLocation();
   const { dark } = useAppTheme();
-  const { setChatSidebar } = useLayoutContext();
+  const { setChatSidebar, setBgWhite } = useLayoutContext();
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     if (location.pathname.includes('messaging')) {
       setChatSidebar(true)
+      setBgWhite(true)
     } else {
       setChatSidebar(false)
+      setBgWhite(false)
     }
   }, [location]);
 
