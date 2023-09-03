@@ -38,16 +38,15 @@ const App = () => {
   const location = useLocation();
   const { dark } = useAppTheme();
   const { setChatSidebar, setBgWhite } = useLayoutContext();
+  const whiteBgRoutes = ['messaging', 'articles/']
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;
-    if (location.pathname.includes('messaging')) {
-      setChatSidebar(true)
-      setBgWhite(true)
-    } else {
-      setChatSidebar(false)
-      setBgWhite(false)
-    }
+    setChatSidebar(location.pathname.includes('messaging'))
+
+    const bgColor = whiteBgRoutes.some(route => location.pathname.includes(route))
+    setBgWhite(bgColor)
+
   }, [location]);
 
   const token = useSelector(selectCurrentToken);

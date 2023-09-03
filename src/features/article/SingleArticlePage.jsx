@@ -120,9 +120,7 @@ const SingleArticlePage = () => {
     const commentDateAgo = formatDistanceToNow(new Date(comment.createdAt))
     return (
       <div className="comments flex g-20">
-        <Link to={`/authors/${comment?.author?._id}`} className="comment-profile-icon">
-          <ProfilePicture width="60" src={comment?.author?.profile?.url} />
-        </Link>
+          <ProfilePicture width="60" src={comment?.author?.profile?.url} userId={comment?.author?._id} />
 
         <div className="comment-details">
           <div className="comment-author flex justify-between sm:flex-row flex-col">
