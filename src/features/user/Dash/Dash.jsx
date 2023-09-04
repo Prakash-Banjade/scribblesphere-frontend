@@ -98,7 +98,7 @@ const Dash = () => {
 
   return (
     <div className="dash-section-main">
-      {needProfiling && alertProfiling}
+      {needProfiling && !isLoading && alertProfiling}
       <section className={`flex flex-wrap gap-10 ${open ? 'mt-5' : ''}`}>
         <section className={`greeting-section section flex flex-column grow shrink basis-[500px]`}>
           <header>
