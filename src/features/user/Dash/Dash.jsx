@@ -29,7 +29,7 @@ const Dash = () => {
   const [open, setOpen] = useState(true);
   const user = useSelector(selectUser);
 
-  const needProfiling = (!user.details?.address || !user.details?.writesOn || !user?.details?.profession || !user?.details?.description);
+  const needProfiling = (!user?.details?.address || !user?.details?.writesOn || !user?.details?.profession || !user?.details?.description);
 
   const { data, isLoading } = useGetUserArticlesQuery({ userId, limit: LIMIT });
 
