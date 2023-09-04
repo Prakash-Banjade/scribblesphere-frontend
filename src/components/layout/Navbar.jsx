@@ -28,7 +28,6 @@ const Navbar = ({ open, small, setShowSideBar }) => {
   const { fullname, email, userId } = useAuth();
   const user = useSelector(selectUser)
 
-
   const [logout, { isLoading, isError }] = useLogoutMutation();
 
   const handleOutsideClick = (event) => {

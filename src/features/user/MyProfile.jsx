@@ -1,35 +1,32 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetMyDetailsQuery, useRemoveProfilePicMutation, useSetMyDetailsMutation, useSetProfilePicMutation } from "../user/userApiSlice";
-import Loader from "../../components/Loader";
+import { useRemoveProfilePicMutation, useSetMyDetailsMutation, useSetProfilePicMutation } from "../user/userApiSlice";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
 import Button from "@mui/material/Button";
 import useAuth from "../../hooks/useAuth";
 import useAppTheme from "../../hooks/useAppTheme";
-import { useSnackbar } from 'notistack';
 import { BsFacebook, BsInstagram, BsTwitter, BsLinkedin } from 'react-icons/bs'
 import { useDispatch, useSelector } from "react-redux";
-import { setProfilePicture, selectProfilePicture } from "./userSlice";
+import { selectUser } from "./userSlice";
 import ProfilePicture from "./ProfilePicture";
 import DeleteModal from "../../components/DeleteModal";
+import useSnackbarShow from "../../hooks/useSnackbarShow";
 
 const MyProfile = () => {
   const { fullname, email } = useAuth();
-  const dispatch = useDispatch();
-  const currentProfilePicture = useSelector(selectProfilePicture);
-  // const [successMsg, setSuccessMst]
+  const user = useSelector(selectUser); // current user
 
+  // profile form states
   const [profileDetails, setProfileDetails] = useState({
     fullname: '',
     address: '',
     profession: '',
     writesOn: '',
-    socialLinks: '',
+    socialLinks: [],
     description: '',
   })
-
   const handleProfileDetailsChange = e => {
     const { value, name } = e.target;
     setProfileDetails(prev => ({
@@ -38,7 +35,6 @@ const MyProfile = () => {
     }))
   }
 
-  const myDetails = useGetMyDetailsQuery();
   const [setMyDetails, setDetails] = useSetMyDetailsMutation();
   const [setProfilePic, profileUpload] = useSetProfilePicMutation();
   const [removeProfilePic, removePP] = useRemoveProfilePicMutation();
@@ -46,27 +42,31 @@ const MyProfile = () => {
   const [availableMedia, setAvailableMedia] = useState(['facebook', 'instagram', 'twitter', 'linkedin'])
 
   useEffect(() => {
-    if (!myDetails.isLoading && !myDetails.isError) {
-      const writesOn = myDetails?.data?.details?.writesOn?.length ? myDetails?.data?.details.writesOn?.join(', ') : ''
 
-      setProfileDetails(prev => ({
-        ...prev,
-        ...myDetails?.data?.details,
-        followers: myDetails?.data.followers,
-        following: myDetails?.data.following,
-        fullname,
-        writesOn,
-      }))
+    const writesOn = user?.details?.writesOn?.length ? user?.details.writesOn?.join(', ') : ''
 
-      const media = availableMedia.filter(media => !myDetails?.data?.details.socialLinks?.map(social => social.network).includes(media))
-      setAvailableMedia(media);
+    setProfileDetails(prev => ({
+      ...prev,
+      ...user?.details,
+      followers: user?.followers,
+      following: user?.following,
+      fullname,
+      writesOn,
+    }))
 
-      setSocialLink(prev => ({
-        ...prev,
-        network: media[0],
-      }))
-    }
-  }, [myDetails.isLoading, myDetails.isError, myDetails.data]);
+    // setMedia();
+
+  }, [user]);
+
+  useEffect(() => {
+    console.log('social link changed')
+    const media = availableMedia.filter(media => !profileDetails.socialLinks?.map(social => social.network).includes(media))
+    setAvailableMedia(media);
+    setSocialLink(prev => ({
+      ...prev,
+      network: media[0],
+    }))
+  }, [profileDetails.socialLinks])
 
   const [activeTab, setActiveTab] = useState(1);
 
@@ -100,11 +100,7 @@ const MyProfile = () => {
 
   const { dark } = useAppTheme();
 
-  const { enqueueSnackbar } = useSnackbar();
-
-  const snackbar = (message, variant) => {
-    enqueueSnackbar(message, { variant });
-  };
+  const snackbar = useSnackbarShow();
 
   const handleSaveClick = async (e) => {
     e.preventDefault();
@@ -138,16 +134,12 @@ const MyProfile = () => {
       ...prev,
       socialLinks: [...prev.socialLinks, socialLink]
     }))
-    setSocialLink({
-      network: 'facebook',
-      link: ''
-    })
   }
 
   const handleRemoveSocialLink = (network) => {
     setProfileDetails(prev => ({
       ...prev,
-      socialLinks: prev.socialLinks.filter(link => link.network !== network),
+      socialLinks: [...prev.socialLinks.filter(link => link.network !== network)],
     }))
   }
 
@@ -171,7 +163,6 @@ const MyProfile = () => {
     }
   }
 
-
   // event handler for profile pic remove
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false)
@@ -180,7 +171,7 @@ const MyProfile = () => {
     try {
       const response = await removeProfilePic();
       if (response.data.status === 200) {
-        dispatch(setProfilePicture(null))
+        // dispatch(setProfilePicture(null))
         profileInputRef.current.value = ''
         snackbar(response.data.message, 'success')
       } else {
@@ -191,9 +182,6 @@ const MyProfile = () => {
     }
   }
 
-  if (myDetails.isLoading) return <Loader />;
-  if (myDetails.isError) return <h1 style={{ color: 'var(--text-200)' }}>An error occurred</h1>
-
   return (
     <div className="wrapper">
       <section className="lg:p-6 md:p-5 p-2 lg:pb-0 md:pb-0 pb-0 border rounded-md" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--line-color)' }}>
@@ -203,7 +191,7 @@ const MyProfile = () => {
         </header>
 
         <section className="flex gap-3 mt-8 flex-wrap">
-          <ProfilePicture width={80} src={currentProfilePicture} />
+          <ProfilePicture width={80} src={user?.profile?.url} />
 
           <div className="flex flex-col sm:gap-2">
             <h1 className="sm:text-2xl text-xl" style={{ color: 'var(--text-200)' }}>{fullname}</h1>
@@ -239,7 +227,7 @@ const MyProfile = () => {
         </div>
 
         <section className="flex gap-3 mt-5 flex-wrap">
-          <ProfilePicture width={80} src={currentProfilePicture} />
+          <ProfilePicture width={80} src={user?.profile?.url} />
 
           <div className="flex gap-3 items-center">
             <form onSubmit={handleProfilePicSubmit} encType="multipart/form-data">
@@ -247,7 +235,7 @@ const MyProfile = () => {
               <input type="file" ref={profileInputRef} id="profile_pic_upload" className="sr-only" accept="image/*" onChange={handleProfilePicSubmit} />
             </form>
             <div className="h-[4px] w-[4px] rounded-[50%]" style={{ background: 'var(--line-color)' }}></div>
-            <button type="button" className={`font-normal px-3 py-2 ${currentProfilePicture ? 'text-red-500' : 'text-red-300'} rounded-md ${dark ? 'hover:bg-[#232323]' : 'hover:bg-slate-100'} ${!currentProfilePicture? 'pointer-events-none' : ''}`} title="Remove current profile picture" onClick={() => setOpen(true)} disabled={removePP.isLoading || !currentProfilePicture}>{removePP.isLoading ? 'Removing...' : 'Remove'}</button>
+            <button type="button" className={`font-normal px-3 py-2 ${user?.profile?.url ? 'text-red-500' : 'text-red-300'} rounded-md ${dark ? 'hover:bg-[#232323]' : 'hover:bg-slate-100'} ${!user?.profile?.url ? 'pointer-events-none' : ''}`} title="Remove current profile picture" onClick={() => setOpen(true)} disabled={removePP.isLoading || !user?.profile?.url}>{removePP.isLoading ? 'Removing...' : 'Remove'}</button>
           </div>
         </section>
 
@@ -298,7 +286,7 @@ const MyProfile = () => {
                   }))
                   setLinkErr(false)
                 }} className={`px-3 py-2 text-sm border grow hover:border-primary ${dark ? 'border-lineColorDark' : 'border-lineColorLight'} focus:outline-primary rounded-md placeholder:text-xs placeholder:font-light`} style={{ background: 'var(--bg-primary)' }} placeholder="URL" />
-                <Button variant="contined" sx={{ color: 'white', '&:disabled': { opacity: '.6' } }} disabled={!socialLink.link} onClick={handleLinkAdd}>Add</Button>
+                <Button variant="contained" disabled={!socialLink.link} onClick={handleLinkAdd}>Add</Button>
               </div>
 
               <section className="flex flex-col gap-2 mt-3 pl-5">

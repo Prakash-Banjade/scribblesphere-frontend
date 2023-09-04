@@ -2,13 +2,13 @@ import { Button } from '@mui/material';
 import React from 'react'
 import {Link} from 'react-router-dom'
 import SpinnerLoader from '../../../components/SpinnerLoader';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../userSlice';
 
-const FollowedUsersNotification = ({ userDetails, isLoading }) => {
-    // console.log(userDetails)
-    const following = userDetails?.following;
-    // console.log(following?.length)
+const FollowedUsersNotification = () => {
+    const user = useSelector(selectUser)
+    const following = user?.following;
 
-    if (isLoading) return <SpinnerLoader />
     return (
         <div className="wrapper grow shrink basis-[500px] min-w-[300px]">
             <header className="heading">

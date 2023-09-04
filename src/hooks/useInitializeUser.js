@@ -13,6 +13,7 @@ const useInitializeUser = () => {
     useEffect(() => {
         if (!isLoading && data && !isError) {
             console.log('from useInitialize hook' + data)
+            console.log(data)
             dispatch(setUser(data));
         }
     }, [data, isLoading, userId])

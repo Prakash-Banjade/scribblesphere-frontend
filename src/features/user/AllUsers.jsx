@@ -13,7 +13,6 @@ const AllUsers = () => {
     const { dark } = useAppTheme();
     const { data: details, refetch } = useGetMyDetailsQuery();
     const { data: users, isLoading, isSuccess, isError } = useGetAllUsersQuery()
-    // const { userId } = useAuth()
 
     const { socket } = useSocket();
     const location = useLocation();

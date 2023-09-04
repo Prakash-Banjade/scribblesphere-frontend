@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import SpinnerLoader from "../../../components/SpinnerLoader";
 import { SiAzuredataexplorer } from 'react-icons/si'
 import SingleArticle from "../../article/SingleArticle";
-import { useGetMyDetailsQuery, useGetUserArticlesQuery } from "../userApiSlice";
+import { useGetUserArticlesQuery } from "../userApiSlice";
 
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
@@ -13,32 +13,27 @@ import useAuth from "../../../hooks/useAuth";
 import { AiOutlinePlus } from "react-icons/ai";
 import useAppTheme from "../../../hooks/useAppTheme";
 import FollowedUsersNotification from "./FollowedUsersNotification";
+import { useSelector } from "react-redux";
+import { selectUser } from "../userSlice";
+import useTitle from "../../../hooks/useTitle";
 
 const LIMIT = 3;
 
 const Dash = () => {
   const { dark } = useAppTheme();
+  useTitle("Dashboard | ScribbleSphere")
+
+
   const [greeting, setGreeting] = useState("Good morning!");
   const { email, fullname, userId } = useAuth();
   const [open, setOpen] = useState(true);
-  const [needProfiling, setNeedProfiling] = useState(false);
+  const user = useSelector(selectUser);
 
-  const myDetails = useGetMyDetailsQuery();
+  const needProfiling = (!user.details?.address || !user.details?.writesOn || !user?.details?.profession || !user?.details?.description);
+
   const { data, isLoading } = useGetUserArticlesQuery({ userId, limit: LIMIT });
 
   useEffect(() => {
-    if (!myDetails.isLoading) {
-      setNeedProfiling(
-        myDetails?.data?.details?.address?.length === 0 ||
-        myDetails?.data?.details?.writesOn?.length === 0 ||
-        myDetails?.data?.details?.profession?.length === 0 ||
-        myDetails?.data?.details?.description?.length === 0
-      );
-    }
-  }, [myDetails.isLoading]);
-
-  useEffect(() => {
-    // refetch();
     const currentHour = new Date().getHours();
     setGreeting(
       currentHour < 12
@@ -47,8 +42,6 @@ const Dash = () => {
           ? "Good afternoon!"
           : "Good evening"
     );
-
-    document.title = "Dashboard | ScribbleSphere";
   }, []);
 
   const myArticlesContent = isLoading ? (
@@ -105,7 +98,7 @@ const Dash = () => {
 
   return (
     <div className="dash-section-main">
-      {needProfiling && !myDetails.isLoading && alertProfiling}
+      {needProfiling && alertProfiling}
       <section className={`flex flex-wrap gap-10 ${open ? 'mt-5' : ''}`}>
         <section className={`greeting-section section flex flex-column grow shrink basis-[500px]`}>
           <header>
@@ -132,7 +125,7 @@ const Dash = () => {
           </section>
         </section>
 
-        <FollowedUsersNotification userDetails={myDetails?.data} isLoading={isLoading} />
+        <FollowedUsersNotification />
       </section>
 
       <section className="section myArticles-section mt-10">
