@@ -1,4 +1,5 @@
 import { apiSlice } from "../../app/api/apiSlice";
+import { setUser } from "../user/userSlice";
 import { setCredentials, userLogout } from "./authSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
@@ -72,6 +73,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setCredentials({ token: data.accessToken }));
+          dispatch(setUser(null))
         } catch (err) {
           console.error(err); // handle this error via UI message
         }
