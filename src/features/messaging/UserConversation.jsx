@@ -104,13 +104,18 @@ const UserConversation = () => {
             const time = timeStamp(conv.createdAt)
             let showImg = ind === 0 && !conv?.self ? true : !conv?.self && messages[ind - 1]?.self
 
-            const userImg = showImg && <ProfilePicture src={user?.profile?.url} width={40} />
+            const userImg = showImg && <img
+                src={user?.profile?.url}
+                alt={user?.fullname} className={`rounded-[50%] aspect-square object-cover block sm:w-[40px] w-[25px]`} role="button" onClick={() => navigate(`/authors/${user?._id}`)} />
+
+            const margin = conv?.self !== messages[ind - 1]?.self;
+
 
             return (
                 <section className={`${ind === 0 ? 'mt-auto' : ''} w-full flex flex-col`} key={conv._id}>
-                    {showTimeStamp && <span className="text-xs  text-center self-center my-1" style={{ color: 'var(--text-500)', minWidth: '100% !important' }}>{time}</span>}
+                    {showTimeStamp && <span className="text-xs  text-center self-center my-4" style={{ color: 'var(--text-500)', minWidth: '100% !important' }}>{time}</span>}
                     <div
-                        className={` ${conv.self ? 'self-end' : 'self-start'} ${!showImg ? 'ml-[48px]' : ''} flex items-center gap-1.5`}
+                        className={` ${conv.self ? 'self-end' : 'self-start'} ${!showImg ? 'sm:ml-[48px] ml-[32px]' : ''} ${margin? 'mt-5' : ''} flex items-center gap-1.5`}
                         ref={ind === messages.length - 1 ? lastMsgRef : null}
                         title={time}
                     >
