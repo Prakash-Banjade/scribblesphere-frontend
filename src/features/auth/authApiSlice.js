@@ -1,6 +1,5 @@
 import { apiSlice } from "../../app/api/apiSlice";
 import { setCredentials, userLogout } from "./authSlice";
-import { setProfilePicture } from "../user/userSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -51,7 +50,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(userLogout());
-          dispatch(setProfilePicture(null))
           // console.log(data)
           setTimeout(() => {
             dispatch(apiSlice.util.resetApiState()); // very important to reset the data previously cached before logout

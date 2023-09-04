@@ -3,32 +3,25 @@ import "./Layout.css";
 import Navbar from "./Navbar";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import useAppTheme from "../../hooks/useAppTheme";
-import { setProfilePicture } from "../../features/user/userSlice";
-import { useDispatch } from "react-redux";
-import { useGetProfilePicQuery } from "../../features/user/userApiSlice";
 import useAuth from "../../hooks/useAuth";
 import Loader from "../Loader";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorComponent from "./ErrorComponent";
 import useLayoutContext from "../../hooks/useLayoutContext";
+import useInitializeUser from "../../hooks/useInitializeUser";
 
 const Layout = () => {
   const [open, setOpen] = useState(true)
   const location = useLocation();
-  const {bgWhite} = useLayoutContext()
+  const { bgWhite } = useLayoutContext()
 
   const [small, setSmall] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false);
 
-  const dispatch = useDispatch();
-
   const { userId } = useAuth();
 
-
-  const { dark } = useAppTheme();
-  const getProfilePic = useGetProfilePicQuery(userId);
-  // console.log(getProfilePic)
+  // set current user details in userSlice
+  useInitializeUser()
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,14 +42,6 @@ const Layout = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  useEffect(() => {
-    if (!getProfilePic.isLoading && !getProfilePic.isError) {
-      if (getProfilePic?.data) {
-        dispatch(setProfilePicture(getProfilePic.data));
-      }
-    }
-  }, [getProfilePic.isLoading, getProfilePic.isSuccess, getProfilePic])
 
   useEffect(() => {
     setShowSideBar(false);
@@ -95,7 +80,7 @@ const Layout = () => {
           />
         </header>
 
-        <main className={`w-full max-w-full relative xl:p-5 lg:p-4 md:p-3 p-2`} style={{background: !bgWhite? 'var(--bg-primary)' : 'var(--bg-secondary)'}}>
+        <main className={`w-full max-w-full relative xl:p-5 lg:p-4 md:p-3 p-2`} style={{ background: !bgWhite ? 'var(--bg-primary)' : 'var(--bg-secondary)' }}>
           <ErrorBoundary fallback={<ErrorComponent />}>
             <Suspense fallback={<Loader />}>
               <Outlet />

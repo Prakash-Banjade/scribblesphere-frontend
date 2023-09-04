@@ -29,6 +29,7 @@ import { SnackbarProvider } from 'notistack';
 import useLayoutContext from "./hooks/useLayoutContext";
 import { SocketProvider } from "./context/SocketProvider";
 import useAuth from "./hooks/useAuth";
+import { useGetUserByIdQuery } from "./features/user/userApiSlice";
 const Messaging_main = lazy(() => import("./features/messaging/Messaging_main"));
 const SingleUserPage = lazy(() => import("./features/user/SingleUserPage"));
 const AllUsers = lazy(() => import("./features/user/AllUsers"));

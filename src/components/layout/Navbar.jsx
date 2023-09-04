@@ -18,7 +18,7 @@ import { googleLogout } from '@react-oauth/google';
 
 import ProfilePicture from "../../features/user/ProfilePicture";
 import { useSelector } from "react-redux";
-import { selectProfilePicture } from "../../features/user/userSlice";
+import { selectUser } from "../../features/user/userSlice";
 
 const Navbar = ({ open, small, setShowSideBar }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -26,7 +26,7 @@ const Navbar = ({ open, small, setShowSideBar }) => {
 
   const { dark, toggleTheme } = useAppTheme();
   const { fullname, email, userId } = useAuth();
-  const profilePic = useSelector(selectProfilePicture)
+  const user = useSelector(selectUser)
 
 
   const [logout, { isLoading, isError }] = useLogoutMutation();
@@ -166,7 +166,7 @@ const Navbar = ({ open, small, setShowSideBar }) => {
           onClick={handleDropdownToggle}
         >
           <button type="button" className="flex gap-2 items-center">
-            <ProfilePicture width={42} src={profilePic} />
+            <ProfilePicture width={42} src={user?.profile?.url} />
 
             <div className="profile sm:flex flex-col hidden">
               <h3 className=" font-medium text-base flex items-center gap-1 leading-4 whitespace-nowrap" style={{ color: 'var(--text-100)' }}>
