@@ -5,7 +5,7 @@ export const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:3500",
   // baseUrl: "http://192.168.1.3:3500",
 
-  baseUrl: "https://scribblesphere-backend.vercel.app",
+  // baseUrl: "https://scribblesphere-backend.vercel.app",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {        
     // (headers, api)
